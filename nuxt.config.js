@@ -44,13 +44,18 @@ let config = {
             src: '~assets/css/admin_common.scss',
             lang: 'scss'
         },
+        {
+            src: 'element-ui/lib/theme-chalk/index.css'
+        }
     ],
-    plugins: [],
+    plugins: [{
+        src: '~plugins/element-ui'
+    }],
     /*
      ** Add axios globally
      */
     build: {
-        vendor: ['axios'],
+        vendor: ['axios', 'element-ui'],
         extractCSS: true,
         /*
          ** Run ESLINT on save

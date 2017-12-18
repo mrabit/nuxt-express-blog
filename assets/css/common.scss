@@ -1,0 +1,73 @@
+body {
+    color: #666;
+    font-family: "Helvetica Neue", Arial, "Hiragino Sans GB", STHeiti, "Microsoft YaHei";
+    overflow-x: auto !important;
+}
+
+html {
+    /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+    &::-webkit-scrollbar {
+        width: 3px;
+        height: 16px;
+        background-color: #fff;
+    }
+    /*定义滚动条轨道 内阴影+圆角*/
+    &::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        background-color: #fff;
+    }
+    /*定义滑块 内阴影+圆角*/
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+        background-color: #C8C8C8;
+    }
+}
+
+%text-ellipsis {
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+@mixin padder($width: 15px) {
+    padding-left: $width;
+    padding-right: $width;
+}
+
+@mixin padder-v($width: 15px) {
+    padding-top: $width;
+    padding-bottom: $width;
+}
+
+@mixin w-h-full {
+    width: 100%;
+    height: 100%;
+}
+
+@mixin max-screen($res) {
+    @media only screen and ( max-width: $res) {
+        @content;
+    }
+}
+
+@mixin border-radius($width: 2px) {
+    -webkit-border-radius: $width;
+    -moz-border-radius: $width;
+    border-radius: $width;
+}
+
+@mixin verticalCenter {
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    -webkit-align-items: center;
+    justify-content: center;
+    -webkit-justify-content: center;
+    vertical-align: middle;
+    text-align: center;
+}

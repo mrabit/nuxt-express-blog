@@ -1,0 +1,136 @@
+/*
+  后台页面css代码
+*/
+
+@import "./common";
+.nav {
+    .active {
+        &>a {
+            background: #32374a !important;
+            color: #ffffff !important;
+        }
+    }
+}
+
+.quick-stats {
+    text-align: center;
+    float: left;
+    margin-top: 10px;
+    width: 100%;
+    &>ul {
+        &>li {
+            float: left;
+            padding: 0 1px;
+            width: 33.333%;
+            &>span {
+                background-color: #324157;
+                @include border-radius();
+                color: #818181;
+                float: left;
+                font-family: Montserrat;
+                font-size: 17px;
+                padding: 14px 0;
+                text-align: center;
+                width: 100%;
+                i {
+                    color: #aeb2bd;
+                    float: left;
+                    font-family: Roboto;
+                    font-size: 12px;
+                    font-style: normal;
+                    letter-spacing: 0.3px;
+                    line-height: 14px;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+.common_loading {
+    position: absolute;
+    @include w-h-full;
+    background: gray;
+    opacity: 0.8;
+    color: white;
+    z-index: 999;
+    @include verticalCenter;
+}
+
+@for $num from 1 through 3 {
+    .text-ellipsis-#{$num} {
+        @extend %text-ellipsis;
+        -webkit-line-clamp: $num;
+        @if $num==2 or $num==3 {
+            p {
+                margin: 0!important;
+            }
+        }
+    }
+}
+
+.verticalCenter {
+    @include verticalCenter;
+    min-height: 60px;
+    margin: 0;
+}
+
+.app-aside {
+    .navi {
+        ul {
+            &.nav-sub {
+                li {
+                    a {
+                        font-size: 12px;
+                        @include padder-v(14px);
+                        text-indent: .5em;
+                    }
+                }
+            }
+        }
+    }
+} // dropdown最小宽度
+.el-dropdown-menu__item {
+    min-width: 160px;
+} // dropdown鼠标移上
+.el-dropdown {
+    cursor: pointer;
+    &:hover,
+    &:focus {
+        background-color: rgba(17, 7, 7, 0.05);
+    }
+} // side默认宽度
+.el-submenu,
+.el-menu-item {
+    width: 200px;
+}
+
+
+/* side收缩时宽度 */
+
+.app-aside-folded {
+    .el-submenu {
+        width: 60px;
+    }
+}
+
+.el-menu--collapse,
+.el-menu--collapse .el-menu-item {
+    width: 60px;
+} // side背景颜色
+.el-submenu .el-menu,
+.el-submenu .el-menu-item {
+    background-color: #1f2d3d!important;
+}
+
+.el-submenu .el-menu-item:hover {
+    background-color: #48576a!important;
+}
+
+.el-table {
+    td,
+    th {
+        height: 40px;
+        padding: 0 5px!important;
+    }
+}

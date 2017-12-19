@@ -3,7 +3,7 @@ let config = {
      ** Headers of the page
      */
     head: {
-        title: 'starter',
+        title: '一桶浆糊的博客',
         meta: [{
                 charset: 'utf-8'
             },
@@ -51,11 +51,14 @@ let config = {
     plugins: [{
         src: '~plugins/element-ui'
     }],
+    loading: {
+        color: '#29d'
+    },
     /*
      ** Add axios globally
      */
     build: {
-        vendor: ['axios', 'element-ui'],
+        vendor: ['axios', 'element-ui', 'web-storage-cache'],
         extractCSS: true,
         /*
          ** Run ESLINT on save
@@ -76,10 +79,10 @@ let config = {
 let css = [
     '/css/bootstrap.css',
     '/css/app.css',
-    '/js/editormd/css/editormd.css',
     '/css/font-awesome.css',
     '/css/simple-line-icons.css',
-    '/css/themify-icons.css'
+    '/css/themify-icons.css',
+    '/js/editormd/css/editormd.css',
 ]
 
 css.map(href => {
@@ -90,7 +93,15 @@ css.map(href => {
 });
 
 let script = [
-    "//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"
+    "//cdn.bootcss.com/jquery/3.2.1/jquery.min.js",
+    "/js/editormd/editormd.js",
+    "/js/editormd/lib/marked.min.js",
+    "/js/editormd/lib/prettify.min.js",
+    "/js/editormd/lib/raphael.min.js",
+    "/js/editormd/lib/underscore.min.js",
+    "/js/editormd/lib/sequence-diagram.min.js",
+    "/js/editormd/lib/flowchart.min.js",
+    "/js/editormd/lib/jquery.flowchart.min.js"
 ]
 
 script.map(src => {

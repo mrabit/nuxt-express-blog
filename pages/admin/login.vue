@@ -30,7 +30,6 @@
   }
 }
 </style>
-</style>
 <template>
   <section class="app-content m-l-none login">
       <div class="modal-over bg-black" >

@@ -147,25 +147,8 @@ export default {
   },
   head() {
     let config = {
-      title: this.$route.path === "/" ? "首页" : "列表页",
-      script: []
+      title: this.$route.path === "/" ? "首页" : "列表页"
     };
-    let script = [
-      "/js/editormd/editormd.js",
-      "/js/editormd/lib/marked.min.js",
-      "/js/editormd/lib/prettify.min.js",
-      "/js/editormd/lib/raphael.min.js",
-      "/js/editormd/lib/underscore.min.js",
-      "/js/editormd/lib/sequence-diagram.min.js",
-      "/js/editormd/lib/flowchart.min.js",
-      "/js/editormd/lib/jquery.flowchart.min.js"
-    ];
-    script.map(src => {
-      config.script.push({
-        type: "text/javascript",
-        src: src
-      });
-    });
     return config;
   }
 };

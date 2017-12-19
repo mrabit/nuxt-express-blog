@@ -135,25 +135,8 @@ export default {
   },
   head() {
     let config = {
-      title: this.article.title,
-      script: []
+      title: this.article.title
     };
-    let script = [
-      "/js/editormd/editormd.js",
-      "/js/editormd/lib/marked.min.js",
-      "/js/editormd/lib/prettify.min.js",
-      "/js/editormd/lib/raphael.min.js",
-      "/js/editormd/lib/underscore.min.js",
-      "/js/editormd/lib/sequence-diagram.min.js",
-      "/js/editormd/lib/flowchart.min.js",
-      "/js/editormd/lib/jquery.flowchart.min.js"
-    ];
-    script.map(src => {
-      config.script.push({
-        type: "text/javascript",
-        src: src
-      });
-    });
     return config;
   }
 };

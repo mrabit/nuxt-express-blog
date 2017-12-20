@@ -11,6 +11,12 @@ app.set('port', port)
 // 设置静态资源目录
 app.use(express.static(path.join(__dirname, 'public')));
 
+// 前端接口路由
+app.use('/user', require('./router/index/userController'));
+app.use('/article', require('./router/index/articleController'));
+app.use('/article_tags', require('./router/index/articleTagsController'));
+app.use('/bing', require('./router/index/bingController'));
+
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')
 config.dev = !(process.env.NODE_ENV === 'production')

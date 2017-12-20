@@ -28,7 +28,7 @@ const store = () => new Vuex.Store({
                 }
             }
         },
-        frontend: {
+        index: {
             namespaced: true,
             state: {
                 user: {}

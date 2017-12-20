@@ -54,6 +54,11 @@ let config = {
     loading: {
         color: '#29d'
     },
+    router: {
+        scrollBehavior: function(to, from, savedPosition) {
+            return { x: 0, y: 0 }
+        }
+    },
     /*
      ** Add axios globally
      */

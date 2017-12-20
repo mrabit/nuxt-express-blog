@@ -35,7 +35,26 @@
 </section>
 </template>
 <script>
+import axios from "~/plugins/axios";
 export default {
+  asyncData({ store }) {
+    return axios
+      .get("/api/user/profile?id=" + (store.state.admin.user.id || 1))
+      .then(d => {
+        let result = d.data.result;
+        return {
+          profile: {
+            id: result.id,
+            uname: result.uname,
+            blog_name: result.blog_name,
+            weibo: result.weibo,
+            github: result.github,
+            twitter: result.twitter,
+            user_header_img: result.user_header_img
+          }
+        };
+      });
+  },
   data() {
     var checkUrl = (rule, value, callback) => {
       var reg = new RegExp("[a-zA-z]+://[^s]*", "ig");
@@ -72,28 +91,6 @@ export default {
     }
   },
   methods: {
-    get_profile() {
-      var result = {
-        id: 1,
-        uname: "admin",
-        blog_name: "一桶浆糊",
-        weibo: "http://weibo.com/biabia123",
-        github: "https://github.com/mrabit",
-        twitter: "https://twitter.com/biabia123456",
-        user_header_img: "/Uploads/Picture/2017-06-06/59369fb016efa.png",
-        last_login_ip: "171.221.254.8",
-        last_login_time: 1513665502
-      };
-      this.profile = {
-        id: result.id,
-        uname: result.uname,
-        blog_name: result.blog_name,
-        weibo: result.weibo,
-        github: result.github,
-        twitter: result.twitter,
-        user_header_img: result.user_header_img
-      };
-    },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -119,9 +116,6 @@ export default {
         }
       });
     }
-  },
-  mounted() {
-    this.get_profile();
   },
   head() {
     let config = {

@@ -8,7 +8,7 @@
   <div class="app-content">
         <div class="app-content-body">
           <div class="bg-light lter b-b wrapper-md">
-              <h1 class="m-n font-thin h3">标签管理</h1>
+              <h1 class="m-n font-thin h3">关于</h1>
           </div>
           <div class="wrapper clearfix m-b-md">
               <el-row>
@@ -31,13 +31,17 @@
   </div>
 </template>
 <script>
+import axios from "~/plugins/axios";
 export default {
+  asyncData() {
+    return axios.get("/api/user/about").then(d => {
+      return {
+        profile: d.data.result
+      };
+    });
+  },
   data() {
     return {
-      profile: {
-        about:
-          "### 一桶浆糊的博客\n###### 击败恶龙的勇士,也渐渐长出了龙鳞\n\n### About Me\n###### 一桶浆糊，目前任职于勤智数码科技股份有限公司，码农一枚，正在向前端开发工程师的目标奋斗\n\n###### 专注于WEB前端开发,以前偶尔看看PHP,现在对NodeJS感兴趣，毕竟JavaScript是世界上最好的语言"
-      },
       markdown: {}
     };
   },

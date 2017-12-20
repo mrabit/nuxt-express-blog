@@ -76,6 +76,7 @@
     </section>
 </template>
 <script>
+import axios from '~/plugins/axios';
 export default {
   data() {
     return {
@@ -102,20 +103,17 @@ export default {
   methods: {
     getAuthList(currentPage = 1) {
       this.pagination.currentPage = currentPage;
-      var result = {
-        aaData: [
-          {
-            id: 53,
-            OPEN_ID: "oqMgS0WXm5BonhyCCN-hrrtRWU3E",
-            nick_name: "alert",
-            create_time: "1509970639",
-            release_time: "2017-11-06 20:17:19"
+      return axios
+        .get(
+          "/api/wx/getAuthList/" + currentPage + "/" + this.pagination.pageSize
+        )
+        .then(d => {
+          if (d.data.success) {
+            var result = d.data.result;
+            this.tableData = result.aaData;
+            this.pagination.total = result.count;
           }
-        ],
-        count: 1
-      };
-      this.tableData = result.aaData;
-      this.pagination.total = result.count;
+        });
     },
     handleSubmit(formName) {
       this.$refs[formName].validate(valid => {

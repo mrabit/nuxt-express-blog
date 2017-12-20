@@ -6,9 +6,16 @@
     </div>
 </template>
 <script>
+import axios from "~/plugins/axios";
 import side from "~/components/admin/side.vue";
 import headerComponent from "~/components/admin/header.vue";
 export default {
+  fetch({ store, params }) {
+    return axios.get("/user/profile").then(res => {
+      res.data.result.blog_name += "的博客";
+      store.commit("admin/changeUser", res.data.result);
+    });
+  },
   components: {
     side,
     headerComponent
@@ -16,7 +23,7 @@ export default {
   computed: {
     login() {
       var reg = /\/admin\/login*/;
-      // 是否是后台路径
+      // 是否是后台登录页面
       return reg.test(this.$route.path);
     }
   }

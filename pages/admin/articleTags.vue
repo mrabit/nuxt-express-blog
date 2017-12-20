@@ -15,25 +15,21 @@
               :closable="true"
               :type="tag.type"
               >
-              {{tag.name}}
+              {{tag.tags_name}}
           </el-tag>
         </div>
       </div>
   </div>
 </template>
 <script>
+import axios from "~/plugins/axios";
 export default {
-  data() {
-    return {
-      tags: [
-        { name: "标签一", type: "" },
-        { name: "标签二", type: "gray" },
-        { name: "标签三", type: "primary" },
-        { name: "标签四", type: "success" },
-        { name: "标签五", type: "warning" },
-        { name: "标签六", type: "danger" }
-      ]
-    };
+  asyncData() {
+    return axios.get("/api/tags/get_all_tags").then(d => {
+      return {
+        tags: d.data.result
+      };
+    });
   },
   mounted() {},
   head() {

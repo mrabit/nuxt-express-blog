@@ -142,7 +142,7 @@ export default {
       if (this.$route.query.id) {
         this.$http.post("/api/article/update_article", this.article).then(d => {
           if (d.data.success) {
-            this.$router.push("/admin/article_list.html");
+            this.$router.push("/admin/articleList");
             this.$notify({
               title: "成功",
               message: "文章更新成功!",
@@ -153,7 +153,7 @@ export default {
       } else {
         this.$http.post("/api/article/insert_article", this.article).then(d => {
           if (d.data.success) {
-            this.$router.push("/admin/article_list.html");
+            this.$router.push("/admin/articleList");
             this.$notify({
               title: "成功",
               message: "文章新增成功!",

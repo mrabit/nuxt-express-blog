@@ -78,13 +78,13 @@ export default {
             .then(
               d => {
                 if (d.data.success) {
-                  wsCache.delete("token");
+                  this.wsCache.delete("token");
                   this.$notify({
                     title: "成功",
                     message: "密码修改成功!",
                     type: "success",
                     onClose: _ => {
-                      window.location.href = "/admin/login.html";
+                      window.location.href = "/admin/login";
                     }
                   });
                 } else {

@@ -49,7 +49,7 @@
                   </el-table-column>
                   <el-table-column label="操作" width="220">
                       <template slot-scope="scope">
-                          <router-link class="btn btn-default btn-sm w-xs" :disabled="!!parseInt(scope.row.is_html)"
+                          <router-link class="btn btn-default btn-sm w-xs m-r-xs" :disabled="!!parseInt(scope.row.is_html)"
                               :to="'/admin/articleEdit?id=' + scope.row.id">编辑</router-link>
                           <el-popover placement="top" trigger="click" v-model="scope.row.visable">
                               <p>删除操作将无法撤回,是否继续？</p>
@@ -202,7 +202,7 @@ export default {
   },
   head() {
     let config = {
-      title: "文章列表"
+      title: "文章列表 - " + this.$store.getters['admin/getUser'].blog_name
     };
     return config;
   }

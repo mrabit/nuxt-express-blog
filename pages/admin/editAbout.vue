@@ -127,7 +127,7 @@ export default {
   },
   head() {
     let config = {
-      title: "修改关于"
+      title: "修改关于 - " + this.$store.getters['admin/getUser'].blog_name
     };
     return config;
   }

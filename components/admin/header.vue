@@ -82,7 +82,7 @@
     </header>
 </template>
 <script>
-// import webStorageCache from "web-storage-cache";
+import webStorageCache from "web-storage-cache";
 export default {
   data() {
     return {
@@ -91,7 +91,7 @@ export default {
   },
   computed: {
     user() {
-      return this.$store.getters["admin/getUser"]; 
+      return this.$store.getters["admin/getUser"];
     }
   },
   methods: {
@@ -99,27 +99,27 @@ export default {
       this.$store.commit("admin/changeIsCollapse");
     },
     logout() {
-      // this.$http
-      //   .post("/api/logout", {
-      //     key: this.user.uname
-      //   })
-      //   .then(
-      //     result => {
-      //       wsCache.delete("token");
-      //       // this.$store.commit("admin/changeUser", {});
-      //       window.location.href = "/admin/login.html";
-      //     },
-      //     err => {
-      //       console.log(err);
-      //     }
-      //   );
+      this.$http
+        .post("/api/logout", {
+          key: this.user.uname
+        })
+        .then(
+          result => {
+            this.wsCache.delete("token");
+            this.$store.commit("admin/changeUser", {});
+            window.location.href = "/admin/login";
+          },
+          err => {
+            console.log(err);
+          }
+        );
     },
     routerPush(url) {
       this.$router.push(url);
     }
   },
   mounted() {
-    // this.wsCache = new webStorageCache();
+    this.wsCache = new webStorageCache();
   }
 };
 </script>

@@ -114,7 +114,7 @@ export default {
   },
   head() {
     let config = {
-      title: "密码修改"
+      title: "密码修改 - " + this.$store.getters['admin/getUser'].blog_name
     };
     return config;
   }

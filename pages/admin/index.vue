@@ -12,7 +12,7 @@ export default {
   //   }
   head() {
     return {
-      title: "首页"
+      title: "首页 - " + this.$store.getters['admin/getUser'].blog_name
     };
   }
 };

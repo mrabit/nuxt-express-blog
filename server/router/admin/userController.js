@@ -6,7 +6,7 @@ var User = require('../../model/admin/user');
 var redis = require('../../model/redis_db');
 var exp = require('../../config')['redis']['exp'];
 var common = require('../../common');
-var websocket = require('../../websocket');
+// var websocket = require('../../websocket');
 
 router.post('/login', (req, res) => {
     // 密码用前台md5加密发送过来,因为可能会用二维码扫码登录
@@ -57,7 +57,7 @@ router.post('/login', (req, res) => {
                 })
             }
             // 登录成功,踢出非当前token登录ip
-            websocket.broadcast(ip, data.token);
+            // websocket.broadcast(ip, data.token);
 
             res.json({
                 code: 200,

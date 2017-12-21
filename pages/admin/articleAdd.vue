@@ -47,7 +47,7 @@ export default {
   },
   head() {
     let config = {
-      title: "新增文章"
+      title: "新增文章 - " + this.$store.getters['admin/getUser'].blog_name
     };
     return config;
   }

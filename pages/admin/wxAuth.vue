@@ -173,7 +173,7 @@ export default {
   },
   head() {
     let config = {
-      title: "微信权限管理"
+      title: "微信权限管理 - " + this.$store.getters['admin/getUser'].blog_name
     };
     return config;
   }

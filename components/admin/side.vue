@@ -3,7 +3,7 @@
   background-color: #324157;
 }
 .app-aside-folded .el-menu--collapse {
-    width: 60px;
+  width: 60px;
 }
 </style>
 
@@ -93,8 +93,7 @@
 </template>
 <script>
 import moment from "moment";
-// var WebStorageCache = require("web-storage-cache");
-
+var WebStorageCache = require("web-storage-cache");
 var config = require("../../config");
 
 export default {
@@ -115,7 +114,7 @@ export default {
     },
     isCollapse() {
       var boolean = this.$store.getters["admin/getIsCollapse"];
-      if (process.BROWSER_BUILD) {
+      if (typeof document === "object") {
         var body = document.body;
         if (body.clientWidth <= 768) {
           this.offScreen = boolean;
@@ -139,29 +138,9 @@ export default {
     }
   },
   mounted() {
-    // this.wsCache = new WebStorageCache();
-    // // 获取token缓存;
-    // var token = wsCache.get("token");
-    // // 存在token,构建websocket通讯
-    // if (token) {
-    //   token = token.token;
-    //   var ws = new WebSocket(config.socket + "?token");
-    //   ws.onopen = function() {
-    //     // 发送当前token到服务器,做校验
-    //     ws.send(token);
-    //   };
-    //   ws.onmessage = evt => {
-    //     // 接收消息
-    //     var data = JSON.parse(evt.data);
-    //     // 下线通知
-    //     if (data.code == 107) {
-    //       alert(data.message);
-    //       wsCache.delete("token");
-    //       this.$router.push("/admin/login.html");
-    //       ws.close();
-    //     }
-    //   };
-    // }
+    this.wsCache = new WebStorageCache();
+    // 获取token缓存;
+    var token = this.wsCache.get("token");
   }
 };
 </script>

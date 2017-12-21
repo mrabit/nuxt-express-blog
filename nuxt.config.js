@@ -57,7 +57,8 @@ let config = {
     router: {
         scrollBehavior: function(to, from, savedPosition) {
             return { x: 0, y: 0 }
-        }
+        },
+        // middleware: 'checkAuth'
     },
     /*
      ** Add axios globally
@@ -84,9 +85,9 @@ let config = {
 let css = [
     '/css/bootstrap.css',
     '/css/app.css',
-    '/css/font-awesome.css',
-    '/css/simple-line-icons.css',
     '/css/themify-icons.css',
+    '/css/simple-line-icons.css',
+    '/css/font-awesome.css',
     '/js/editormd/css/editormd.css',
 ]
 

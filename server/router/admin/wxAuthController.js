@@ -6,7 +6,6 @@ var wx_auth = require('../../model/admin/wx_auth');
 var redis = require('../../model/redis_db');
 var exp = require('../../config')['redis']['exp'];
 var common = require('../../common');
-var websocket = require('../../websocket');
 var location_key = require('../../config')['location'];
 
 

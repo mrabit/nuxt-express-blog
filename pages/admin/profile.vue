@@ -119,7 +119,7 @@ export default {
   },
   head() {
     let config = {
-      title: "修改资料"
+      title: "修改资料 - " + this.$store.getters['admin/getUser'].blog_name
     };
     return config;
   }

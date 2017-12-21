@@ -20,6 +20,9 @@ app.set('port', port)
 // 设置静态资源目录
 app.use(express.static(path.join(__dirname, 'public')));
 
+// 中间件判断token
+// app.use(require('./router/middleware'));
+
 // 前端接口路由
 app.use('/user', require('./router/index/userController'));
 app.use('/article', require('./router/index/articleController'));
@@ -33,6 +36,9 @@ app.use('/api', require('./router/admin/userController'));
 app.use('/api/wx', require('./router/admin/wxAuthController'));
 app.use('/api/article', require('./router/admin/articleController'));
 app.use('/api/tags', require('./router/admin/tagsController'));
+
+// 上传
+app.use('/upload', require('./router/uploadController'));
 
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')
@@ -51,5 +57,6 @@ if (config.dev) {
 app.use(nuxt.render)
 
 // Listen the server
-app.listen(port, host)
+var server = app.listen(port, host);
+
 console.log('Server listening on ' + host + ':' + port) // eslint-disable-line no-console

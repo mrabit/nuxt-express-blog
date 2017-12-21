@@ -34,7 +34,7 @@ export default {
   mounted() {},
   head() {
     let config = {
-      title: "标签管理"
+      title: "标签管理 - " + this.$store.getters['admin/getUser'].blog_name
     };
     return config;
   }

@@ -1,4 +1,3 @@
-import axios from '~/plugins/axios';
 import WebStorageCache from 'web-storage-cache';
 export default function({
     isServer,
@@ -6,9 +5,9 @@ export default function({
     store,
     redirect
 }) {
+    debugger;
     if (!isServer) {
         let reg = /\/admin\/login*/;
-        console.log("haha")
             // 是否是后台登录页面
         let isLogin = reg.test(route.path);
         let wsCache = new WebStorageCache();

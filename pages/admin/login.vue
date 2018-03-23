@@ -65,7 +65,7 @@
 var WebStorageCache = require("web-storage-cache");
 
 var QRCode = require("qrcode");
-var config = require("../../config");
+var config = require("../../server/config");
 var md5 = require("md5");
 
 export default {

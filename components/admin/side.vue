@@ -94,7 +94,7 @@
 <script>
 import moment from "moment";
 var WebStorageCache = require("web-storage-cache");
-var config = require("../../config");
+var config = require("../../server/config");
 
 export default {
   data() {

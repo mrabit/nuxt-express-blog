@@ -21,7 +21,7 @@ app.set('port', port)
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 中间件判断token
-// app.use(require('./router/middleware'));
+app.use(require('./router/middleware'));
 
 // 前端接口路由
 app.use('/user', require('./router/index/userController'));

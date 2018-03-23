@@ -79,6 +79,7 @@
 <script>
 import util from "util";
 import loading from "~/components/loading.vue";
+import axios from "~/plugins/axios";
 export default {
   components: { loading },
   data() {

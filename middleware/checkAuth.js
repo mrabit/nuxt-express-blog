@@ -5,7 +5,6 @@ export default function({
     store,
     redirect
 }) {
-    debugger;
     if (!isServer) {
         let reg = /\/admin\/login*/;
             // 是否是后台登录页面

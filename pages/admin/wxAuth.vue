@@ -1,95 +1,92 @@
 <template>
-    <section class="app-content">
-        <div class="app-content-body">
-          <div class="bg-light lter b-b wrapper-md">
-              <h1 class="m-n font-thin h3">微信权限管理</h1>
-          </div>
-          <div class="wrapper clearfix m-b-md">
-              <div class="pull-right m-b-sm">
-                  <button class="btn btn-info w-xs" @click="handleAdd">新增</button>
-              </div>
-              <el-table :data="tableData" stripe class="w-full">
-                  <el-table-column prop="id" label="ID" width="80">
-                  </el-table-column>
-                  <el-table-column prop="OPEN_ID" label="OPEN_ID">
-                  </el-table-column>
-                  <el-table-column prop="nick_name" label="昵称" width="180">
-                      <template slot-scope="scope">
-                          <span>{{ scope.row.nick_name }}</span>
-                      </template>
-                  </el-table-column>
-                  <el-table-column prop="release_time" label="发布时间" width="180">
-                  </el-table-column>
-                  <el-table-column label="操作" width="220">
-                      <template slot-scope="scope">
-                          <button class="btn btn-default btn-sm w-xs" @click="handleEdit(scope.row.id)">编辑</button>
-                          <el-popover placement="top" trigger="click" v-model="scope.row.visable">
-                              <p>删除操作将无法撤回,是否继续？</p>
-                              <div style="text-align: right; margin: 0">
-                                  <el-button size="mini" type="text" @click="scope.row.visable = false">取消</el-button>
-                                  <el-button type="primary" size="mini" @click="handleDelete(scope.row.id)">确定</el-button>
-                              </div>
-                              <button class="btn btn-default btn-sm w-xs" type="button" 
-                                  slot="reference">删除</button>
-                          </el-popover>
-                      </template>
-                  </el-table-column>
-              </el-table>
-              <div class="pull-right m-t-md">
-                  <el-pagination
-                      :current-page="pagination.currentPage"
-                      @current-change="getAuthList"
-                      :page-size="pagination.pageSize"
-                      layout="total, prev, pager, next"
-                      :total="pagination.total">
-                  </el-pagination>
-              </div>
-              <el-dialog
-                  :title="!formData.id?'新增':'修改'"
-                  :lock-scroll="false"
-                  :visible.sync="dialogVisible"
-                  @close="dialogClose"
-                  width="50%">
-                  <el-row>
-                      <el-col :span="18" :offset="3">
-                          <el-form :model="formData" :rules="formData_rule" ref="formData"
-                            label-width="100px" label-position="right">
-                              <el-form-item label="ID：" v-if="formData.id" prop="id">
-                                  <el-input v-model="formData.id" disabled="disabled"></el-input>
-                              </el-form-item>
-                              <el-form-item label="OPEN_ID：" prop="OPEN_ID">
-                                  <el-input v-model="formData.OPEN_ID"></el-input>
-                              </el-form-item>
-                              <el-form-item label="昵称：" prop="nick_name" width="180">
-                                  <el-input v-model="formData.nick_name"></el-input>
-                              </el-form-item>
-                              <el-form-item class="pull-right m-b-none">
-                                  <el-button type="primary" @click="handleSubmit('formData')">立即{{!formData.id?'新增':'修改'}}</el-button>
-                                  <el-button @click="dialogVisible = false">取消</el-button>
-                              </el-form-item>
-                          </el-form>
-                      </el-col>
-                  </el-row>
-              </el-dialog>
-          </div>
+  <section class="app-content">
+    <div class="app-content-body">
+      <loading :show="loading"></loading>
+      <div v-show="!loading">
+        <div class="bg-light lter b-b wrapper-md">
+          <h1 class="m-n font-thin h3">微信权限管理</h1>
         </div>
-    </section>
+        <div class="wrapper clearfix m-b-md">
+          <div class="pull-right m-b-sm">
+            <button class="btn btn-info w-xs" @click="handleAdd">新增</button>
+          </div>
+          <el-table :data="tableData" stripe class="w-full">
+            <el-table-column prop="id" label="ID" width="80">
+            </el-table-column>
+            <el-table-column prop="OPEN_ID" label="OPEN_ID">
+            </el-table-column>
+            <el-table-column prop="nick_name" label="昵称" width="180">
+              <template slot-scope="scope">
+                <span>{{ scope.row.nick_name }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="release_time" label="发布时间" width="180">
+            </el-table-column>
+            <el-table-column label="操作" width="220">
+              <template slot-scope="scope">
+                <button class="btn btn-default btn-sm w-xs" @click="handleEdit(scope.row.id)">编辑</button>
+                <el-popover placement="top" trigger="click" v-model="scope.row.visable">
+                  <p>删除操作将无法撤回,是否继续？</p>
+                  <div style="text-align: right; margin: 0">
+                    <el-button size="mini" type="text" @click="scope.row.visable = false">取消</el-button>
+                    <el-button type="primary" size="mini" @click="handleDelete(scope.row.id)">确定</el-button>
+                  </div>
+                  <button class="btn btn-default btn-sm w-xs" type="button" slot="reference">删除</button>
+                </el-popover>
+              </template>
+            </el-table-column>
+          </el-table>
+          <div class="pull-right m-t-md">
+            <el-pagination :current-page="pagination.currentPage" @current-change="getAuthList" :page-size="pagination.pageSize" layout="total, prev, pager, next" :total="pagination.total">
+            </el-pagination>
+          </div>
+          <el-dialog :title="!formData.id?'新增':'修改'" :lock-scroll="false" :visible.sync="dialogVisible" @close="dialogClose" width="50%">
+            <el-row>
+              <el-col :span="18" :offset="3">
+                <el-form :model="formData" :rules="formData_rule" ref="formData" label-width="100px" label-position="right">
+                  <el-form-item label="ID：" v-if="formData.id" prop="id">
+                    <el-input v-model="formData.id" disabled="disabled"></el-input>
+                  </el-form-item>
+                  <el-form-item label="OPEN_ID：" prop="OPEN_ID">
+                    <el-input v-model="formData.OPEN_ID"></el-input>
+                  </el-form-item>
+                  <el-form-item label="昵称：" prop="nick_name" width="180">
+                    <el-input v-model="formData.nick_name"></el-input>
+                  </el-form-item>
+                  <el-form-item class="pull-right m-b-none">
+                    <el-button type="primary" @click="handleSubmit('formData')">立即{{!formData.id?'新增':'修改'}}</el-button>
+                    <el-button @click="dialogVisible = false">取消</el-button>
+                  </el-form-item>
+                </el-form>
+              </el-col>
+            </el-row>
+          </el-dialog>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 <script>
-import axios from '~/plugins/axios';
 export default {
   data() {
     return {
+      loading: true,
       formData: {
         id: 0,
         OPEN_ID: "",
         nick_name: ""
       },
       formData_rule: {
-        OPEN_ID: [
-          { required: true, message: "请输入用户的OPEN_ID", trigger: "blur" }
-        ],
-        nick_name: [{ required: true, message: "请输入用户昵称", trigger: "blur" }]
+        OPEN_ID: [{
+          required: true,
+          message: "请输入用户的OPEN_ID",
+          trigger: "blur"
+        }],
+        nick_name: [{
+          required: true,
+          message: "请输入用户昵称",
+          trigger: "blur"
+        }]
       },
       tableData: [],
       dialogVisible: false,
@@ -103,7 +100,7 @@ export default {
   methods: {
     getAuthList(currentPage = 1) {
       this.pagination.currentPage = currentPage;
-      return axios
+      return this.$http
         .get(
           "/api/wx/getAuthList/" + currentPage + "/" + this.pagination.pageSize
         )
@@ -113,6 +110,7 @@ export default {
             this.tableData = result.aaData;
             this.pagination.total = result.count;
           }
+          this.loading = false;
         });
     },
     handleSubmit(formName) {
@@ -139,7 +137,9 @@ export default {
       });
     },
     handleDelete(id) {
-      this.$http.post("/api/wx/deleteAuth", { id }).then(d => {
+      this.$http.post("/api/wx/deleteAuth", {
+        id
+      }).then(d => {
         this.$notify({
           title: "成功",
           message: "删除用户成功!",
@@ -178,4 +178,5 @@ export default {
     return config;
   }
 };
+
 </script>

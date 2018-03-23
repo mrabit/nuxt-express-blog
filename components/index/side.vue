@@ -1,37 +1,37 @@
 <template>
-    <div>
-      <nav id="sidebar" class="behavior_1">
-        <div class="text-center m-t-lg profile">
-            <nuxt-link to="/" class="block">
-                <img :src="user.user_header_img" class="thumb-lg avatar image_logo" alt="">
-            </nuxt-link>
-            <span class="m-t-md block h4 sidebar_title hidden-sm hidden-xs">{{ user.blog_name }}</span>
-        </div>
-        <ul class="nav_list padder-lg">
-            <li class="list-inline m-t-md block" v-for="(item, index) in side_btn" :key="index">
-                <a class="block" :href="item.href" :title="item.title">
-                    <i :class="item.icons" @click="removeCLass(!isSide)"></i>
-                    <span class="text-md visible-md-inline visible-lg-inline">{{ item.span }}</span>
-                </a>
-            </li>
-            <li class="list-inline m-t-md">
-                <a :href="item.href" v-if="item.href != '#'" target="_blank" class="share" v-for="(item, index) in share_btn" :key="index">
-                    <i :class="item.icons" @click="removeCLass(!isSide)"></i>
-                </a>
-            </li>
-        </ul>
-      </nav>
-      <header class="header navbar navbar-inverse navbar-fixed-top visible-xs-block">
-        <div id="menuToggle" @click="removeCLass(!isSide)">
-            <i class="fa fa-align-justify"></i>
-        </div>
-        <p class="text-center text-lg header_title m-b-none">{{ user.blog_name }}</p>
-        <nuxt-link to="/" class="me">
-          <img :src="user.user_header_img" class=" avatar " alt="">
+  <div>
+    <nav id="sidebar" class="behavior_1">
+      <div class="text-center m-t-lg profile">
+        <nuxt-link to="/" class="block">
+          <img :src="user.user_header_img" class="thumb-lg avatar image_logo" alt="">
         </nuxt-link>
-      </header>
-      <div id="sidebar-mask"></div>
-    </div>
+        <span class="m-t-md block h4 sidebar_title hidden-sm hidden-xs">{{ user.blog_name }}</span>
+      </div>
+      <ul class="nav_list padder-lg">
+        <li class="list-inline m-t-md block" v-for="(item, index) in side_btn" :key="index">
+          <nuxt-link class="block" :to="item.href" :title="item.title">
+            <i :class="item.icons" @click="removeCLass(!isSide)"></i>
+            <span class="text-md visible-md-inline visible-lg-inline">{{ item.span }}</span>
+          </nuxt-link>
+        </li>
+        <li class="list-inline m-t-md">
+          <nuxt-link :to="item.href" v-if="item.href != '#'" target="_blank" class="share" v-for="(item, index) in share_btn" :key="index">
+            <i :class="item.icons" @click="removeCLass(!isSide)"></i>
+          </nuxt-link>
+        </li>
+      </ul>
+    </nav>
+    <header class="header navbar navbar-inverse navbar-fixed-top visible-xs-block">
+      <div id="menuToggle" @click="removeCLass(!isSide)">
+        <i class="fa fa-align-justify"></i>
+      </div>
+      <p class="text-center text-lg header_title m-b-none">{{ user.blog_name }}</p>
+      <nuxt-link to="/" class="me">
+        <img :src="user.user_header_img" class=" avatar " alt="">
+      </nuxt-link>
+    </header>
+    <div id="sidebar-mask"></div>
+  </div>
 </template>
 <script>
 import axios from "~/plugins/axios";
@@ -39,8 +39,7 @@ export default {
   data() {
     return {
       isSide: false,
-      side_btn: [
-        {
+      side_btn: [{
           title: "首页",
           span: "首页",
           icons: "iconfont fa fa-home",
@@ -77,8 +76,7 @@ export default {
           href: "/share"
         }
       ],
-      share_btn: [
-        {
+      share_btn: [{
           href: "#",
           icons: "fa fa-weibo iconfont"
         },
@@ -114,4 +112,5 @@ export default {
     this.share_btn[2].href = this.user.twitter;
   }
 };
+
 </script>

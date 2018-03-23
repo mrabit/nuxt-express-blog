@@ -52,7 +52,8 @@ let config = {
       src: '~plugins/element-ui'
     }, 
     '~plugins/highlight',
-    '~plugins/axios.conf'
+    '~plugins/axios.conf',
+    '~plugins/loading',
   ],
   loading: {
     color: '#29d'

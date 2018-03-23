@@ -16,7 +16,7 @@
         <div class="row verticalCenter no-gutter">
           <div class="col-xs-12 col-sm-8 text-left">
             <p class="article-title h2">
-              <a :href="'/details/' + vo.id" :title="vo.title">{{ vo.title }}</a>
+              <nuxt-link :to="'/details/' + vo.id" :title="vo.title">{{ vo.title }}</nuxt-link>
             </p>
           </div>
           <div class="col-sm-4 hidden-xs text-right">
@@ -37,17 +37,17 @@
             <div class="entry-content m-t-md block show-section-block">
               <blockquote class="hidden-xs" v-if="vo.reprint_url">
                 <p>原文：
-                  <a :href="vo.reprint_url" target="_blank">{{ vo.reprint_url }}</a>
+                  <nuxt-link :to="vo.reprint_url" target="_blank">{{ vo.reprint_url }}</nuxt-link>
                 </p>
               </blockquote>
-              <div class="editormd_container" v-if="!vo.is_html" :id="vo.id" v-html="formatEditormd(vo.content)">
+              <div class="editormd_container" v-if="!vo.is_html" :id="vo.id" v-html="formatEditormd(vo.content)" v-highlight>
               </div>
               <div v-else v-html="unescape(vo.content)">
               </div>
             </div>
             <div class="show_all"></div>
             <p class="more m-b-none m-t-md">
-              <a :href="'/details/' + vo.id">阅读全文</a>
+              <nuxt-link :to="'/details/' + vo.id">阅读全文</nuxt-link>
             </p>
           </div>
         </div>
@@ -58,21 +58,17 @@
       </div>
     </div>
     <nav class="padder text-center" style="margin-bottom: 8px" v-if="article_lists.length">
-      <a name="prev" :class="{ invisible: this.currentPage <= 1 }" :href="prev" class="pull-left">&lt;&lt;&nbsp;上一页</a>
-      <a name="next" :class="{ invisible: this.currentPage >= this.totalPage }" :href="next" class="pull-right">下一页&nbsp;&gt;&gt;</a>
+      <nuxt-link name="prev" :class="{ invisible: this.currentPage <= 1 }" :to="prev" class="pull-left">&lt;&lt;&nbsp;上一页</nuxt-link>
+      <nuxt-link name="next" :class="{ invisible: this.currentPage >= this.totalPage }" :to="next" class="pull-right">下一页&nbsp;&gt;&gt;</nuxt-link>
       <span class="w-sm text-center">
-                <nuxt-link to="/archives">博客归档</nuxt-link>
-            </span>
+          <nuxt-link to="/archives">博客归档</nuxt-link>
+      </span>
     </nav>
   </section>
 </template>
 <script>
-import loading from "~/components/loading.vue";
 var MarkdownIt = require('markdown-it');
 export default {
-  components: {
-    loading
-  },
   props: {
     articles: Object
   },
@@ -149,7 +145,6 @@ export default {
         .replace(/&nbsp;/g, " ");
     },
     formatEditormd(val) {
-      debugger;
       return this.md.render(val);
     }
 

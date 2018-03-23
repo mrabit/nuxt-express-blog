@@ -66,12 +66,12 @@
         </p>
       </div>
       <nav class="text-center clearfix paging" v-if="adjoin">
-        <a name="prev" :href="'/details/' + adjoin[0]['id']" class="pull-left" v-if="adjoin[0]">
-                    &lt;&lt;&nbsp;{{ adjoin[0]['title'] }}
-                </a>
-        <a name="next" :href="'/details/' + adjoin[1]['id']" class="pull-right" v-if="adjoin[1]">
-                    {{ adjoin[1]['title'] }}&nbsp;&gt;&gt;
-                </a>
+        <nuxt-link name="prev" :to="'/details/' + adjoin[0]['id']" class="pull-left" v-if="adjoin[0]">
+          &lt;&lt;&nbsp;{{ adjoin[0]['title'] }}
+        </nuxt-link>
+        <nuxt-link name="next" :to="'/details/' + adjoin[1]['id']" class="pull-right" v-if="adjoin[1]">
+          {{ adjoin[1]['title'] }}&nbsp;&gt;&gt;
+        </nuxt-link>
       </nav>
       <p class="h1 text-muted m-t-md">Comments</p>
       <!--PC版-->
@@ -81,7 +81,6 @@
 </template>
 <script>
 import axios from "~/plugins/axios";
-import loading from "~/components/loading.vue";
 var MarkdownIt = require('markdown-it');
 
 export default {
@@ -119,9 +118,6 @@ export default {
       md: new MarkdownIt()
     }
   },
-  components: {
-    loading
-  },
   computed: {
     location_href() {
       return "/details/" + this.$route.params.id;
@@ -145,7 +141,6 @@ export default {
         .replace(/&nbsp;/g, " ");
     },
     formatEditormd(val) {
-    //   debugger;
       return this.md.render(val);
     }
   },

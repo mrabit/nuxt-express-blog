@@ -4,75 +4,63 @@
   margin-bottom: initial;
   margin-top: initial;
 }
+
 .w-full-important {
   width: 100% !important;
 }
+
 .input-new-tag.el-input {
   width: 80px;
 }
+
 </style>
 <template>
-    <el-row>
-        <el-col :span="22" :offset="2">
-            <el-form label-position="right" label-width="120px" ref="articleForm" :model="article">
-                <el-form-item label="文章标题：">
-                    <el-input v-model="article.title"></el-input>
-                </el-form-item>
-                <el-form-item label="转载地址：">
-                    <el-input v-model="article.reprint_url"></el-input>
-                </el-form-item>
-                <el-form-item label="公开度：">
-                    <el-radio class="radio" v-model="article.private" label="0">公开</el-radio>
-                    <el-radio class="radio" v-model="article.private" label="1">不公开</el-radio>
-                </el-form-item>
-                <el-form-item label="文章正文：">
-                    <div id="editormd" class="w-full-important">
-                        <textarea style="display:none;" v-model="content"></textarea>
-                    </div>
-                </el-form-item>
-                <el-form-item label="标签填写：">
-                    <el-tag
-                        :key="index"
-                        v-for="(id, tag, index) in article.tags"
-                        class="m-r-sm"
-                        :closable="true"
-                        :close-transition="false"
-                        @close="handleClose(tag)">
-                        {{ tag }}
-                    </el-tag>
-                    <div v-if="inputTagsVisible" class="inline" @blur="handleInputConfirm">
-                        <el-input
-                        class="input-new-tag"
-                        id="inputTagsValue"
-                        v-model="inputTagsValue"
-                        ref="saveTagInput"
-                        size="mini"
-                        @keyup.enter.native="handleInputConfirm">
-                    </el-input>
-                    <el-select v-model="TagsSelected" @change="select_tags" placeholder="请选择" size="mini">
-                        <el-option
-                        v-for="(id, key) in tags_map"
-                        :key="id"
-                        :label="key"
-                        :value="key">
-                        </el-option>
-                    </el-select>
-                    </div>
-                    <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
-                </el-form-item>
-                <el-form-item class="pull-right">
-                    <el-button type="primary" @click="submitForm('articleForm')">{{ submit_text }}</el-button>
-                    <el-button @click="resetForm('articleForm')" v-if="show_reset">重置</el-button>
-                </el-form-item>
-            </el-form>
-        </el-col>
-    </el-row>
+  <el-row>
+    <el-col :span="22" :offset="2">
+      <el-form label-position="right" label-width="120px" ref="articleForm" :model="article">
+        <el-form-item label="文章标题：">
+          <el-input v-model="article.title"></el-input>
+        </el-form-item>
+        <el-form-item label="转载地址：">
+          <el-input v-model="article.reprint_url"></el-input>
+        </el-form-item>
+        <el-form-item label="公开度：">
+          <el-radio class="radio" v-model="article.private" label="0">公开</el-radio>
+          <el-radio class="radio" v-model="article.private" label="1">不公开</el-radio>
+        </el-form-item>
+        <el-form-item label="文章正文：">
+          <div id="editormd" class="w-full-important">
+            <textarea style="display:none;" v-model="content"></textarea>
+          </div>
+        </el-form-item>
+        <el-form-item label="标签填写：">
+          <el-tag :key="index" v-for="(id, tag, index) in article.tags" class="m-r-sm" :closable="true" :close-transition="false" @close="handleClose(tag)">
+            {{ tag }}
+          </el-tag>
+          <div v-if="inputTagsVisible" class="inline" @blur="handleInputConfirm">
+            <el-input class="input-new-tag" id="inputTagsValue" v-model="inputTagsValue" ref="saveTagInput" size="mini" @keyup.enter.native="handleInputConfirm">
+            </el-input>
+            <el-select v-model="TagsSelected" @change="select_tags" placeholder="请选择" size="mini">
+              <el-option v-for="(id, key) in tags_map" :key="id" :label="key" :value="key">
+              </el-option>
+            </el-select>
+          </div>
+          <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+        </el-form-item>
+        <el-form-item class="pull-right">
+          <el-button type="primary" @click="submitForm('articleForm')">{{ submit_text }}</el-button>
+          <el-button @click="resetForm('articleForm')" v-if="show_reset">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </el-col>
+  </el-row>
 </template>
 <script>
 export default {
   props: {
     article: Object,
-    tags_map: Object
+    tags_map: Object,
+    loading: Boolean
   },
   data() {
     return {
@@ -81,6 +69,66 @@ export default {
       TagsSelected: "",
       markdown: {}
     };
+  },
+  watch: {
+    loading(val) {
+      if (!val) {
+        editormd.toolbarModes.full = [
+          "undo",
+          "redo",
+          "|",
+          "bold",
+          "del",
+          "italic",
+          "quote",
+          "ucwords",
+          "uppercase",
+          "lowercase",
+          "|",
+          "h1",
+          "h2",
+          "h3",
+          "h4",
+          "h5",
+          "h6",
+          "|",
+          "list-ul",
+          "list-ol",
+          "hr",
+          "|",
+          "link",
+          "reference-link",
+          "image",
+          "code",
+          "preformatted-text",
+          "code-block",
+          "table",
+          "datetime",
+          "emoji",
+          "html-entities",
+          "pagebreak",
+          "|",
+          "goto-line",
+          "watch",
+          "preview",
+          "clear",
+          "search",
+          "|",
+          "help"
+        ];
+        this.$nextTick(_ => {
+          this.markdown = editormd("editormd", {
+            width: "90%",
+            height: 640,
+            syncScrolling: "single",
+            path: "/js/editormd/lib/",
+            imageUpload: true,
+            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL: "/upload/local_base64"
+          });
+        })
+      }
+    }
   },
   computed: {
     // 文章内容符号转码
@@ -176,61 +224,7 @@ export default {
       var editormd = document.getElementsByName("clear")[0];
       editormd && editormd.parentNode.click();
     }
-  },
-  mounted() {
-    editormd.toolbarModes.full = [
-      "undo",
-      "redo",
-      "|",
-      "bold",
-      "del",
-      "italic",
-      "quote",
-      "ucwords",
-      "uppercase",
-      "lowercase",
-      "|",
-      "h1",
-      "h2",
-      "h3",
-      "h4",
-      "h5",
-      "h6",
-      "|",
-      "list-ul",
-      "list-ol",
-      "hr",
-      "|",
-      "link",
-      "reference-link",
-      "image",
-      "code",
-      "preformatted-text",
-      "code-block",
-      "table",
-      "datetime",
-      "emoji",
-      "html-entities",
-      "pagebreak",
-      "|",
-      "goto-line",
-      "watch",
-      "preview",
-      "clear",
-      "search",
-      "|",
-      "help"
-    ];
-
-    this.markdown = editormd("editormd", {
-      width: "90%",
-      height: 640,
-      syncScrolling: "single",
-      path: "/js/editormd/lib/",
-      imageUpload: true,
-      imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-      imageUploadURL: "/upload/local_base64"
-    });
   }
 };
+
 </script>

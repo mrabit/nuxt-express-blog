@@ -1,11 +1,13 @@
 <template>
-    <article-list :articles="articles"></article-list>
+  <article-list :articles="articles"></article-list>
 </template>
 <script>
 import axios from "~/plugins/axios";
 import articleList from "~/components/index/article_list.vue";
 export default {
-  asyncData({ error }) {
+  asyncData({
+    error
+  }) {
     return axios
       .get("/article/get_lists/1/5")
       .then(d => {
@@ -14,7 +16,10 @@ export default {
         };
       })
       .catch(e => {
-        error({ statusCode: 500, message: e.message });
+        error({
+          statusCode: 500,
+          message: e.message
+        });
       });
   },
   components: {
@@ -40,4 +45,5 @@ export default {
   //   }
   // }
 };
+
 </script>

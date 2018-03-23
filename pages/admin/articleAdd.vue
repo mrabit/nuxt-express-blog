@@ -1,11 +1,14 @@
 <template>
   <section class="app-content">
     <div class="app-content-body">
-      <div class="bg-light lter b-b wrapper-md">
-        <h1 class="m-n font-thin h3">新增文章</h1>
-      </div>
-      <div class="wrapper clearfix m-b-md">
-        <article-edit :article="article" :tags_map="tags_map"></article-edit>
+      <loading :show="loading"></loading>
+      <div v-show="!loading">
+        <div class="bg-light lter b-b wrapper-md">
+          <h1 class="m-n font-thin h3">新增文章</h1>
+        </div>
+        <div class="wrapper clearfix m-b-md">
+          <article-edit :article="article" :tags_map="tags_map" :loading="loading"></article-edit>
+        </div>
       </div>
     </div>
   </section>
@@ -20,6 +23,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       article: {
         title: "",
         reprint_url: "",
@@ -31,8 +35,8 @@ export default {
       tags_map: {}
     };
   },
-  mounted(){
-        // 获取数据库中标签数据
+  mounted() {
+    // 获取数据库中标签数据
     return this.$http.get("/api/tags/get_all_tags").then(d => {
       let aaData = d.data.result;
       let tags_map = {};
@@ -40,6 +44,7 @@ export default {
         tags_map[v.tags_name] = v.id;
       });
       this.tags_map = tags_map;
+      this.loading = false;
     });
   },
   head() {

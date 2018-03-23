@@ -1,31 +1,34 @@
 <template>
-    <div class="app-content">
-        <div class="app-content-body">
-          <div class="bg-light lter b-b wrapper-md">
-              <h1 class="m-n font-thin h3">密码修改</h1>
-          </div>
-          <div class="wrapper clearfix m-b-md">
-              <el-row>
-                  <el-col :span="14" :offset="5">
-                      <el-form :rules="rules" ref="passwd" :model="profile" label-width="160px">
-                          <el-form-item label="输入旧密码：" prop="oldPasswd">
-                              <el-input type="password" v-model="profile.oldPasswd"></el-input>
-                          </el-form-item>
-                          <el-form-item label="输入新密码：" prop="newPasswd">
-                              <el-input type="password" v-model="profile.newPasswd"></el-input>
-                          </el-form-item>
-                          <el-form-item label="确认密码：" prop="checkPass">
-                              <el-input type="password" v-model="profile.checkPass"></el-input>
-                          </el-form-item>
-                          <el-form-item class="pull-right">
-                              <el-button type="primary" @click="submitForm('passwd')">立即修改</el-button>
-                              <el-button @click="resetForm('passwd')">取消</el-button>
-                          </el-form-item>
-                      </el-form>
-                  </el-col>
-              </el-row>
-          </div>
+  <div class="app-content">
+    <div class="app-content-body">
+      <loading :show="loading"></loading>
+      <div v-show="!loading">
+        <div class="bg-light lter b-b wrapper-md">
+          <h1 class="m-n font-thin h3">密码修改</h1>
         </div>
+        <div class="wrapper clearfix m-b-md">
+          <el-row>
+            <el-col :span="14" :offset="5">
+              <el-form :rules="rules" ref="passwd" :model="profile" label-width="160px">
+                <el-form-item label="输入旧密码：" prop="oldPasswd">
+                  <el-input type="password" v-model="profile.oldPasswd"></el-input>
+                </el-form-item>
+                <el-form-item label="输入新密码：" prop="newPasswd">
+                  <el-input type="password" v-model="profile.newPasswd"></el-input>
+                </el-form-item>
+                <el-form-item label="确认密码：" prop="checkPass">
+                  <el-input type="password" v-model="profile.checkPass"></el-input>
+                </el-form-item>
+                <el-form-item class="pull-right">
+                  <el-button type="primary" @click="submitForm('passwd')">立即修改</el-button>
+                  <el-button @click="resetForm('passwd')">取消</el-button>
+                </el-form-item>
+              </el-form>
+            </el-col>
+          </el-row>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -45,22 +48,56 @@ export default {
       }
     };
     return {
+      loading: true,
       profile: {},
       rules: {
-        oldPasswd: [
-          { required: true, message: "请输入旧密码.", trigger: "blur" },
-          { validator: validatePass, trigger: "blur" },
-          { min: 6, max: 16, message: "长度在 6 到 18 个字符", trigger: "change" }
+        oldPasswd: [{
+            required: true,
+            message: "请输入旧密码.",
+            trigger: "blur"
+          },
+          {
+            validator: validatePass,
+            trigger: "blur"
+          },
+          {
+            min: 6,
+            max: 16,
+            message: "长度在 6 到 18 个字符",
+            trigger: "change"
+          }
         ],
-        newPasswd: [
-          { required: true, message: "请输入新密码.", trigger: "blur" },
-          { validator: validatePass, trigger: "blur" },
-          { min: 6, max: 16, message: "长度在 6 到 18 个字符", trigger: "change" }
+        newPasswd: [{
+            required: true,
+            message: "请输入新密码.",
+            trigger: "blur"
+          },
+          {
+            validator: validatePass,
+            trigger: "blur"
+          },
+          {
+            min: 6,
+            max: 16,
+            message: "长度在 6 到 18 个字符",
+            trigger: "change"
+          }
         ],
-        checkPass: [
-          { required: true, message: "请再次输入密码.", trigger: "blur" },
-          { validator: validatePass2, trigger: "blur" },
-          { min: 6, max: 16, message: "长度在 6 到 18 个字符", trigger: "change" }
+        checkPass: [{
+            required: true,
+            message: "请再次输入密码.",
+            trigger: "blur"
+          },
+          {
+            validator: validatePass2,
+            trigger: "blur"
+          },
+          {
+            min: 6,
+            max: 16,
+            message: "长度在 6 到 18 个字符",
+            trigger: "change"
+          }
         ]
       },
       wsCache: null
@@ -111,6 +148,7 @@ export default {
   mounted() {
     var webStorageCache = require("web-storage-cache");
     this.wsCache = new webStorageCache();
+    this.loading = false;
   },
   head() {
     let config = {
@@ -119,4 +157,5 @@ export default {
     return config;
   }
 };
+
 </script>

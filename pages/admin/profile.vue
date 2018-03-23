@@ -1,60 +1,44 @@
 <template>
-<section class="app-content">
+  <section class="app-content">
     <div class="app-content-body">
+      <loading :show="loading"></loading>
+      <div v-show="!loading">
         <div class="bg-light lter b-b wrapper-md">
           <h1 class="m-n font-thin h3">修改资料</h1>
         </div>
         <div class="wrapper clearfix m-b-md">
-            <el-row :gutter="20">
-                <el-col :span="14" :offset="5">
-                    <el-form :rules="rules" ref="profile" :model="profile" label-width="160px">
-                        <el-form-item label="输入用户名：" prop="uname">
-                            <el-input disabled="disabled" v-model="profile.uname"></el-input>
-                        </el-form-item>
-                        <el-form-item label="输入博客名称：" prop="blog_name">
-                            <el-input v-model="profile.blog_name"></el-input>
-                        </el-form-item>
-                        <el-form-item label="输入微博链接：" prop="weibo">
-                            <el-input v-model="profile.weibo"></el-input>
-                        </el-form-item>
-                        <el-form-item label="输入github链接：" prop="github">
-                            <el-input v-model="profile.github"></el-input>
-                        </el-form-item>
-                        <el-form-item label="输入twitter链接：" prop="twitter">
-                            <el-input v-model="profile.twitter"></el-input>
-                        </el-form-item>
-                        <el-form-item class="pull-right">
-                            <el-button type="primary" @click="onSubmit('profile')">立即更新</el-button>
-                            <el-button>取消</el-button>
-                        </el-form-item>
-                    </el-form>
-                </el-col>
-            </el-row>
+          <el-row :gutter="20">
+            <el-col :span="14" :offset="5">
+              <el-form :rules="rules" ref="profile" :model="profile" label-width="160px">
+                <el-form-item label="输入用户名：" prop="uname">
+                  <el-input disabled="disabled" v-model="profile.uname"></el-input>
+                </el-form-item>
+                <el-form-item label="输入博客名称：" prop="blog_name">
+                  <el-input v-model="profile.blog_name"></el-input>
+                </el-form-item>
+                <el-form-item label="输入微博链接：" prop="weibo">
+                  <el-input v-model="profile.weibo"></el-input>
+                </el-form-item>
+                <el-form-item label="输入github链接：" prop="github">
+                  <el-input v-model="profile.github"></el-input>
+                </el-form-item>
+                <el-form-item label="输入twitter链接：" prop="twitter">
+                  <el-input v-model="profile.twitter"></el-input>
+                </el-form-item>
+                <el-form-item class="pull-right">
+                  <el-button type="primary" @click="onSubmit('profile')">立即更新</el-button>
+                  <el-button>取消</el-button>
+                </el-form-item>
+              </el-form>
+            </el-col>
+          </el-row>
         </div>
+      </div>
     </div>
-</section>
+  </section>
 </template>
 <script>
-import axios from "~/plugins/axios";
 export default {
-  asyncData({ store }) {
-    return axios
-      .get("/api/user/profile?id=" + (store.state.admin.user.id || 1))
-      .then(d => {
-        let result = d.data.result;
-        return {
-          profile: {
-            id: result.id,
-            uname: result.uname,
-            blog_name: result.blog_name,
-            weibo: result.weibo,
-            github: result.github,
-            twitter: result.twitter,
-            user_header_img: result.user_header_img
-          }
-        };
-      });
-  },
   data() {
     var checkUrl = (rule, value, callback) => {
       var reg = new RegExp("[a-zA-z]+://[^s]*", "ig");
@@ -68,19 +52,45 @@ export default {
       profile: {},
       loading: true,
       rules: {
-        uname: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-        blog_name: [{ required: true, message: "请输入博客名称", trigger: "blur" }],
-        weibo: [
-          { required: true, message: "请输入微博链接", trigger: "blur" },
-          { validator: checkUrl, trigger: "blur" }
+        uname: [{
+          required: true,
+          message: "请输入用户名",
+          trigger: "blur"
+        }],
+        blog_name: [{
+          required: true,
+          message: "请输入博客名称",
+          trigger: "blur"
+        }],
+        weibo: [{
+            required: true,
+            message: "请输入微博链接",
+            trigger: "blur"
+          },
+          {
+            validator: checkUrl,
+            trigger: "blur"
+          }
         ],
-        github: [
-          { required: true, message: "请输入github链接", trigger: "blur" },
-          { validator: checkUrl, trigger: "blur" }
+        github: [{
+            required: true,
+            message: "请输入github链接",
+            trigger: "blur"
+          },
+          {
+            validator: checkUrl,
+            trigger: "blur"
+          }
         ],
-        twitter: [
-          { required: true, message: "请输入twitter链接", trigger: "blur" },
-          { validator: checkUrl, trigger: "blur" }
+        twitter: [{
+            required: true,
+            message: "请输入twitter链接",
+            trigger: "blur"
+          },
+          {
+            validator: checkUrl,
+            trigger: "blur"
+          }
         ]
       }
     };
@@ -117,6 +127,22 @@ export default {
       });
     }
   },
+  mounted() {
+    this.$http.get("/api/user/profile?id=" + (this.$store.state.admin.user.id || 1))
+      .then(d => {
+        let result = d.data.result;
+        this.profile = {
+          id: result.id,
+          uname: result.uname,
+          blog_name: result.blog_name,
+          weibo: result.weibo,
+          github: result.github,
+          twitter: result.twitter,
+          user_header_img: result.user_header_img
+        }
+        this.loading = false;
+      });
+  },
   head() {
     let config = {
       title: "修改资料 - " + this.$store.getters['admin/getUser'].blog_name
@@ -124,4 +150,5 @@ export default {
     return config;
   }
 };
+
 </script>

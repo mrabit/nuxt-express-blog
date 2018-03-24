@@ -29,7 +29,7 @@
       <p class="article-title h2">标签</p>
       <div class="entry-content m-t-md">
         <div class="tags_group">
-          <nuxt-link v-for="(vo, key) in tags_arr" :key="key" class="label inline m-t-sm tags m-r-sm " :to="'/details/1?tags_id=' + vo.id">
+          <nuxt-link v-for="(vo, key) in tags_arr" :key="key" class="label inline m-t-sm tags m-r-sm " :to="'/list/1?tags_id=' + vo.id">
             {{ vo.tags_name }}（{{ vo.counts }}）
           </nuxt-link>
         </div>

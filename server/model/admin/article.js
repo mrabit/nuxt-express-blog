@@ -114,6 +114,7 @@ Article.update_article_by_id = function(params) {
   return new Promise((resolve, reject) => {
     query(sql, map, function(err, result) {
       if (err) reject(err.message);
+      console.log(result);
       resolve(result);
     });
   })

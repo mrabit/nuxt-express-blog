@@ -10,8 +10,8 @@ const port = process.env.PORT || 3000
 
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({
-    limit: '50mb',
-    extended: false
+  limit: '50mb',
+  extended: false
 }));
 app.use(cookieParser());
 
@@ -28,6 +28,7 @@ app.use('/user', require('./router/index/userController'));
 app.use('/article', require('./router/index/articleController'));
 app.use('/article_tags', require('./router/index/articleTagsController'));
 app.use('/bing', require('./router/index/bingController'));
+app.use('/links', require('./router/index/linksController'));
 
 // 后台登录接口
 app.use('/api', require('./router/admin/userController'));
@@ -36,6 +37,7 @@ app.use('/api', require('./router/admin/userController'));
 app.use('/api/wx', require('./router/admin/wxAuthController'));
 app.use('/api/article', require('./router/admin/articleController'));
 app.use('/api/tags', require('./router/admin/tagsController'));
+app.use('/api/links', require('./router/admin/linksController'));
 
 // 上传
 app.use('/upload', require('./router/uploadController'));
@@ -49,8 +51,8 @@ const nuxt = new Nuxt(config)
 
 // Build only in dev mode
 if (config.dev) {
-    const builder = new Builder(nuxt)
-    builder.build()
+  const builder = new Builder(nuxt)
+  builder.build()
 }
 
 // Give nuxt middleware to express

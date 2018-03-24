@@ -1,19 +1,18 @@
-var query = require('../../model/db');
 var express = require('express');
 var router = express.Router();
-var User = require('../../model/index/user');
+var links = require('../../model/index/links');
 
-router.get('/profile', (req, res) => {
-  User.get_profile('1')
+router.get('/getLinksList', (req, res) => {
+  links.getLinksList()
     .then(result => {
       res.json({
         code: 200,
         success: true,
         result
-      })
+      });
     }, err => {
-      res.json(err);
+      res.send(err);
     })
-})
+});
 
 module.exports = router;

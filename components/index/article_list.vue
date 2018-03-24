@@ -12,6 +12,7 @@
   <section class="row padder m-b-n-sm">
     <div id="view" class="clearfix">
       <!-- <loading :show="loading"></loading> -->
+      <p v-if="tags_id" class="article-title h2 padder-v padder">标签 - {{tags_name}} <small>共找到结果 {{count}} 条</small></p>
       <article class="col-xs-12 m-t-md" v-for="(vo, key) in article_lists" :key="key">
         <div class="row verticalCenter no-gutter">
           <div class="col-xs-12 col-sm-8 text-left">
@@ -129,6 +130,12 @@ export default {
     currentPage() {
       return parseInt(this.$route.params.page) || 1;
     },
+    tags_name() {
+      return this.articles.result.tags_name;
+    },
+    count() {
+      return this.articles.result.count;
+    },
     user() {
       return this.$store.getters["index/getUser"];
     }
@@ -188,7 +195,7 @@ export default {
   head() {
     let config = {
       title:
-        (this.$route.path === "/" ? "首页" : "列表页") + " - " + this.user.blog_name
+        (this.$route.path === "/" ? "首页" : (this.tags_id ? ("标签 - " + this.tags_name) : "列表页")) + " - " + this.user.blog_name
     };
     return config;
   }

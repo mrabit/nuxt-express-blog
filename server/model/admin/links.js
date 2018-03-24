@@ -1,17 +1,8 @@
 var query = require('../db');
 
 module.exports = {
-  checkAuth(OPEN_ID) {
-    var sql = 'select * from tp_wx where OPEN_ID = ?';
-    return new Promise((resolve, reject) => {
-      query(sql, OPEN_ID, (err, result) => {
-        if (err) reject(err);
-        resolve(result);
-      })
-    })
-  },
-  getAuthList(params) {
-    var sql = 'select *,FROM_UNIXTIME( create_time,"%Y-%m-%d %H:%i:%S" ) as release_time from tp_wx ORDER BY create_time desc LIMIT ?,?';
+  getLinksList(params) {
+    var sql = 'select *,FROM_UNIXTIME( create_time,"%Y-%m-%d %H:%i:%S" ) as release_time from tp_links ORDER BY create_time desc LIMIT ?,?';
     params['start'] = (params.page - 1) * params.length;
     var map = [
       params.start,
@@ -24,8 +15,8 @@ module.exports = {
       })
     })
   },
-  getAuthCount() {
-    var sql = 'select count(*) as count from tp_wx';
+  getLinksCount() {
+    var sql = 'select count(*) as count from tp_links';
     return new Promise((resolve, reject) => {
       query(sql, (err, result) => {
         if (err) reject(err);
@@ -33,8 +24,8 @@ module.exports = {
       })
     })
   },
-  getAuthDetails(id) {
-    var sql = 'select id, OPEN_ID, nick_name from tp_wx where id=?';
+  getLinksDetails(id) {
+    var sql = 'select id, site_name, site_url from tp_links where id=?';
     return new Promise((resolve, reject) => {
       query(sql, id, (err, result) => {
         if (err) reject(err);
@@ -42,12 +33,12 @@ module.exports = {
       })
     })
   },
-  insert_auth(params) {
-    var sql = 'INSERT INTO `tp_wx` (`OPEN_ID`,`nick_name`,`create_time`)\
+  insert_links(params) {
+    var sql = 'INSERT INTO `tp_links` (`site_name`,`site_url`,`create_time`)\
         VALUES (?,?,?)';
     var map = [
-      params.OPEN_ID,
-      params.nick_name,
+      params.site_name,
+      params.site_url,
       params.create_time
     ];
     return new Promise((resolve, reject) => {
@@ -57,8 +48,8 @@ module.exports = {
       })
     })
   },
-  deleteAuth(id) {
-    var sql = "delete from tp_wx where id = " + id;
+  deleteLinks(id) {
+    var sql = "delete from tp_links where id = " + id;
     return new Promise((resolve, reject) => {
       query(sql, (err, result) => {
         if (err) reject(err);
@@ -66,11 +57,11 @@ module.exports = {
       })
     })
   },
-  updateAuth(params) {
-    var sql = 'update tp_wx set OPEN_ID=?, nick_name =? where id=?';
+  updateLinks(params) {
+    var sql = 'update tp_links set site_name=?, site_url =? where id=?';
     var map = [
-      params.OPEN_ID,
-      params.nick_name,
+      params.site_name,
+      params.site_url,
       params.id
     ]
     return new Promise((resolve, reject) => {

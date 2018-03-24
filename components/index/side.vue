@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="clearfix">
     <nav id="sidebar" class="behavior_1">
       <div class="text-center m-t-lg profile">
         <nuxt-link to="/" class="block">

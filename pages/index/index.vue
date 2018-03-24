@@ -1,5 +1,5 @@
 <template>
-  <article-list :articles="articles"></article-list>
+  <article-list :articles="articles" :loading="loading"></article-list>
 </template>
 <script>
 import axios from "~/plugins/axios";
@@ -12,7 +12,8 @@ export default {
       .get("/article/get_lists/1/5")
       .then(d => {
         return {
-          articles: d.data
+          articles: d.data,
+          loading: false
         };
       })
       .catch(e => {
@@ -24,6 +25,11 @@ export default {
   },
   components: {
     articleList
+  },
+  data() {
+    return {
+      loading: true
+    }
   },
   computed: {
     currentPage() {

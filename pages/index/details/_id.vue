@@ -6,7 +6,7 @@
 
 </style>
 <template>
-  <div>
+  <section class="row padder">
     <loading :show="loading"></loading>
     <article class="col-xs-12">
       <div class="row verticalCenter no-gutter">
@@ -56,13 +56,13 @@
         <p style="margin-bottom: 15px">
           作者
           <a href="/author/admin" data-user="">
-                <code class="notebook">{{ article.uname }}</code>
-            </a> 发表于
+            <code class="notebook">{{ article.uname }}</code>
+        </a> 发表于
           <i>{{ article.create_time }}</i>
           <span v-if="article.modify_time">
-                ，最后修改于
-                <i>{{ article.modify_time }}</i>
-            </span>
+        ，最后修改于
+            <i>{{ article.modify_time }}</i>
+        </span>
         </p>
       </div>
       <nav class="text-center clearfix paging" v-if="adjoin">
@@ -77,7 +77,7 @@
       <!--PC版-->
       <!-- <div id="SOHUCS" sid="{$article['result']['id']}"></div> -->
     </article>
-  </div>
+  </section>
 </template>
 <script>
 import axios from "~/plugins/axios";
@@ -115,12 +115,13 @@ export default {
   },
   data() {
     return {
-      md: new MarkdownIt()
+      md: new MarkdownIt(),
+      loading: true
     }
   },
   computed: {
     location_href() {
-      return "/details/" + this.$route.params.id;
+      return (!process.server ? window.location.origin : "") + "/details/" + this.$route.params.id
     },
     is_html() {
       return !!this.article.is_html;
@@ -151,7 +152,23 @@ export default {
         hid: 'Keywords',
         name: 'Keywords',
         content: this.article.title + "," + this.user.blog_name
-      }]
+      }],
+      link: [{
+        rel: 'canonical',
+        href: this.location_href
+      }],
+      script: [{
+        type: 'application/ld+json',
+        innerHTML: `        {
+            "@context": "https://ziyuan.baidu.com/contexts/cambrian.jsonld",
+            "@id": "${this.location_href}",
+            "appid": "1595463988626710",
+            "title": "${this.article.title + " - " + this.user.blog_name}",
+            "pubDate": "${this.article.create_time}",
+            "upDate": "${this.article.modify_time || this.article.create_time}"
+        }`
+      }],
+      __dangerouslyDisableSanitizers: ['script']
     };
     return config;
   }

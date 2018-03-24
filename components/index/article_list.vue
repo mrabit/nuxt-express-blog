@@ -11,7 +11,7 @@
 <template>
   <section class="row padder m-b-n-sm">
     <div id="view" class="clearfix">
-      <!-- <loading :show="loading"></loading> -->
+      <loading :show="loading"></loading>
       <p v-if="tags_id" class="article-title h2 padder-v padder">标签 - {{tags_name}} <small>共找到结果 {{count}} 条</small></p>
       <article class="col-xs-12 m-t-md" v-for="(vo, key) in article_lists" :key="key">
         <div class="row verticalCenter no-gutter">
@@ -71,11 +71,11 @@
 var MarkdownIt = require('markdown-it');
 export default {
   props: {
-    articles: Object
+    articles: Object,
+    loading: Boolean
   },
   data() {
     return {
-      loading: false,
       md: new MarkdownIt()
     };
   },

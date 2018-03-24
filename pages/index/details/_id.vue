@@ -81,6 +81,7 @@
 </template>
 <script>
 import axios from "~/plugins/axios";
+import moment from 'moment';
 var MarkdownIt = require('markdown-it');
 
 export default {
@@ -143,6 +144,9 @@ export default {
     },
     formatEditormd(val) {
       return this.md.render(val);
+    },
+    format_date(date) {
+      return moment(date).format('YYYY-MM-DDTHH:mm:ss');
     }
   },
   head() {
@@ -164,8 +168,8 @@ export default {
             "@id": "${this.location_href}",
             "appid": "1595463988626710",
             "title": "${this.article.title + " - " + this.user.blog_name}",
-            "pubDate": "${this.article.create_time}",
-            "upDate": "${this.article.modify_time || this.article.create_time}"
+            "pubDate": "${moment(this.article.create_time).format('YYYY-MM-DDTHH:mm:ss')}",
+            "upDate": "${moment(this.article.modify_time || this.article.create_time).format('YYYY-MM-DDTHH:mm:ss')}"
         }`
       }],
       __dangerouslyDisableSanitizers: ['script']

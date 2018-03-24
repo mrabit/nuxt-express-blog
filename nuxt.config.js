@@ -23,7 +23,7 @@ let config = {
       }
     ],
     link: [{
-      rel: 'icon',
+      rel: 'shortcut icon',
       type: 'image/x-icon',
       href: '/favicon.ico'
     }],
@@ -50,7 +50,7 @@ let config = {
   ],
   plugins: [{
       src: '~plugins/element-ui'
-    }, 
+    },
     '~plugins/highlight',
     '~plugins/axios.conf',
     '~plugins/loading',

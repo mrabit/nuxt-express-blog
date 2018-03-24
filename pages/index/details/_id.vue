@@ -146,7 +146,12 @@ export default {
   },
   head() {
     let config = {
-      title: this.article.title + " - " + this.user.blog_name
+      title: this.article.title + " - " + this.user.blog_name,
+      meta: [{
+        hid: 'Keywords',
+        name: 'Keywords',
+        content: this.article.title + "," + this.user.blog_name
+      }]
     };
     return config;
   }

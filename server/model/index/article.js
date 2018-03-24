@@ -149,4 +149,18 @@ Article.get_article_by_in = function(params) {
   })
 }
 
+/**
+ * sitemap使用文章id
+ * return object 文章id集合
+ */
+Article.get_article_all_id = _ => {
+  var sql = 'SELECT id from tp_article where private != 1';
+  return new Promise((resolve, reject) => {
+    query(sql, (err, result) => {
+      if (err) reject(err.message);
+      resolve(result);
+    })
+  })
+}
+
 module.exports = Article;

@@ -30,6 +30,9 @@ app.use('/article_tags', require('./router/index/articleTagsController'));
 app.use('/bing', require('./router/index/bingController'));
 app.use('/links', require('./router/index/linksController'));
 
+// sitemap地图
+app.use('/sitemap', require('./router/sitemap'));
+
 // 后台登录接口
 app.use('/api', require('./router/admin/userController'));
 

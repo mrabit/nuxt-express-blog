@@ -121,7 +121,7 @@ export default {
   },
   computed: {
     location_href() {
-      return (!process.server ? window.location.origin : "") + "/details/" + this.$route.params.id
+      return (!process.server ? window.location.origin : "https://blog.mrabit.com") + "/details/" + this.$route.params.id
     },
     is_html() {
       return !!this.article.is_html;

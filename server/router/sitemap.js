@@ -97,7 +97,7 @@ router.get('/', (req, res) => {
     'https://blog.mrabit.com/bing', // bing
     'https://blog.mrabit.com/links' // 友链
   ]
-  Promise.all([article_details(), article_list(), article_list_tags(), bing_list()])
+  Promise.all([article_details(), article_list(), article_list_tags()])
     .then(val => {
       const xml = create_sitemap(Array.prototype.concat.apply(url_list, val));
       fs.writeFileSync(path.join(__dirname, '../public/sitemap.xml'), xml);

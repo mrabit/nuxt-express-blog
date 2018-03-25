@@ -180,9 +180,6 @@ export default {
     const og = [{
         property: 'og:type',
         content: 'article',
-      }, {
-        property: 'og:locale',
-        content: 'zh_CN'
       },
       {
         property: 'og:title',
@@ -195,27 +192,16 @@ export default {
         content: this.location_href,
       }, {
         property: 'og:site_name',
-        content: '一桶浆糊的博客'
+        content: this.user.blog_name
       }
     ]
     const twitter = [{
-        property: 'twitter:card',
-        content: 'summary'
-      }, {
         property: 'twitter:description',
         content: '文章：' + this.article.title + " - " + this.user.blog_name
       },
       {
         property: 'twitter:title',
         content: this.article.title + " - " + this.user.blog_name
-      },
-      {
-        property: 'twitter:site',
-        content: '@biabia123456'
-      },
-      {
-        property: 'twitter:creator',
-        content: '@biabia123456'
       }
     ]
     config.meta = config.meta.concat(og, twitter);

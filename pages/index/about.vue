@@ -22,6 +22,9 @@ export default {
   computed: {
     user() {
       return this.$store.getters["index/getUser"];
+    },
+    location_href() {
+      return (!process.server ? window.location.origin : "https://blog.mrabit.com") + "/about";
     }
   },
   methods: {
@@ -29,17 +32,34 @@ export default {
       return this.md.render(val);
     }
   },
-  mounted() {
-    // editormd.markdownToHTML("editormd", { // htmlDecode: "style,script,iframe", // you can filter tags decode // emoji: true, // taskList: true, // tex: true, // 默认不解析 // flowChart: true, // 默认不解析 // sequenceDiagram: true // 默认不解析 // });
-
-    // setTimeout(_ => {
-    //   this.loading = false;
-    // }, 500);
-  },
   head() {
+    const title = "关于 - " + this.user.blog_name;
     let config = {
-      title: "关于 - " + this.user.blog_name
+      title: title
     };
+    const og = [{
+      property: 'og:title',
+      content: title
+    }, {
+      property: 'og:description',
+      content: title
+    }, {
+      property: 'og:url',
+      content: this.location_href,
+    }, {
+      property: 'og:site_name',
+      content: this.user.blog_name
+    }]
+    const twitter = [{
+        property: 'twitter:description',
+        content: title
+      },
+      {
+        property: 'twitter:title',
+        content: title
+      }
+    ]
+    config['meta'] = Array.prototype.concat.call(og, twitter);
     return config;
   }
 };

@@ -40,6 +40,9 @@ export default {
   computed: {
     user() {
       return this.$store.getters["index/getUser"];
+    },
+    location_href() {
+      return (!process.server ? window.location.origin : "https://blog.mrabit.com") + "/links";
     }
   },
   data() {
@@ -49,9 +52,34 @@ export default {
     };
   },
   head() {
-    return {
-      title: "友链 - " + this.user.blog_name
+    const title = "友链 - " + this.user.blog_name;
+    let config = {
+      title: title
     };
+    const og = [{
+      property: 'og:title',
+      content: title
+    }, {
+      property: 'og:description',
+      content: title
+    }, {
+      property: 'og:url',
+      content: this.location_href,
+    }, {
+      property: 'og:site_name',
+      content: this.user.blog_name
+    }]
+    const twitter = [{
+        property: 'twitter:description',
+        content: title
+      },
+      {
+        property: 'twitter:title',
+        content: title
+      }
+    ]
+    config['meta'] = Array.prototype.concat.call(og, twitter);
+    return config;
   }
 };
 

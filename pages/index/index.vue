@@ -37,19 +37,41 @@ export default {
     },
     user() {
       return this.$store.getters["index/getUser"];
+    },
+    location_href() {
+      return (!process.server ? window.location.origin : "https://blog.mrabit.com");
     }
+  },
+  head() {
+    const title = this.user.blog_name;
+    let config = {
+      title: title
+    };
+    const og = [{
+      property: 'og:title',
+      content: title
+    }, {
+      property: 'og:description',
+      content: title
+    }, {
+      property: 'og:url',
+      content: this.location_href,
+    }, {
+      property: 'og:site_name',
+      content: this.user.blog_name
+    }]
+    const twitter = [{
+        property: 'twitter:description',
+        content: title
+      },
+      {
+        property: 'twitter:title',
+        content: title
+      }
+    ]
+    config['meta'] = Array.prototype.concat.call(og, twitter);
+    return config;
   }
-  // watch: {
-  //   $route: "get_lists"
-  // },
-  // methods: {
-  //   get_lists() {
-  //     var currentPage = this.currentPage;
-  //     this.get("/article/get_lists/" + currentPage + "/5").then(d => {
-  //       this.articles = d.data;
-  //     });
-  //   }
-  // }
 };
 
 </script>

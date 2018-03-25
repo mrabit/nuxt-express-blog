@@ -20,6 +20,23 @@ let config = {
         hid: 'Description',
         name: 'Description',
         content: '专注于WEB前端开发,以前偶尔看看PHP,现在对NodeJS感兴趣，毕竟JavaScript是世界上最好的语言'
+      }, {
+        property: 'og:locale',
+        content: 'zh_CN'
+      }, {
+        property: 'og:type',
+        content: 'website',
+      }, {
+        property: 'twitter:card',
+        content: 'summary'
+      },
+      {
+        property: 'twitter:site',
+        content: '@biabia123456'
+      },
+      {
+        property: 'twitter:creator',
+        content: '@biabia123456'
       }
     ],
     link: [{

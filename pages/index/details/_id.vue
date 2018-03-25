@@ -12,6 +12,7 @@
 </style>
 <template>
   <section class="row padder">
+    <mip-cambrian site-id="1595463988626710"></mip-cambrian>
     <loading :show="loading"></loading>
     <article class="col-xs-12">
       <div class="row verticalCenter no-gutter">
@@ -161,9 +162,14 @@ export default {
         content: this.article.title + "," + this.user.blog_name
       }],
       link: [{
-        rel: 'canonical',
-        href: this.location_href
-      }],
+          rel: 'canonical',
+          href: this.location_href
+        },
+        // {
+        //   rel: 'stylesheet',
+        //   href: 'https://c.mipcdn.com/static/v1/mip.css'
+        // }
+      ],
       script: [{
         type: 'application/ld+json',
         innerHTML: `        {
@@ -174,6 +180,10 @@ export default {
             "pubDate": "${moment(this.article.create_time).format('YYYY-MM-DDTHH:mm:ss')}",
             "upDate": "${moment(this.article.modify_time || this.article.create_time).format('YYYY-MM-DDTHH:mm:ss')}"
         }`
+      }, {
+        src: 'https://c.mipcdn.com/static/v1/mip.js'
+      }, {
+        src: 'https://c.mipcdn.com/extensions/platform/v1/mip-cambrian/mip-cambrian.js'
       }],
       __dangerouslyDisableSanitizers: ['script']
     };

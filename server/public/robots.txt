@@ -1,0 +1,6 @@
+# robots.txt generated at http://tool.chinaz.com/robots/ 
+User-agent: * 
+Disallow: 
+Disallow: /bing/
+Disallow: /admin
+Sitemap: https://blog.mrabit.com/sitemap.xml

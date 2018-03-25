@@ -4,6 +4,11 @@
   padding-bottom: 15px;
 }
 
+.location_href {
+  display: block;
+  white-space: inherit;
+}
+
 </style>
 <template>
   <section class="row padder">
@@ -44,11 +49,9 @@
       </div>
       <div class="line line-dashed article-b-b line-lg "></div>
       <div class="details_info">
-        <nuxt-link :to="location_href">
-          <p class="text-ellipsis" style="display: block;white-space: inherit;">
-            <span style="color:#666;">本文链接：{{ location_href }}</span>
-          </p>
-        </nuxt-link>
+        <p class="text-ellipsis location_href">
+          <span style="color:#666;">本文链接：{{ location_href }}</span>
+        </p>
         <p>--
           <acronym title="End of File">EOF</acronym> --</p>
       </div>

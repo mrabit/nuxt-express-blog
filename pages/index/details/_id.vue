@@ -156,8 +156,8 @@ export default {
     let config = {
       title: this.article.title + " - " + this.user.blog_name,
       meta: [{
-        hid: 'Keywords',
-        name: 'Keywords',
+        hid: 'Description',
+        name: 'Description',
         content: this.article.title + "," + this.user.blog_name
       }],
       link: [{
@@ -177,6 +177,48 @@ export default {
       }],
       __dangerouslyDisableSanitizers: ['script']
     };
+    const og = [{
+        property: 'og:type',
+        content: 'article',
+      }, {
+        property: 'og:locale',
+        content: 'zh_CN'
+      },
+      {
+        property: 'og:title',
+        content: this.article.title + " - " + this.user.blog_name
+      }, {
+        property: 'og:description',
+        content: '文章：' + this.article.title + " - " + this.user.blog_name
+      }, {
+        property: 'og:url',
+        content: this.location_href,
+      }, {
+        property: 'og:site_name',
+        content: '一桶浆糊的博客'
+      }
+    ]
+    const twitter = [{
+        property: 'twitter:card',
+        content: 'summary'
+      }, {
+        property: 'twitter:description',
+        content: '文章：' + this.article.title + " - " + this.user.blog_name
+      },
+      {
+        property: 'twitter:title',
+        content: this.article.title + " - " + this.user.blog_name
+      },
+      {
+        property: 'twitter:site',
+        content: '@biabia123456'
+      },
+      {
+        property: 'twitter:creator',
+        content: '@biabia123456'
+      }
+    ]
+    config.meta = config.meta.concat(og, twitter);
     return config;
   }
 };

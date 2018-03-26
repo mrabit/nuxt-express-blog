@@ -48,14 +48,14 @@ const article_list_tags = _ => {
     .then(result => {
       const url = 'https://blog.mrabit.com/list/';
       let list_tags_url = result.map(k => {
-        let temp_url = [];
-        const totalPage = Math.ceil(k.counts / 5);
-        for (let i = 1; i <= totalPage; i++) {
-          temp_url.push(url + i + "?tags_id=" + k.id);
-        }
-        return temp_url;
+        // let temp_url = [];
+        // const totalPage = Math.ceil(k.counts / 5);
+        // for (let i = 1; i <= totalPage; i++) {
+        //   temp_url.push(url + i + "?tags_id=" + k.id);
+        // }
+        return url + '1?tags_id=' + k.id;
       })
-      return Array.prototype.concat.apply([], list_tags_url);
+      return list_tags_url;
     })
 }
 
@@ -95,9 +95,10 @@ router.get('/', (req, res) => {
     'https://blog.mrabit.com/tags', // 标签
     'https://blog.mrabit.com/about', // 关于
     'https://blog.mrabit.com/bing', // bing
-    'https://blog.mrabit.com/links' // 友链
+    'https://blog.mrabit.com/links', // 友链
+    'https://blog.mrabit.com/list/1' //列表页
   ]
-  Promise.all([article_details(), article_list(), article_list_tags()])
+  Promise.all([article_details(), article_list_tags()])
     .then(val => {
       const xml = create_sitemap(Array.prototype.concat.apply(url_list, val));
       fs.writeFileSync(path.join(__dirname, '../public/sitemap.xml'), xml);

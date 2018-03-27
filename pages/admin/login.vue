@@ -35,11 +35,12 @@
   <section class="app-content m-l-none login">
     <div class="modal-over bg-black">
       <div class="verticalCenter w-full h-full">
-        <div class=" animated fadeInUp text-center" style="width:300px;">
+        <div v-show="!tokenAuth" class="animated fadeInUp text-center" style="width:300px;">
           <div class="thumb-lg">
-            <img src="/Uploads/Picture/2017-06-06/59369fb016efa.png" class="img-circle">
+            <!-- <img src="/Uploads/Picture/2017-06-06/59369fb016efa.png" class="img-circle"> -->
+            <img :src="user.user_header_img" class="img-circle">
           </div>
-          <p class="h4 m-t m-b">{{ formData.uname }}</p>
+          <p class="h4 m-t m-b">{{ user.uname }}</p>
           <el-form :inline="true" :model="formData" :rules="rules" class="m-t" ref="formData">
             <el-form-item>
               <el-input type="password" placeholder="输入密码进行下一步" class="hide"></el-input>
@@ -55,6 +56,11 @@
             </el-form-item>
           </el-form>
         </div>
+        <div v-show="tokenAuth" class="padder">
+          <div class="col-md-12 text-center"><i class="fa fa-spin fa-spinner fa-2x"></i>
+            <div class="clear m-t-xs"><span class="text-xs">请稍后...</span></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -64,6 +70,9 @@ var WebStorageCache = require("web-storage-cache");
 var QRCode = require("qrcode");
 var config = require("../../server/config");
 var md5 = require("md5");
+import {
+  mapGetters
+} from "vuex";
 
 export default {
   data() {
@@ -104,8 +113,14 @@ export default {
       wss: null,
       qrcode_url: "",
       qrcode_message: "请扫码登录.",
-      wsCache: null
+      wsCache: null,
+      tokenAuth: true
     };
+  },
+  computed: {
+    ...mapGetters({
+      user: "admin/getUser"
+    })
   },
   methods: {
     submitForm(formName) {
@@ -144,14 +159,30 @@ export default {
       );
       user.blog_name += "的博客";
       this.$store.commit("admin/changeUser", user);
-      this.$router.push("/admin");
+      // this.$router.push("/admin");
+      window.location.href = "/admin";
     }
   },
-  mounted() {
-    this.$http.post('/api/check_token').then(result => {
-      return this.$router.push('/admin');
-    });
-    this.wsCache = new WebStorageCache();
+  created() {
+    if (!process.server) {
+      this.wsCache = new WebStorageCache();
+      const token = this.wsCache.get("token");
+      // 本地缓存存在token， 判断token是否失效
+      if (token) {
+        this.$http.post("/api/check_token").then(
+          result => {
+            setTimeout(_ => {
+              window.location.href = "/admin";
+            }, 1500);
+          },
+          _ => {
+            this.tokenAuth = false;
+          }
+        );
+      } else {
+        this.tokenAuth = false;
+      }
+    }
   },
   head() {
     return {

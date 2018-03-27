@@ -9,12 +9,13 @@
 import axios from "~/plugins/axios";
 import side from "~/components/admin/side.vue";
 import headerComponent from "~/components/admin/header.vue";
+import WebStorageCache from 'web-storage-cache';
 export default {
   fetch({
     store,
     params
   }) {
-    return axios.get("/user/profile").then(res => {
+    return axios.get("/api/user/profile").then(res => {
       res.data.result.blog_name += "的博客";
       store.commit("admin/changeUser", res.data.result);
     });
@@ -29,8 +30,15 @@ export default {
       // 是否是后台登录页面
       return reg.test(this.$route.path);
     }
+  },
+  mounted() {
+    //进入页面不为登录页判断token权限
+    if (this.$route.path != "/admin/login") {
+      this.$http.post('/api/check_token').then(d => {
+        this.$store.commit('admin/changeTokenAuth', true);
+      });
+    }
   }
 };
 
-</script>
 </script>

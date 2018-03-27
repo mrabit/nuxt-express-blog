@@ -38,6 +38,9 @@
   </section>
 </template>
 <script>
+import {
+  mapGetters
+} from "vuex";
 export default {
   data() {
     var checkUrl = (rule, value, callback) => {
@@ -96,9 +99,9 @@ export default {
     };
   },
   computed: {
-    user() {
-      return this.$store.getters["admin/getUser"];
-    }
+    ...mapGetters({
+      user: "admin/getUser"
+    })
   },
   methods: {
     onSubmit(formName) {
@@ -125,11 +128,9 @@ export default {
           return false;
         }
       });
-    }
-  },
-  mounted() {
-    this.$http.get("/api/user/profile?id=" + (this.$store.state.admin.user.id || 1))
-      .then(d => {
+    },
+    getProfile(id) {
+      this.$http.get("/api/user/profile?id=" + id).then(d => {
         let result = d.data.result;
         this.profile = {
           id: result.id,
@@ -139,13 +140,17 @@ export default {
           github: result.github,
           twitter: result.twitter,
           user_header_img: result.user_header_img
-        }
+        };
         this.loading = false;
       });
+    }
+  },
+  mounted() {
+    this.getProfile(this.user.id || 1);
   },
   head() {
     let config = {
-      title: "修改资料 - " + this.$store.getters['admin/getUser'].blog_name
+      title: "修改资料 - " + this.user.blog_name
     };
     return config;
   }

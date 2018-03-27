@@ -2,79 +2,75 @@
 .el-date-editor--daterange.el-input {
   width: 320px;
 }
+
 </style>
 <template>
-    <section class="app-content">
-      <div class="app-content-body">
-        <loading :show="loading"></loading>
-        <div v-show="!loading">
-          <div class="bg-light lter b-b wrapper-md">
-              <h1 class="m-n font-thin h3">文章列表</h1>
-          </div>
-          <div class="wrapper clearfix m-b-md">
-              <el-form :inline="true" :model="formInline" class="demo-form-inline">
-                  <el-form-item label="文章标题：">
-                      <el-input v-model="formInline.title" placeholder="文章标题,支持模糊搜索"></el-input>
-                  </el-form-item>
-                  <el-form-item>
-                      <el-checkbox label=" 发布时间：" name="type" v-model="formInline.need_time"></el-checkbox>
-                      <el-date-picker format="yyyy-MM-dd hh:mm:ss" v-model="formInline.release_time" :disabled="!formInline.need_time" type="daterange" align="right" placeholder="选择日期范围" :picker-options="pickerOptions">
-                      </el-date-picker>
-                  </el-form-item>
-                  <el-form-item>
-                      <el-button type="primary" @click="onSubmit">查询</el-button>
-                  </el-form-item>
-              </el-form>
-              <el-table :data="tableData" stripe class="w-full">
-                  <el-table-column prop="id" label="ID" width="80">
-                  </el-table-column>
-                  <el-table-column prop="title" label="标题">
-                      <template slot-scope="scope">
-                          <a :href="'/details/' + scope.row.id + '.html'" target="_blank">{{ scope.row.title }}</a>
-                      </template>
-                  </el-table-column>
-                  <el-table-column prop="private" label="公开度" width="100">
-                      <template slot-scope="scope">
-                          <span>{{ scope.row.private | isPrivate }}</span>
-                      </template>
-                  </el-table-column>
-                  <el-table-column prop="reprint_url" label="是否转载" width="100">
-                      <template slot-scope="scope">
-                          <span>{{ scope.row.reprint_url | isReprint }}</span>
-                      </template>
-                  </el-table-column>
-                  <el-table-column prop="uname" label="发布者" width="100">
-                  </el-table-column>
-                  <el-table-column prop="release_time" label="发布时间" width="180">
-                  </el-table-column>
-                  <el-table-column label="操作" width="220">
-                      <template slot-scope="scope">
-                          <router-link class="btn btn-default btn-sm w-xs m-r-xs" :disabled="!!parseInt(scope.row.is_html)"
-                              :to="'/admin/articleEdit?id=' + scope.row.id">编辑</router-link>
-                          <el-popover placement="top" trigger="click" v-model="scope.row.visable">
-                              <p>删除操作将无法撤回,是否继续？</p>
-                              <div style="text-align: right; margin: 0">
-                                <el-button size="mini" type="text" @click="scope.row.visable = false">取消</el-button>
-                                <el-button type="primary" size="mini" @click="handleDelete(scope.row)">确定</el-button>
-                              </div>
-                              <button class="btn btn-default btn-sm w-xs" type="button" 
-                                slot="reference">删除</button>
-                          </el-popover>
-                      </template>
-                  </el-table-column>
-              </el-table>
-              <div class="pull-right m-t-md">
-                  <el-pagination
-                      @current-change="handleCurrentChange"
-                      :page-size="pageSize"
-                      layout="total, prev, pager, next"
-                      :total="total">
-                  </el-pagination>
-              </div>
+  <section class="app-content">
+    <div class="app-content-body">
+      <loading :show="loading"></loading>
+      <div v-show="!loading">
+        <div class="bg-light lter b-b wrapper-md">
+          <h1 class="m-n font-thin h3">文章列表</h1>
+        </div>
+        <div class="wrapper clearfix m-b-md">
+          <el-form :inline="true" ref="formInline" :model="formInline" class="demo-form-inline">
+            <el-form-item label="文章标题：">
+              <el-input v-model="formInline.title" placeholder="文章标题,支持模糊搜索"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-checkbox label=" 发布时间：" name="type" v-model="formInline.need_time"></el-checkbox>
+              <el-date-picker format="yyyy-MM-dd hh:mm:ss" v-model="formInline.release_time" :disabled="!formInline.need_time" type="daterange" align="right" placeholder="选择日期范围" :picker-options="pickerOptions">
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit">查询</el-button>
+              <el-button type="primary" @click="resetForm('formInline')">重置</el-button>
+            </el-form-item>
+          </el-form>
+          <el-table :data="tableData" stripe class="w-full">
+            <el-table-column prop="id" label="ID" width="80">
+            </el-table-column>
+            <el-table-column prop="title" label="标题">
+              <template slot-scope="scope">
+                <a :href="'/details/' + scope.row.id + '.html'" target="_blank">{{ scope.row.title }}</a>
+              </template>
+            </el-table-column>
+            <el-table-column prop="private" label="公开度" width="100">
+              <template slot-scope="scope">
+                <span>{{ scope.row.private | isPrivate }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="reprint_url" label="是否转载" width="100">
+              <template slot-scope="scope">
+                <span>{{ scope.row.reprint_url | isReprint }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="uname" label="发布者" width="100">
+            </el-table-column>
+            <el-table-column prop="release_time" label="发布时间" width="180">
+            </el-table-column>
+            <el-table-column label="操作" width="220">
+              <template slot-scope="scope">
+                <router-link class="btn btn-default btn-sm w-xs m-r-xs" :disabled="!!parseInt(scope.row.is_html)" :to="'/admin/articleEdit?id=' + scope.row.id">编辑</router-link>
+                <el-popover placement="top" trigger="click" v-model="scope.row.visable">
+                  <p>删除操作将无法撤回,是否继续？</p>
+                  <div style="text-align: right; margin: 0">
+                    <el-button size="mini" type="text" @click="scope.row.visable = false">取消</el-button>
+                    <el-button type="primary" size="mini" @click="handleDelete(scope.row)">确定</el-button>
+                  </div>
+                  <button class="btn btn-default btn-sm w-xs" type="button" slot="reference">删除</button>
+                </el-popover>
+              </template>
+            </el-table-column>
+          </el-table>
+          <div class="pull-right m-t-md">
+            <el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="total, prev, pager, next" :total="total">
+            </el-pagination>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 </template>
 <script>
 import util from "util";
@@ -92,8 +88,7 @@ export default {
         disabledDate(time) {
           return time.getTime() > Date.now();
         },
-        shortcuts: [
-          {
+        shortcuts: [{
             text: "最近一周",
             onClick(picker) {
               const end = new Date();
@@ -184,7 +179,9 @@ export default {
     },
     handleDelete(row) {
       row.visable = false;
-      this.$http.post("/api/article/delete_article", { id: row.id }).then(d => {
+      this.$http.post("/api/article/delete_article", {
+        id: row.id
+      }).then(d => {
         if (d.data.success) {
           this.handleCurrentChange();
           this.$notify({
@@ -194,6 +191,12 @@ export default {
           });
         }
       });
+    },
+    resetForm(formName) {
+      this.formInline.title = "";
+      this.formInline.need_time = false;
+      this.formInline.release_time = "";
+      this.onSubmit();
     }
   },
   mounted() {
@@ -206,4 +209,5 @@ export default {
     return config;
   }
 };
+
 </script>

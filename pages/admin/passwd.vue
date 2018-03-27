@@ -148,7 +148,9 @@ export default {
   mounted() {
     var webStorageCache = require("web-storage-cache");
     this.wsCache = new webStorageCache();
-    this.loading = false;
+    this.$http.post('/api/check_token').then(_ => {
+      this.loading = false;
+    });
   },
   head() {
     let config = {

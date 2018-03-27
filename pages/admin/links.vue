@@ -37,7 +37,7 @@
             </el-table-column>
           </el-table>
           <div class="pull-right m-t-md">
-            <el-pagination :current-page="pagination.currentPage" @current-change="getAuthList" :page-size="pagination.pageSize" layout="total, prev, pager, next" :total="pagination.total">
+            <el-pagination :current-page="pagination.currentPage" @current-change="getLinksList" :page-size="pagination.pageSize" layout="total, prev, pager, next" :total="pagination.total">
             </el-pagination>
           </div>
           <el-dialog :title="!formData.id?'新增':'修改'" :lock-scroll="false" :visible.sync="dialogVisible" @close="dialogClose" width="50%">
@@ -67,6 +67,9 @@
   </section>
 </template>
 <script>
+import {
+  mapGetters
+} from "vuex";
 export default {
   data() {
     var checkUrl = (rule, value, callback) => {
@@ -110,12 +113,20 @@ export default {
       }
     };
   },
+  computed: {
+    ...mapGetters({
+      user: "admin/getUser"
+    })
+  },
   methods: {
-    getAuthList(currentPage = 1) {
+    getLinksList(currentPage = 1) {
       this.pagination.currentPage = currentPage;
       return this.$http
         .get(
-          "/api/links/getLinksList/" + currentPage + "/" + this.pagination.pageSize
+          "/api/links/getLinksList/" +
+          currentPage +
+          "/" +
+          this.pagination.pageSize
         )
         .then(d => {
           if (d.data.success) {
@@ -141,7 +152,7 @@ export default {
               position: "bottom-right"
             });
             this.dialogVisible = false;
-            this.getAuthList();
+            this.getLinksList();
           });
         } else {
           console.log("error submit!!");
@@ -150,17 +161,19 @@ export default {
       });
     },
     handleDelete(id) {
-      this.$http.post("/api/links/deleteLinks", {
-        id
-      }).then(d => {
-        this.$notify({
-          title: "成功",
-          message: "删除友链成功!",
-          type: "success",
-          position: "bottom-right"
+      this.$http
+        .post("/api/links/deleteLinks", {
+          id
+        })
+        .then(d => {
+          this.$notify({
+            title: "成功",
+            message: "删除友链成功!",
+            type: "success",
+            position: "bottom-right"
+          });
+          this.getLinksList(this.pagination.currentPage);
         });
-        this.getAuthList(this.pagination.currentPage);
-      });
     },
     handleEdit(id) {
       this.$http.get("/api/links/getLinksDetails/" + id).then(d => {
@@ -182,7 +195,12 @@ export default {
     }
   },
   mounted() {
-    this.getAuthList()
+    this.getLinksList();
+  },
+  head() {
+    return {
+      title: "友链管理 - " + this.user.blog_name
+    };
   }
 };
 

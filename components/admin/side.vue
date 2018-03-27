@@ -11,40 +11,45 @@
 <template>
   <div class="app-aside hidden-xs bg-dark" :class="{'off-screen': offScreen}">
     <div class="clearfix hidden-xs text-center hide show" id="aside-user">
-      <div class="dropdown wrapper">
+      <div class="dropdown wrapper" v-show="tokenAuth">
         <div>
           <span class="thumb-lg w-auto-folded avatar m-t-sm">
-                        <img src="/Uploads/Picture/2017-06-06/59369fb016efa.png" class="img-full" alt="...">
-                    </span>
+              <img :src="user.user_header_img" class="img-full" alt="...">
+          </span>
         </div>
-        <div class="hidden-folded">
+        <div class="hidden-folded clearfix">
           <span class="clear">
-                        <span class="block m-t-sm">
-                            <strong class="font-bold text-lt">admin</strong>
-                        </span>
+            <span class="block m-t-sm">
+                <strong class="font-bold text-lt">{{user.uname}}</strong>
+            </span>
           <span class="text-muted text-xs block">欢迎回来.</span>
-          <span class="text-muted text-xs block">上次登录: 2017-12-18 15:47</span>
+          <span class="text-muted text-xs block" v-if="user.last_login_time">上次登录: {{user.last_login_time | format_time}}</span>
+          <span class="text-muted text-xs block" v-if="user.last_login_ip">上次登录ip: {{user.last_login_ip}}</span>
           </span>
           <div class="quick-stats">
             <ul class="no-padder">
               <li class="inline">
                 <span>456
-                                    <i>今日文章</i>
-                                </span>
+                    <i>今日文章</i>
+                </span>
               </li>
               <li class="inline">
                 <span>2,345
-                                    <i>今日访客</i>
-                                </span>
+                    <i>今日访客</i>
+                </span>
               </li>
               <li class="inline">
                 <span>120
-                                    <i>历史访客</i>
-                                </span>
+                    <i>历史访客</i>
+                </span>
               </li>
             </ul>
           </div>
         </div>
+      </div>
+      <div class="verticalCenter" style="height:290px;" v-if="!tokenAuth">
+        <div><i class="fa fa-spin fa-spinner"></i>
+          <span class="block">数据加载中...</span></div>
       </div>
       <div class="line dk hidden-folded"></div>
     </div>
@@ -99,6 +104,9 @@
 </template>
 <script>
 import moment from "moment";
+import {
+  mapGetters
+} from "vuex";
 var WebStorageCache = require("web-storage-cache");
 var config = require("../../server/config");
 
@@ -115,9 +123,10 @@ export default {
     }
   },
   computed: {
-    user() {
-      return this.$store.getters["admin/getUser"];
-    },
+    ...mapGetters({
+      user: "admin/getUser",
+      tokenAuth: "admin/getTokenAuth"
+    }),
     isCollapse() {
       var boolean = this.$store.getters["admin/getIsCollapse"];
       if (typeof document === "object") {
@@ -145,9 +154,10 @@ export default {
     }
   },
   mounted() {
-    this.wsCache = new WebStorageCache();
-    // 获取token缓存;
-    var token = this.wsCache.get("token");
+    // this.wsCache = new WebStorageCache();
+    // // 获取token缓存;
+    // var token = this.wsCache.get("token") || {};
+    // this.user = token.user || {};
   }
 };
 

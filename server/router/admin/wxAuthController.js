@@ -130,7 +130,6 @@ router.get('/getAuthDetails/:id', (req, res) => {
 })
 
 router.post('/updateAuth', (req, res) => {
-  console.log(req)
   var params = {
     OPEN_ID: req.body.OPEN_ID,
     nick_name: req.body.nick_name,

@@ -16,8 +16,8 @@
           </div>
         </section>
         <nav class="padder text-center paging m-t-md">
-          <nuxt-link name="prev" :class="{ invisible: this.currentPage <= 1 }" :to="'/bing/' + (this.currentPage - 1)" class="pull-left">&nbsp;&lt;&lt;上一页</nuxt-link>
-          <nuxt-link name="next" :class="{ invisible: this.currentPage >= this.totalPage }" :to="'/bing/' + (this.currentPage + 1)" class="pull-right">下一页&nbsp;&gt;&gt;</nuxt-link>
+          <nuxt-link name="prev" v-if="this.currentPage > 1" :to="'/bing/' + (this.currentPage - 1)" class="pull-left">&nbsp;&lt;&lt;上一页</nuxt-link>
+          <nuxt-link name="next" v-if="this.currentPage < this.totalPage" :to="'/bing/' + (this.currentPage + 1)" class="pull-right">下一页&nbsp;&gt;&gt;</nuxt-link>
           <span class="w-sm text-center">
               <nuxt-link to="/bing/today" target="_blank">今日美图</nuxt-link>
           </span>

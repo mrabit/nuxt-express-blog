@@ -38,7 +38,8 @@
             <div class="entry-content m-t-md block show-section-block">
               <blockquote class="hidden-xs" v-if="vo.reprint_url">
                 <p>原文：
-                  <nuxt-link :to="vo.reprint_url" target="_blank">{{ vo.reprint_url }}</nuxt-link>
+                  <!-- 外链需要使用a标签 -->
+                  <a :href="vo.reprint_url" target="_blank">{{ vo.reprint_url }}</a>
                 </p>
               </blockquote>
               <div class="editormd_container" v-if="!vo.is_html" :id="vo.id" v-html="formatEditormd(vo.content)" v-highlight>
@@ -59,8 +60,8 @@
       </div>
     </div>
     <nav class="padder text-center" style="margin-bottom: 8px" v-if="article_lists.length">
-      <nuxt-link name="prev" :class="{ invisible: this.currentPage <= 1 }" :to="prev" class="pull-left">&lt;&lt;&nbsp;上一页</nuxt-link>
-      <nuxt-link name="next" :class="{ invisible: this.currentPage >= this.totalPage }" :to="next" class="pull-right">下一页&nbsp;&gt;&gt;</nuxt-link>
+      <nuxt-link name="prev" v-if="this.currentPage > 1" :to="prev" class="pull-left">&lt;&lt;&nbsp;上一页</nuxt-link>
+      <nuxt-link name="next" v-if="this.currentPage < this.totalPage" :to="next" class="pull-right">下一页&nbsp;&gt;&gt;</nuxt-link>
       <span class="w-sm text-center">
           <nuxt-link to="/archives">博客归档</nuxt-link>
       </span>

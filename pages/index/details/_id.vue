@@ -51,7 +51,9 @@
       <div class="line line-dashed article-b-b line-lg "></div>
       <div class="details_info">
         <p class="text-ellipsis location_href">
-          <span style="color:#666;">本文链接：{{ location_href }}</span>
+          <nuxt-link :to="'/details/' + $route.params.id">
+            <span style="color:#666;">本文链接：{{ location_href }}</span>
+          </nuxt-link>
         </p>
         <p>--
           <acronym title="End of File">EOF</acronym> --</p>
@@ -59,7 +61,7 @@
       <div class="post-info">
         <p style="margin-bottom: 15px">
           作者
-          <a href="/author/admin" data-user="">
+          <a href="/about" :data-user="article.uname">
             <code class="notebook">{{ article.uname }}</code>
         </a> 发表于
           <i>{{ article.create_time }}</i>
@@ -70,11 +72,11 @@
         </p>
       </div>
       <nav class="text-center clearfix paging" v-if="adjoin">
-        <nuxt-link name="prev" :to="'/details/' + adjoin[0]['id']" class="pull-left" v-if="adjoin[0]">
-          &lt;&lt;&nbsp;{{ adjoin[0]['title'] }}
+        <nuxt-link name="next" :to="'/details/' + adjoin[1]['id']" class="pull-left" v-if="adjoin[1]">
+          &lt;&lt;&nbsp;{{ adjoin[1]['title'] }}
         </nuxt-link>
-        <nuxt-link name="next" :to="'/details/' + adjoin[1]['id']" class="pull-right" v-if="adjoin[1]">
-          {{ adjoin[1]['title'] }}&nbsp;&gt;&gt;
+        <nuxt-link name="prev" :to="'/details/' + adjoin[0]['id']" class="pull-right" v-if="adjoin[0]">
+          {{ adjoin[0]['title'] }}&nbsp;&gt;&gt;
         </nuxt-link>
       </nav>
       <p class="h1 text-muted m-t-md">Comments</p>

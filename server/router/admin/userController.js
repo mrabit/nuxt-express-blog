@@ -75,7 +75,6 @@ router.post('/login', (req, res) => {
         })
     })
     .catch(err => {
-      console.log(err);
       res.json(err)
     })
 })
@@ -135,7 +134,6 @@ router.post('/user/edit_about', (req, res) => {
   var about = req.body.about;
   User.edit_about(about)
     .then(result => {
-      console.log(result);
       res.json({
         code: 200,
         success: true,

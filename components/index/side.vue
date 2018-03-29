@@ -15,9 +15,9 @@
           </nuxt-link>
         </li>
         <li class="list-inline m-t-md">
-          <nuxt-link :to="item.href" v-if="item.href != '#'" target="_blank" class="share" v-for="(item, index) in share_btn" :key="index">
+          <a :href="item.href" v-if="item.href != '#'" target="_blank" class="share" v-for="(item, index) in share_btn" :key="index">
             <i :class="item.icons" @click="removeCLass(!isSide)"></i>
-          </nuxt-link>
+          </a>
         </li>
       </ul>
     </nav>

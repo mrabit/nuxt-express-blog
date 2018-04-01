@@ -28,7 +28,7 @@
             </div>
             <div class="meta">
               <small class="text-muted">
-                  <span :id="'sourceId::' + vo.id" class="cy_cmt_count">0</span> Comments
+                  <span :id="'sourceId::' + vo.id" class="cy_cmt_count">{{ vo.visit_number }}</span> 浏览
               </small>
             </div>
           </div>

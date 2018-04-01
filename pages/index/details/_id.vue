@@ -25,11 +25,11 @@
             <span>发布于</span>
             <time :datetime="article.create_time">{{ article.release_time }}</time>
           </div>
-          <!-- <div class="meta">
-                        <small class="text-muted">
-                            <span id="changyan_count_unit"></span> Comments</small>
-                        <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
-                    </div> -->
+          <div class="meta">
+            <small class="text-muted">
+              <span id="changyan_count_unit">{{ article.visit_number }}</span> 浏览
+            </small>
+          </div>
         </div>
       </div>
       <div class="row">

@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
   Visitor.check_visitor(ip)
     .then(d => {
       // 上次访问记录小于一小时
-      if (d && visit_time - d.visit_time < 5) {
+      if (d && visit_time - d.visit_time < 3600) {
         return "";
       }
       return Visitor.insert_visitor({

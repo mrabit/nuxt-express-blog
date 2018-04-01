@@ -66,7 +66,7 @@ Article.get_article_adjoin_by_id = params => {
  */
 Article.get_article_lists = params => {
   params['start'] = (params.page - 1) * params.length;
-  var sql = "SELECT a.id,`title`,`reprint_url`,`content`,`is_html`,u.uname,FROM_UNIXTIME( create_time,'%Y-%m-%d %H:%i:%s' )\
+  var sql = "SELECT a.id,`title`,`reprint_url`,`content`,`is_html`,u.uname,visit_number,FROM_UNIXTIME( create_time,'%Y-%m-%d %H:%i:%s' )\
       as create_time,FROM_UNIXTIME( create_time,'%m月%d,%Y' ) as release_time FROM `tp_article` as\
        a left join tp_user as u on create_user_id = u.id  WHERE `private` <> '1' ORDER BY create_time\
         desc LIMIT ?,?";
@@ -98,7 +98,7 @@ Article.get_article_count = _ => {
  */
 Article.get_article_lists_by_tagsId = params => {
   params['start'] = (params.page - 1) * params.length;
-  var sql = "SELECT a.id,`title`,`reprint_url`,`content`,`is_html`,u.uname,FROM_UNIXTIME( create_time,' %Y-%m-%d %H:%i:%s' ) \
+  var sql = "SELECT a.id,`title`,`reprint_url`,`content`,`is_html`,u.uname,visit_number,FROM_UNIXTIME( create_time,' %Y-%m-%d %H:%i:%s' ) \
      as create_time,FROM_UNIXTIME( create_time,' %m月%d,%Y' ) as release_time FROM `tp_article`  as a left join tp_user \
       as u on create_user_id = u.id inner join tp_article_tags as t on t.article_id = a.id  WHERE `tags_id` = ? AND \
        `private` <> '1' ORDER BY create_time desc LIMIT ?,?  ";

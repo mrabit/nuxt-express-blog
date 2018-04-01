@@ -10,7 +10,7 @@ var Article = params => {
  * @return promise  返回需要的数据
  */
 Article.get_article_by_id = function(id) {
-  var sql = 'SELECT ta.id,title,reprint_url,is_html,content,tu.uname,\
+  var sql = 'SELECT ta.id,title,reprint_url,is_html,content,tu.uname,visit_number,\
         FROM_UNIXTIME( create_time, \'%Y-%m-%d %H:%i:%s\' ) as create_time,\
         FROM_UNIXTIME( create_time, \'%m月%d,%Y\' ) as release_time,\
         FROM_UNIXTIME( modify_time, \'%Y-%m-%d %H:%i:%s\' ) as modify_time from tp_article as ta\
@@ -35,7 +35,7 @@ Article.get_article_by_id = function(id) {
  * @param array article             当前文章的内容
  * @return array {article, adjoin}  获取到的Array数据
  */
-Article.get_article_adjoin_by_id = function(params) {
+Article.get_article_adjoin_by_id = params => {
   var sql = "SELECT * FROM ( SELECT `id`,`title` FROM `tp_article` WHERE `id` < ? AND `private` <> 1 ORDER BY id desc LIMIT 1   )\
      t1 UNION ALL SELECT * FROM ( SELECT `id`,`title` FROM `tp_article` WHERE `id` > ? AND `private` <> 1 ORDER BY id LIMIT 1   ) t2";
   return new Promise((resolve, reject) => {
@@ -64,7 +64,7 @@ Article.get_article_adjoin_by_id = function(params) {
  * @param array $params   参数:page 当前页  length 长度
  * @return mixed    获取到的Array数据
  */
-Article.get_article_lists = function(params) {
+Article.get_article_lists = params => {
   params['start'] = (params.page - 1) * params.length;
   var sql = "SELECT a.id,`title`,`reprint_url`,`content`,`is_html`,u.uname,FROM_UNIXTIME( create_time,'%Y-%m-%d %H:%i:%s' )\
       as create_time,FROM_UNIXTIME( create_time,'%m月%d,%Y' ) as release_time FROM `tp_article` as\
@@ -82,7 +82,7 @@ Article.get_article_lists = function(params) {
  * @param array $params  
  * @return int    满足条件的文章总条数
  */
-Article.get_article_count = function() {
+Article.get_article_count = _ => {
   var sql = 'SELECT count(*) as count from tp_article where private != 1';
   return new Promise((resolve, reject) => {
     query(sql, (err, result) => {
@@ -92,7 +92,11 @@ Article.get_article_count = function() {
   })
 }
 
-Article.get_article_lists_by_tagsId = function(params) {
+/*** 通过标签获取文章列表
+ * @param {*} params 
+ * @return array 满足条件的文章列表
+ */
+Article.get_article_lists_by_tagsId = params => {
   params['start'] = (params.page - 1) * params.length;
   var sql = "SELECT a.id,`title`,`reprint_url`,`content`,`is_html`,u.uname,FROM_UNIXTIME( create_time,' %Y-%m-%d %H:%i:%s' ) \
      as create_time,FROM_UNIXTIME( create_time,' %m月%d,%Y' ) as release_time FROM `tp_article`  as a left join tp_user \
@@ -106,7 +110,11 @@ Article.get_article_lists_by_tagsId = function(params) {
   })
 }
 
-Article.get_article_count_by_tagsId = function(tags_id) {
+/*** 通过标签统计文章总数
+ * @param {*} tags_id 
+ * @return int 统计文章总数
+ */
+Article.get_article_count_by_tagsId = tags_id => {
   var sql = "SELECT COUNT(*) AS count FROM `tp_article`  as a left join tp_user as u on create_user_id = u.id\
      inner join tp_article_tags as t on t.article_id = a.id  WHERE `tags_id` = ? AND `private` <> '1' LIMIT 1 ";
   return new Promise((resolve, reject) => {
@@ -117,11 +125,10 @@ Article.get_article_count_by_tagsId = function(tags_id) {
   })
 }
 
-/***
- * 归档
+/*** 归档
  * @return mixed
  */
-Article.get_article_by_archives = function() {
+Article.get_article_by_archives = _ => {
   var sql = 'SELECT FROM_UNIXTIME( create_time, "%Y年%m月" ) as create_time,COUNT( * ) as count\
         ,GROUP_CONCAT(id) as id FROM `tp_article` GROUP BY FROM_UNIXTIME( create_time, "%Y年%m月" )\
          ORDER BY create_time DESC';
@@ -133,12 +140,11 @@ Article.get_article_by_archives = function() {
   })
 }
 
-/***
- * 查找存在指定条件的所有数据
+/*** 查找存在指定条件的所有数据
  * @param $param
  * @return mixed
  */
-Article.get_article_by_in = function(params) {
+Article.get_article_by_in = params => {
   var sql = "select id,title,FROM_UNIXTIME( create_time,' %Y-%m-%d' ) as create_time from tp_article where " + params.key + " in (" + params.val + ")\
      and private <> 1 order by create_time desc";
   return new Promise((resolve, reject) => {
@@ -149,14 +155,26 @@ Article.get_article_by_in = function(params) {
   })
 }
 
-/**
- * sitemap使用文章id
- * return object 文章id集合
+/*** sitemap使用文章id
+ * @return object 文章id集合
  */
 Article.get_article_all_id = _ => {
   var sql = 'SELECT id from tp_article where private != 1';
   return new Promise((resolve, reject) => {
     query(sql, (err, result) => {
+      if (err) reject(err.message);
+      resolve(result);
+    })
+  })
+}
+
+/*** 更新文章浏览次数
+ * @param {*} id 
+ */
+Article.update_visit_number_by_id = id => {
+  const sql = "update tp_article set visit_number = visit_number + '1' WHERE id = ?";
+  return new Promise((resolve, reject) => {
+    query(sql, [id], (err, result) => {
       if (err) reject(err.message);
       resolve(result);
     })

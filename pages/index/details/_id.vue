@@ -105,8 +105,10 @@ export default {
           });
         }
         let adjoin = [];
-        adjoin.push(d.data.result.adjoin[0] || null);
-        adjoin.push(d.data.result.adjoin[1] || null);
+        if (d.data.result.adjoin) {
+          adjoin.push(d.data.result.adjoin[0] || null);
+          adjoin.push(d.data.result.adjoin[1] || null);
+        }
         return {
           article: d.data.result.article[0],
           adjoin: adjoin,

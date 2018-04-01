@@ -1,7 +1,7 @@
-var jwt = require('jsonwebtoken');
-var redis = require('../model/redis_db');
+const jwt = require('jsonwebtoken');
+const redis = require('../model/redis_db');
 
-var err_page = (res, result, status = 403) => {
+const err_page = (res, result, status = 403) => {
   result['success'] = false;
   result['status'] = 'NOTLOGIN';
   res.status(status)
@@ -9,13 +9,13 @@ var err_page = (res, result, status = 403) => {
 }
 
 module.exports = function(req, res, next) {
-  var reg = /^\/api\/*/;
+  const reg = /^\/api\/*/;
   // 非后台api接口,放行
   if (req.path.search(reg) < 0 || req.path == '/api/login' || req.path == '/api/user/profile' || req.path.search(/^\/api\/wx\//) >= 0) {
     return next();
   }
   // 后台api接口,判断token
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  const token = req.body.token || req.query.token || req.headers['x-access-token'];
   if (token) {
     // 验证token是否失效
     new Promise((resolve, reject) => {

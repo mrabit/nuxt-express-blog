@@ -8,6 +8,7 @@ router.get('/get_details/:id', function(req, res) {
   var id = req.params.id;
   Article.get_article_by_id(id)
     .then((result) => {
+      Article.update_visit_number_by_id(id);
       res.json({
         code: 200,
         success: true,
@@ -52,7 +53,6 @@ router.get('/get_lists/:page/:length', function(req, res) {
       success: true,
       result
     }));
-
 });
 
 router.get('/archives', function(req, res) {

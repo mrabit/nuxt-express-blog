@@ -8,6 +8,11 @@ module.exports = (req, res, next) => {
   if (req.path.search(reg) < 0) {
     return next();
   }
+  // bing接口上方正则有缺陷
+  if (req.path.search(/\/bing[\/\?=0-9a-z_]*/) > 0 && req.path.search(/^\/bing[\/0-9]*$/) < 0) {
+    return next();
+  }
+
   const visit_time = Date.parse(new Date()) / 1000;
   Visitor.check_visitor(ip)
     .then(d => {

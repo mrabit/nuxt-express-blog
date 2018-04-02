@@ -1,8 +1,9 @@
-var Article = require('../../model/admin/article');
-var Tags = require('../../model/admin/tags');
-var ArticleTags = require('../../model/admin/articleTags');
-var express = require('express');
-var router = express.Router();
+const Article = require('../../model/admin/article');
+const Tags = require('../../model/admin/tags');
+const ArticleTags = require('../../model/admin/articleTags');
+const express = require('express');
+const router = express.Router();
+const moment = require('moment');
 
 router.get('/get_details/:id', function(req, res) {
   var id = req.params.id;
@@ -122,6 +123,22 @@ router.post('/update_article', function(req, res) {
         success: true,
         message: '文章更新成功.'
       });
+    })
+})
+
+router.get('/get_article_count_today', (req, res) => {
+  const today = moment(moment()
+      .format('YYYY-MM-DD'))
+    .unix();
+  Article.get_article_count({
+      startime: today
+    })
+    .then(result => {
+      res.json({
+        code: 200,
+        success: true,
+        result
+      })
     })
 })
 

@@ -52,8 +52,11 @@ Article.get_article_count = function(params) {
   if (params.title) {
     map.push("`title` LIKE '%" + params.title + "%'");
   }
-  if (params.startime && params.endtime) {
-    map.push("( `create_time` >= " + params.startime + " AND `create_time` <= " + params.endtime + "  )");
+  if (params.startime) {
+    map.push("`create_time` >= " + params.startime);
+  }
+  if (params.endtime) {
+    map.push("`create_time` <= " + params.endtime);
   }
   var map_str = "";
   for (var i in map) {

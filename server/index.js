@@ -42,6 +42,7 @@ app.use('/api/wx', require('./router/admin/wxAuthController'));
 app.use('/api/article', require('./router/admin/articleController'));
 app.use('/api/tags', require('./router/admin/tagsController'));
 app.use('/api/links', require('./router/admin/linksController'));
+app.use('/api/visitor', require('./router/admin/visitorController'));
 
 // 上传
 app.use('/upload', require('./router/uploadController'));

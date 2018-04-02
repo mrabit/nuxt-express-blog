@@ -29,17 +29,17 @@
           <div class="quick-stats">
             <ul class="no-padder">
               <li class="inline">
-                <span>456
+                <span>{{article_count}}
                     <i>今日文章</i>
                 </span>
               </li>
               <li class="inline">
-                <span>2,345
+                <span>{{visitor.visit_today || 0}}
                     <i>今日访客</i>
                 </span>
               </li>
               <li class="inline">
-                <span>120
+                <span>{{visitor.visit_all || 0}}
                     <i>历史访客</i>
                 </span>
               </li>
@@ -114,7 +114,9 @@ export default {
   data() {
     return {
       offScreen: false,
-      wsCache: null
+      wsCache: null,
+      visitor: {},
+      article_count: 0
     };
   },
   filters: {
@@ -154,10 +156,15 @@ export default {
     }
   },
   mounted() {
-    // this.wsCache = new WebStorageCache();
-    // // 获取token缓存;
-    // var token = this.wsCache.get("token") || {};
-    // this.user = token.user || {};
+    this.$http.all([
+        this.$http.get('/api/visitor/get_visitor_count'),
+        this.$http.get('/api/article/get_article_count_today')
+      ])
+      .then(this.$http.spread((visitor, article_count) => {
+        this.visitor = visitor.data.result;
+        this.article_count = article_count.data.result;
+      }));
+
   }
 };
 

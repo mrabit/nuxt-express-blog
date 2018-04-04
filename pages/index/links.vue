@@ -17,7 +17,7 @@
   </section>
 </template>
 <script>
-import axios from '~/plugins/axios';
+import axios from "~/plugins/axios";
 export default {
   asyncData({
     error
@@ -42,7 +42,10 @@ export default {
       return this.$store.getters["index/getUser"];
     },
     location_href() {
-      return (!process.server ? window.location.origin : "https://blog.mrabit.com") + "/links";
+      return (
+        (!process.server ? window.location.origin : "https://blog.mrabit.com") +
+        "/links"
+      );
     }
   },
   data() {
@@ -57,28 +60,32 @@ export default {
       title: title
     };
     const og = [{
-      property: 'og:title',
-      content: title
-    }, {
-      property: 'og:description',
-      content: title
-    }, {
-      property: 'og:url',
-      content: this.location_href,
-    }, {
-      property: 'og:site_name',
-      content: this.user.blog_name
-    }]
-    const twitter = [{
-        property: 'twitter:description',
+        property: "og:title",
         content: title
       },
       {
-        property: 'twitter:title',
+        property: "og:description",
+        content: title
+      },
+      {
+        property: "og:url",
+        content: this.location_href
+      },
+      {
+        property: "og:site_name",
+        content: this.user.blog_name
+      }
+    ];
+    const twitter = [{
+        property: "twitter:description",
+        content: title
+      },
+      {
+        property: "twitter:title",
         content: title
       }
-    ]
-    config['meta'] = Array.prototype.concat.call(og, twitter);
+    ];
+    config["meta"] = Array.prototype.concat.call(og, twitter);
     return config;
   }
 };

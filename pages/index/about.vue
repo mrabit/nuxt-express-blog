@@ -11,7 +11,7 @@
   </section>
 </template>
 <script>
-var MarkdownIt = require('markdown-it');
+var MarkdownIt = require("markdown-it");
 export default {
   data() {
     return {
@@ -24,7 +24,10 @@ export default {
       return this.$store.getters["index/getUser"];
     },
     location_href() {
-      return (!process.server ? window.location.origin : "https://blog.mrabit.com") + "/about";
+      return (
+        (!process.server ? window.location.origin : "https://blog.mrabit.com") +
+        "/about"
+      );
     }
   },
   methods: {
@@ -35,31 +38,44 @@ export default {
   head() {
     const title = "关于 - " + this.user.blog_name;
     let config = {
-      title: title
+      title,
+      meta: [{
+        hid: "description",
+        name: "description",
+        content: this.user.about
+          .substring(0, 150)
+          .replace(/\r\n/g, "")
+          .replace(/\n/g, "")
+          .replace(/#+/g, ",") + "..."
+      }]
     };
     const og = [{
-      property: 'og:title',
-      content: title
-    }, {
-      property: 'og:description',
-      content: title
-    }, {
-      property: 'og:url',
-      content: this.location_href,
-    }, {
-      property: 'og:site_name',
-      content: this.user.blog_name
-    }]
-    const twitter = [{
-        property: 'twitter:description',
+        property: "og:title",
         content: title
       },
       {
-        property: 'twitter:title',
+        property: "og:description",
+        content: title
+      },
+      {
+        property: "og:url",
+        content: this.location_href
+      },
+      {
+        property: "og:site_name",
+        content: this.user.blog_name
+      }
+    ];
+    const twitter = [{
+        property: "twitter:description",
+        content: title
+      },
+      {
+        property: "twitter:title",
         content: title
       }
-    ]
-    config['meta'] = Array.prototype.concat.call(og, twitter);
+    ];
+    config["meta"] = config.meta.concat(og, twitter);
     return config;
   }
 };

@@ -86,7 +86,12 @@ export default {
   },
   head() {
     return {
-      title: "bing每日一图 - " + this.user.blog_name
+      title: "bing每日一图 - " + this.user.blog_name,
+      meta: [{
+        hid: "description",
+        name: "description",
+        content: "Bing每日壁纸介绍:作为一款搜索引擎，必应首页图片给人一种焕然一新的感觉，相较于其它搜索引擎仅在节日或纪念日才更换首页LOGO或背景图，每日一换的必应首页美图让人记忆尤新,bing网站每天会更新一张不同的精选图片."
+      }]
     };
   }
 };

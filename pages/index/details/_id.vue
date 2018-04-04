@@ -8,7 +8,6 @@
   display: block;
   white-space: inherit;
 }
-
 </style>
 <template>
   <section class="row padder">
@@ -87,14 +86,11 @@
 </template>
 <script>
 import axios from "~/plugins/axios";
-import moment from 'moment';
-var MarkdownIt = require('markdown-it');
+import moment from "moment";
+var MarkdownIt = require("markdown-it");
 
 export default {
-  asyncData({
-    params,
-    error
-  }) {
+  asyncData({ params, error }) {
     return axios
       .get("/article/get_details/" + params.id)
       .then(d => {
@@ -126,11 +122,15 @@ export default {
     return {
       md: new MarkdownIt(),
       loading: true
-    }
+    };
   },
   computed: {
     location_href() {
-      return (!process.server ? window.location.origin : "https://blog.mrabit.com") + "/details/" + this.$route.params.id
+      return (
+        (!process.server ? window.location.origin : "https://blog.mrabit.com") +
+        "/details/" +
+        this.$route.params.id
+      );
     },
     is_html() {
       return !!this.article.is_html;
@@ -154,73 +154,96 @@ export default {
       return this.md.render(val);
     },
     format_date(date) {
-      return moment(date).format('YYYY-MM-DDTHH:mm:ss');
+      return moment(date).format("YYYY-MM-DDTHH:mm:ss");
     }
   },
   head() {
+    const title = this.article.title + " - " + this.user.blog_name;
+    const description =
+      this.article.content
+        .substring(0, 150)
+        .replace(/\r\n/g, "")
+        .replace(/\n/g, "")
+        .replace(/#+/g, ",") + "...";
     let config = {
-      title: this.article.title + " - " + this.user.blog_name,
-      meta: [{
-        hid: 'Description',
-        name: 'Description',
-        content: this.article.title + "," + this.user.blog_name
-      }],
-      link: [{
-          rel: 'canonical',
+      title,
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: description
+        }
+      ],
+      link: [
+        {
+          rel: "canonical",
           href: this.location_href
-        },
+        }
         // {
         //   rel: 'stylesheet',
         //   href: 'https://c.mipcdn.com/static/v1/mip.css'
         // }
       ],
-      script: [{
-        type: 'application/ld+json',
-        innerHTML: `        {
+      script: [
+        {
+          type: "application/ld+json",
+          innerHTML: `        {
             "@context": "https://ziyuan.baidu.com/contexts/cambrian.jsonld",
             "@id": "${this.location_href}",
             "appid": "1595463988626710",
-            "title": "${this.article.title + " - " + this.user.blog_name}",
-            "pubDate": "${moment(this.article.create_time).format('YYYY-MM-DDTHH:mm:ss')}",
-            "upDate": "${moment(this.article.modify_time || this.article.create_time).format('YYYY-MM-DDTHH:mm:ss')}"
+            "title": "${title}",
+            "pubDate": "${moment(this.article.create_time).format(
+              "YYYY-MM-DDTHH:mm:ss"
+            )}",
+            "upDate": "${moment(
+              this.article.modify_time || this.article.create_time
+            ).format("YYYY-MM-DDTHH:mm:ss")}"
         }`
-      }, {
-        src: 'https://c.mipcdn.com/static/v1/mip.js'
-      }, {
-        src: 'https://c.mipcdn.com/extensions/platform/v1/mip-cambrian/mip-cambrian.js'
-      }],
-      __dangerouslyDisableSanitizers: ['script']
+        },
+        {
+          src: "https://c.mipcdn.com/static/v1/mip.js"
+        },
+        {
+          src:
+            "https://c.mipcdn.com/extensions/platform/v1/mip-cambrian/mip-cambrian.js"
+        }
+      ],
+      __dangerouslyDisableSanitizers: ["script"]
     };
-    const og = [{
-        property: 'og:type',
-        content: 'article',
+    const og = [
+      {
+        property: "og:type",
+        content: "article"
       },
       {
-        property: 'og:title',
-        content: this.article.title + " - " + this.user.blog_name
-      }, {
-        property: 'og:description',
-        content: '文章：' + this.article.title + " - " + this.user.blog_name
-      }, {
-        property: 'og:url',
-        content: this.location_href,
-      }, {
-        property: 'og:site_name',
+        property: "og:title",
+        content: title
+      },
+      {
+        property: "og:description",
+        content: description
+      },
+      {
+        property: "og:url",
+        content: this.location_href
+      },
+      {
+        property: "og:site_name",
         content: this.user.blog_name
       }
-    ]
-    const twitter = [{
-        property: 'twitter:description',
-        content: '文章：' + this.article.title + " - " + this.user.blog_name
+    ];
+    const twitter = [
+      {
+        property: "twitter:description",
+        content: description
       },
       {
-        property: 'twitter:title',
-        content: this.article.title + " - " + this.user.blog_name
+        property: "twitter:title",
+        content: title
       }
-    ]
+    ];
     config.meta = config.meta.concat(og, twitter);
     return config;
   }
 };
-
 </script>

@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       loading: true
-    }
+    };
   },
   computed: {
     currentPage() {
@@ -39,7 +39,9 @@ export default {
       return this.$store.getters["index/getUser"];
     },
     location_href() {
-      return (!process.server ? window.location.origin : "https://blog.mrabit.com");
+      return !process.server ?
+        window.location.origin :
+        "https://blog.mrabit.com";
     }
   },
   head() {
@@ -48,28 +50,32 @@ export default {
       title: title
     };
     const og = [{
-      property: 'og:title',
-      content: title
-    }, {
-      property: 'og:description',
-      content: title
-    }, {
-      property: 'og:url',
-      content: this.location_href,
-    }, {
-      property: 'og:site_name',
-      content: this.user.blog_name
-    }]
-    const twitter = [{
-        property: 'twitter:description',
+        property: "og:title",
         content: title
       },
       {
-        property: 'twitter:title',
+        property: "og:description",
+        content: title
+      },
+      {
+        property: "og:url",
+        content: this.location_href
+      },
+      {
+        property: "og:site_name",
+        content: this.user.blog_name
+      }
+    ];
+    const twitter = [{
+        property: "twitter:description",
+        content: title
+      },
+      {
+        property: "twitter:title",
         content: title
       }
-    ]
-    config['meta'] = Array.prototype.concat.call(og, twitter);
+    ];
+    config["meta"] = Array.prototype.concat.call(og, twitter);
     return config;
   }
 };

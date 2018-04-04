@@ -70,37 +70,60 @@ export default {
       return this.$store.getters["index/getUser"];
     },
     location_href() {
-      return (!process.server ? window.location.origin : "https://blog.mrabit.com") + "/tags";
+      return (
+        (!process.server ? window.location.origin : "https://blog.mrabit.com") +
+        "/tags"
+      );
     }
   },
   head() {
     const title = "标签 - " + this.user.blog_name;
+    const keywords = this.tags_arr
+      .map(v => {
+        return v.tags_name;
+      })
+      .join(",");
     let config = {
-      title: title
+      title,
+      meta: [{
+          hid: "description",
+          name: "description",
+          content: keywords
+        },
+        {
+          hid: "keywords",
+          name: "keywords",
+          content: keywords
+        }
+      ]
     };
     const og = [{
-      property: 'og:title',
-      content: title
-    }, {
-      property: 'og:description',
-      content: title
-    }, {
-      property: 'og:url',
-      content: this.location_href,
-    }, {
-      property: 'og:site_name',
-      content: this.user.blog_name
-    }]
-    const twitter = [{
-        property: 'twitter:description',
+        property: "og:title",
         content: title
       },
       {
-        property: 'twitter:title',
+        property: "og:description",
+        content: title
+      },
+      {
+        property: "og:url",
+        content: this.location_href
+      },
+      {
+        property: "og:site_name",
+        content: this.user.blog_name
+      }
+    ];
+    const twitter = [{
+        property: "twitter:description",
+        content: title
+      },
+      {
+        property: "twitter:title",
         content: title
       }
-    ]
-    config['meta'] = Array.prototype.concat.call(og, twitter);
+    ];
+    config["meta"] = config.meta.concat(og, twitter);
     return config;
   }
 };

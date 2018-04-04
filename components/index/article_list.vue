@@ -69,7 +69,7 @@
   </section>
 </template>
 <script>
-var MarkdownIt = require('markdown-it');
+var MarkdownIt = require("markdown-it");
 export default {
   props: {
     articles: Object,
@@ -188,7 +188,6 @@ export default {
   // },
   mounted() {
     // this.formatEditormd();
-
     // setTimeout(_ => {
     //   this.loading = false;
     // }, 500);
@@ -196,7 +195,20 @@ export default {
   head() {
     let config = {
       title:
-        (this.$route.path === "/" ? "首页" : (this.tags_id ? ("标签 - " + this.tags_name) : "列表页")) + " - " + this.user.blog_name
+        (this.$route.path === "/" ?
+          "首页" :
+          this.tags_id ? "标签 - " + this.tags_name : "列表页") +
+        " - " +
+        this.user.blog_name,
+      meta: [{
+        hid: "description",
+        name: "description",
+        content: this.article_lists
+          .map(v => {
+            return v.title;
+          })
+          .join(",")
+      }]
     };
     return config;
   }

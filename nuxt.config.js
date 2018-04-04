@@ -12,13 +12,13 @@ let config = {
         content: 'width=device-width,initial-scale=1,maximum-scale=1'
       },
       {
-        hid: 'Keywords',
-        name: 'Keywords',
-        content: '一桶浆糊,web前端,HTML5,JavaScript,ECMAScript,ES6,PHP,CentOS'
+        hid: 'keywords',
+        name: 'keywords',
+        content: '一桶浆糊,一桶浆糊的博客,JavaScript,中江吴彦祖,个人博客,mrabit,blog'
       },
       {
-        hid: 'Description',
-        name: 'Description',
+        hid: 'description',
+        name: 'description',
         content: '专注于WEB前端开发,以前偶尔看看PHP,现在对NodeJS感兴趣，毕竟JavaScript是世界上最好的语言'
       }, {
         property: 'og:locale',

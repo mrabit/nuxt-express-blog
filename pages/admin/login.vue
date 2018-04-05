@@ -173,7 +173,7 @@ export default {
           result => {
             setTimeout(_ => {
               this.$store.commit("admin/changeTokenAuth", true);
-              this.$router.push("/admin");
+              this.$router.push(this.$route.query.redirect || "/admin");
             }, 1500);
           },
           _ => {

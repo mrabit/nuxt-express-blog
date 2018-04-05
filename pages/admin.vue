@@ -11,6 +11,7 @@ import side from "~/components/admin/side.vue";
 import headerComponent from "~/components/admin/header.vue";
 import WebStorageCache from 'web-storage-cache';
 export default {
+  middleware: "checkAuth",
   fetch({
     store,
     params

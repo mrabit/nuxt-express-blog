@@ -159,8 +159,8 @@ export default {
       );
       user.blog_name += "的博客";
       this.$store.commit("admin/changeUser", user);
-      // this.$router.push("/admin");
-      window.location.href = "/admin";
+      this.$store.commit("admin/changeTokenAuth", true);
+      this.$router.push("/admin");
     }
   },
   created() {
@@ -172,7 +172,8 @@ export default {
         this.$http.post("/api/check_token").then(
           result => {
             setTimeout(_ => {
-              window.location.href = "/admin";
+              this.$store.commit("admin/changeTokenAuth", true);
+              this.$router.push("/admin");
             }, 1500);
           },
           _ => {

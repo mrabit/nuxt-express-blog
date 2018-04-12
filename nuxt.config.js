@@ -86,7 +86,7 @@ let config = {
    ** Add axios globally
    */
   build: {
-    vendor: ['axios', 'element-ui', 'web-storage-cache'],
+    vendor: ['axios', 'element-ui', 'web-storage-cache', 'moment'],
     extractCSS: true,
     /*
      ** Run ESLINT on save
@@ -122,6 +122,8 @@ css.map(href => {
 
 let script = [
   "//cdn.bootcss.com/jquery/3.2.1/jquery.min.js",
+  "//apps.bdimg.com/libs/highlight.js/9.1.0/highlight.min.js",
+  "//echarts.baidu.com/dist/echarts.common.min.js",
   "/js/editormd/editormd.js",
   "/js/editormd/lib/marked.min.js",
   "/js/editormd/lib/prettify.min.js",

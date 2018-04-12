@@ -15,7 +15,6 @@
     "axios": "^0.16.2",
     "cookie-parser": "^1.4.3",
     "cross-env": "^5.0.1",
-    "echarts": "^4.0.4",
     "element-ui": "^2.0.8",
     "express": "^4.15.3",
     "highlight.js": "^9.12.0",

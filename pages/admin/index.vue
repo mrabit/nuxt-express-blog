@@ -26,9 +26,9 @@
 import {
   mapGetters
 } from "vuex";
-import echarts from 'echarts/lib/echarts';
-import 'echarts/lib/chart/line';
-import 'echarts/lib/component/tooltip';
+// import echarts from 'echarts/lib/echarts';
+// import 'echarts/lib/chart/line';
+// import 'echarts/lib/component/tooltip';
 export default {
   // mounted() {
   //   this.$http.post('/api/check_token');
@@ -99,7 +99,10 @@ export default {
   },
   head() {
     return {
-      title: "首页 - " + this.user.blog_name
+      title: "首页 - " + this.user.blog_name,
+      script: [{
+        src: 'http://echarts.baidu.com/dist/echarts.common.min.js'
+      }]
     };
   }
 };

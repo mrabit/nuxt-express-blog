@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
     return next();
   }
   // bing接口上方正则有缺陷
-  if (req.path.search(/\/bing[\/\?=0-9a-z_]*/) > 0 && req.path.search(/^\/bing[\/0-9]*$/) < 0) {
+  if (req.path.search(/\/bing[\/\?=0-9a-z_]*/) >= 0 && req.path.search(/^\/bing[\/0-9]*$/) < 0) {
     return next();
   }
 

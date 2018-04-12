@@ -15,3 +15,22 @@ Visitor.get_visitor_count = visit_time => {
     });
   })
 }
+
+Visitor.get_visitor_today = (number = 2) => {
+  let params = [];
+  for (let i = 0; i < 24; i += number) {
+    let temp = [];
+    for (let j = 0; j < number; j++) {
+      temp.push(i + j);
+    }
+    params.push(`IFNULL(count(HOUR(FROM_UNIXTIME(visit_time)) in (${temp.join(',')}) or null ),0) as '${i+number}'`);
+  }
+
+  const sql = `select ${params.join(',')} from tp_visitor where date(FROM_UNIXTIME(visit_time)) = date(now())`;
+  return new Promise((resolve, reject) => {
+    query(sql, (err, result) => {
+      if (err) reject(err.message);
+      resolve(result[0]);
+    });
+  })
+}

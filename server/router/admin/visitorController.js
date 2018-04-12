@@ -17,4 +17,16 @@ router.get('/get_visitor_count', (req, res) => {
     }, err => res.end(err))
 });
 
+router.get('/get_visitor_today/:today', (req, res) => {
+  const today = parseInt(req.params.today) || 2;
+  Visitor.get_visitor_today(today)
+    .then(result => {
+      res.json({
+        success: true,
+        code: 200,
+        result
+      })
+    }, err => res.end(err))
+})
+
 module.exports = router;

@@ -46,6 +46,9 @@ export default {
           formatter: '{b}点<br>访客人数：{c}'
         },
         xAxis: {
+          axisLabel: {
+            interval: 0
+          },
           type: 'category',
           data: []
         },

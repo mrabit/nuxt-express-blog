@@ -17,9 +17,10 @@
             <el-col :span="22" :offset="2">
               <el-form label-position="right" label-width="120px" ref="aboutForm" :model="profile">
                 <el-form-item label="关于：">
-                  <div id="editormd" class="w-full-important">
+                  <!-- <div id="editormd" class="w-full-important">
                     <textarea style="display:none;" v-html="profile.about"></textarea>
-                  </div>
+                  </div> -->
+                  <mavon-editor ref='md' @imgAdd="$imgAdd" :externalLink="external_link" class="w-full-important" v-model="profile.about" :ishljs="true"></mavon-editor>
                 </el-form-item>
                 <el-form-item class="pull-right">
                   <el-button type="primary" @click="submitForm"> 立即提交 </el-button>
@@ -39,12 +40,55 @@ export default {
     return {
       markdown: {},
       profile: {},
-      loading: true
+      loading: true,
+      external_link: false
     };
   },
   methods: {
+    uploadImage(image, type, pos) {
+      // base64编码图片字符串
+      this.$http.post('/upload/local_base64', {
+        image,
+        type
+      }).then(d => {
+        if (d.data.status === 0) {
+          this.$refs.md.$img2Url(pos, d.data.path);
+        } else {
+          this.$notify.error({
+            message: '上传失败.'
+          });
+        }
+      });
+    },
+    // 图片上传
+    $imgAdd(pos, $file) {
+      var imageFormats = ["jpg", "jpeg", "gif", "png", "bmp", "webp"];
+      // 将图片上传到服务器.
+      var isImage = new RegExp("(\\.(" + imageFormats.join("|") + "))$", "ig"); // /(\.(webp|jpg|jpeg|gif|bmp|png))$/
+      var type = $file.name.match(isImage);
+      if ($file.name == "") {
+        this.$notify({
+          message: '请选择图片.',
+          type: 'warning'
+        });
+        this.$refs.md.$refs.toolbar_left.$imgDelByFilename(pos);
+        return false;
+      }
+      if (!isImage.test($file.name)) {
+        this.$notify({
+          message: '文件格式不允许，请上传' + imageFormats.join(", "),
+          type: 'warning'
+        });
+        this.$refs.md.$refs.toolbar_left.$imgDelByFilename(pos);
+        return false;
+      }
+      var reader = new FileReader();
+      reader.onload = (e) => {
+        this.uploadImage(e.target.result, type[0], pos);
+      };
+      reader.readAsDataURL($file);
+    },
     submitForm() {
-      this.profile.about = this.markdown.getMarkdown();
       this.$http
         .post("/api/user/edit_about", {
           about: this.profile.about
@@ -63,69 +107,13 @@ export default {
         );
     },
     resetForm() {
-      var editormd = document.getElementsByName("clear")[0];
-      editormd && editormd.parentNode.click();
+      this.profile.about = "";
     }
   },
   mounted() {
     this.$http.get("/api/user/about").then(d => {
       this.profile = d.data.result;
       this.loading = false;
-    }).then(_ => {
-      editormd.toolbarModes.full = [
-        "undo",
-        "redo",
-        "|",
-        "bold",
-        "del",
-        "italic",
-        "quote",
-        "ucwords",
-        "uppercase",
-        "lowercase",
-        "|",
-        "h1",
-        "h2",
-        "h3",
-        "h4",
-        "h5",
-        "h6",
-        "|",
-        "list-ul",
-        "list-ol",
-        "hr",
-        "|",
-        "link",
-        "reference-link",
-        "image",
-        "code",
-        "preformatted-text",
-        "code-block",
-        "table",
-        "datetime",
-        "emoji",
-        "html-entities",
-        "pagebreak",
-        "|",
-        "goto-line",
-        "watch",
-        "preview",
-        "clear",
-        "search",
-        "|",
-        "help"
-      ];
-      this.$nextTick(_ => {
-        this.markdown = editormd("editormd", {
-          width: "90%",
-          height: 640,
-          syncScrolling: "single",
-          path: "/js/editormd/lib/",
-          imageUpload: true,
-          imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-          imageUploadURL: "/upload/local_base64"
-        });
-      });
     });
   },
   head() {

@@ -3,12 +3,14 @@
     <headerComponent v-if="!login"></headerComponent>
     <side v-if="!login"></side>
     <nuxt-child></nuxt-child>
+    <footerComponent v-if="!login"></footerComponent>
   </div>
 </template>
 <script>
 import axios from "~/plugins/axios";
 import side from "~/components/admin/side.vue";
 import headerComponent from "~/components/admin/header.vue";
+import footerComponent from "~/components/admin/footer.vue";
 import WebStorageCache from 'web-storage-cache';
 export default {
   middleware: "checkAuth",
@@ -23,7 +25,8 @@ export default {
   },
   components: {
     side,
-    headerComponent
+    headerComponent,
+    footerComponent
   },
   computed: {
     login() {

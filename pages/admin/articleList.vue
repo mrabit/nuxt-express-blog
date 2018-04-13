@@ -32,7 +32,7 @@
             </el-table-column>
             <el-table-column prop="title" label="标题">
               <template slot-scope="scope">
-                <a :href="'/details/' + scope.row.id + '.html'" target="_blank">{{ scope.row.title }}</a>
+                <a :href="'/details/' + scope.row.id" target="_blank">{{ scope.row.title }}</a>
               </template>
             </el-table-column>
             <el-table-column prop="private" label="公开度" width="100">

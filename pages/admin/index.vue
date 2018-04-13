@@ -99,10 +99,7 @@ export default {
   },
   head() {
     return {
-      title: "首页 - " + this.user.blog_name,
-      script: [{
-        src: 'http://echarts.baidu.com/dist/echarts.common.min.js'
-      }]
+      title: "首页 - " + this.user.blog_name
     };
   }
 };

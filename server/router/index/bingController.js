@@ -60,7 +60,7 @@ router.get('/add_info', (req, res) => {
     })
     .then(bing_data => {
       //url地址
-      var urlbase = 'http://s.cn.bing.net' + bing_data.images[0]['urlbase'];
+      var urlbase = 'http://cn.bing.com' + bing_data.images[0]['urlbase'];
       //简介
       var copyright = bing_data.images[0]['copyright'];
       //1920地址

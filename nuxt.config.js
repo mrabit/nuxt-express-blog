@@ -69,6 +69,7 @@ let config = {
       src: '~plugins/element-ui'
     },
     '~plugins/highlight',
+    '~plugins/mavonEditor',
     '~plugins/axios.conf',
     '~plugins/loading',
   ],
@@ -110,7 +111,9 @@ let css = [
   '/css/themify-icons.css',
   '/css/simple-line-icons.css',
   '/css/font-awesome.css',
-  '/js/editormd/css/editormd.css',
+  '/js/highlightjs/styles/github.min.css',
+  '/js/markdown/github-markdown.min.css',
+  '/js/katex/katex.min.css'
 ]
 
 css.map(href => {
@@ -122,16 +125,9 @@ css.map(href => {
 
 let script = [
   "//cdn.bootcss.com/jquery/3.2.1/jquery.min.js",
-  "//apps.bdimg.com/libs/highlight.js/9.1.0/highlight.min.js",
   "//cdn.bootcss.com/echarts/4.0.4/echarts.common.min.js",
-  "/js/editormd/editormd.js",
-  "/js/editormd/lib/marked.min.js",
-  "/js/editormd/lib/prettify.min.js",
-  "/js/editormd/lib/raphael.min.js",
-  "/js/editormd/lib/underscore.min.js",
-  "/js/editormd/lib/sequence-diagram.min.js",
-  "/js/editormd/lib/flowchart.min.js",
-  "/js/editormd/lib/jquery.flowchart.min.js"
+  "/js/highlightjs/highlight.min.js",
+  "/js/katex/katex.min.js"
 ]
 
 script.map(src => {

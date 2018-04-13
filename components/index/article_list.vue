@@ -35,8 +35,8 @@
         </div>
         <div class="row">
           <div class="col-xs-12 section-content">
-            <div class="entry-content m-t-md block show-section-block">
-              <blockquote class="hidden-xs" v-if="vo.reprint_url">
+            <div class="entry-content m-t-md block show-section-block markdown-body">
+              <blockquote class="hidden-xs reprint_url" v-if="vo.reprint_url">
                 <p>原文：
                   <!-- 外链需要使用a标签 -->
                   <a :href="vo.reprint_url" target="_blank">{{ vo.reprint_url }}</a>

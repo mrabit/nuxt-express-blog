@@ -29,9 +29,10 @@
           <el-radio class="radio" v-model="article.private" label="1">不公开</el-radio>
         </el-form-item>
         <el-form-item label="文章正文：">
-          <div id="editormd" class="w-full-important">
+          <!-- <div id="editormd" class="w-full-important">
             <textarea style="display:none;" v-model="content"></textarea>
-          </div>
+          </div> -->
+          <mavon-editor ref='md' @imgAdd="$imgAdd" :externalLink="external_link" class="w-full-important" v-model="article.content" :ishljs="true"></mavon-editor>
         </el-form-item>
         <el-form-item label="标签填写：">
           <el-tag :key="index" v-for="(id, tag, index) in article.tags" class="m-r-sm" :closable="true" :close-transition="false" @close="handleClose(tag)">
@@ -67,68 +68,8 @@ export default {
       inputTagsVisible: false,
       inputTagsValue: "",
       TagsSelected: "",
-      markdown: {}
+      external_link: false
     };
-  },
-  watch: {
-    loading(val) {
-      if (!val) {
-        editormd.toolbarModes.full = [
-          "undo",
-          "redo",
-          "|",
-          "bold",
-          "del",
-          "italic",
-          "quote",
-          "ucwords",
-          "uppercase",
-          "lowercase",
-          "|",
-          "h1",
-          "h2",
-          "h3",
-          "h4",
-          "h5",
-          "h6",
-          "|",
-          "list-ul",
-          "list-ol",
-          "hr",
-          "|",
-          "link",
-          "reference-link",
-          "image",
-          "code",
-          "preformatted-text",
-          "code-block",
-          "table",
-          "datetime",
-          "emoji",
-          "html-entities",
-          "pagebreak",
-          "|",
-          "goto-line",
-          "watch",
-          "preview",
-          "clear",
-          "search",
-          "|",
-          "help"
-        ];
-        this.$nextTick(_ => {
-          this.markdown = editormd("editormd", {
-            width: "90%",
-            height: 640,
-            syncScrolling: "single",
-            path: "/js/editormd/lib/",
-            imageUpload: true,
-            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-            imageUploadURL: "/upload/local_base64"
-          });
-        })
-      }
-    }
   },
   computed: {
     // 文章内容符号转码
@@ -145,6 +86,49 @@ export default {
     }
   },
   methods: {
+    uploadImage(image, type, pos) {
+      // base64编码图片字符串
+      this.$http.post('/upload/local_base64', {
+        image,
+        type
+      }).then(d => {
+        if (d.data.status === 0) {
+          this.$refs.md.$img2Url(pos, d.data.path);
+        } else {
+          this.$notify.error({
+            message: '上传失败.'
+          });
+        }
+      });
+    },
+    // 图片上传
+    $imgAdd(pos, $file) {
+      var imageFormats = ["jpg", "jpeg", "gif", "png", "bmp", "webp"];
+      // 将图片上传到服务器.
+      var isImage = new RegExp("(\\.(" + imageFormats.join("|") + "))$", "ig"); // /(\.(webp|jpg|jpeg|gif|bmp|png))$/
+      var type = $file.name.match(isImage);
+      if ($file.name == "") {
+        this.$notify({
+          message: '请选择图片.',
+          type: 'warning'
+        });
+        this.$refs.md.$refs.toolbar_left.$imgDelByFilename(pos);
+        return false;
+      }
+      if (!isImage.test($file.name)) {
+        this.$notify({
+          message: '文件格式不允许，请上传' + imageFormats.join(", "),
+          type: 'warning'
+        });
+        this.$refs.md.$refs.toolbar_left.$imgDelByFilename(pos);
+        return false;
+      }
+      var reader = new FileReader();
+      reader.onload = (e) => {
+        this.uploadImage(e.target.result, type[0], pos);
+      };
+      reader.readAsDataURL($file);
+    },
     // 符号转码
     unescape: function(html) {
       return html
@@ -186,7 +170,6 @@ export default {
     },
     // 文章提交
     submitForm(formName) {
-      this.article.content = this.markdown.getMarkdown();
       if (this.$route.query.id) {
         this.$http.post("/api/article/update_article", this.article).then(d => {
           if (d.data.success) {
@@ -221,8 +204,6 @@ export default {
         create_user_id: 1,
         tags: {}
       };
-      var editormd = document.getElementsByName("clear")[0];
-      editormd && editormd.parentNode.click();
     }
   }
 };

@@ -33,8 +33,8 @@
       </div>
       <div class="row">
         <div class="col-xs-12 section-content">
-          <div class="entry-content m-t-md block" id="entry-content">
-            <blockquote class="hidden-xs" v-if="article.reprint_url">
+          <div class="entry-content m-t-md block markdown-body" id="entry-content">
+            <blockquote class="hidden-xs reprint_url" v-if="article.reprint_url">
               <p>原文：
                 <a :href="article.reprint_url" target="_blank">{{ article.reprint_url }}</a>
               </p>

@@ -1,3 +1,6 @@
+const WebpackBundleSizeAnalyzerPlugin = require('webpack-bundle-size-analyzer')
+  .WebpackBundleSizeAnalyzerPlugin;
+
 let config = {
   /*
    ** Headers of the page
@@ -92,16 +95,22 @@ let config = {
     /*
      ** Run ESLINT on save
      */
-    // extend(config, ctx) {
-    //   if (ctx.isClient) {
-    //     config.module.rules.push({
-    //       enforce: 'pre',
-    //       test: /\.(js|vue)$/,
-    //       loader: 'eslint-loader',
-    //       exclude: /(node_modules)/
-    //     })
-    //   }
-    // }
+    extend(config, ctx) {
+      // if (ctx.isClient) {
+      //   config.module.rules.push({
+      //     enforce: 'pre',
+      //     test: /\.(js|vue)$/,
+      //     loader: 'eslint-loader',
+      //     exclude: /(node_modules)/
+      //   })
+      // }
+      // config.plugins.push(
+      //   new WebpackBundleSizeAnalyzerPlugin('./plain-report.txt')
+      // )
+    },
+    plugins: [
+      new WebpackBundleSizeAnalyzerPlugin('./plain-report.txt')
+    ]
   }
 }
 

@@ -43,6 +43,7 @@ app.use('/api/article', require('./router/admin/articleController'));
 app.use('/api/tags', require('./router/admin/tagsController'));
 app.use('/api/links', require('./router/admin/linksController'));
 app.use('/api/visitor', require('./router/admin/visitorController'));
+app.use('/api/ecs', require('./router/admin/ecsController'));
 
 // 上传
 app.use('/upload', require('./router/uploadController'));

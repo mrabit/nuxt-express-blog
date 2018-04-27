@@ -23,6 +23,11 @@ module.exports = {
     secret: "",
     grant_type: "",
   },
+  ecs: {
+    accessKeyId: "",
+    secretAccessKey: "",
+    InstanceId: ""
+  },
   domain: '网站地址',
   location: '高德地图key'
 }

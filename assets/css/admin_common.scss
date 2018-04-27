@@ -137,3 +137,10 @@
 .editormd-dialog-header {
   line-height: initial;
 }
+
+.reading-rank {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

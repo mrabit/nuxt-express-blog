@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();
 const moment = require('moment');
 
-router.get('/get_details/:id', function(req, res) {
+router.get('/get_details/:id', (req, res) => {
   var id = req.params.id;
   Article.get_article_by_id(id)
     .then(article => {
@@ -27,7 +27,7 @@ router.get('/get_details/:id', function(req, res) {
     });
 })
 
-router.get('/get_lists/:page/:length', function(req, res) {
+router.get('/get_lists/:page/:length', (req, res) => {
   var params = {
     startime: req.query.startime || null,
     endtime: req.query.endtime || null,
@@ -56,7 +56,7 @@ router.get('/get_lists/:page/:length', function(req, res) {
     });
 })
 
-router.post('/insert_article', function(req, res) {
+router.post('/insert_article', (req, res) => {
   Article.insert_article(req.body)
     .then(article_id => {
       if (JSON.stringify(req.body.tags) != "{}") {
@@ -80,7 +80,7 @@ router.post('/insert_article', function(req, res) {
     })
 })
 
-router.post('/delete_article', function(req, res) {
+router.post('/delete_article', (req, res) => {
   var id = req.body.id;
   Article.delete_article_by_id(id)
     .then(result => {
@@ -97,7 +97,7 @@ router.post('/delete_article', function(req, res) {
     })
 })
 
-router.post('/update_article', function(req, res) {
+router.post('/update_article', (req, res) => {
   Article.update_article_by_id(req.body)
     .then(result => {
       return ArticleTags.delete_tags_by_articleId(req.body.id)
@@ -133,6 +133,17 @@ router.get('/get_article_count_today', (req, res) => {
   Article.get_article_count({
       startime: today
     })
+    .then(result => {
+      res.json({
+        code: 200,
+        success: true,
+        result
+      })
+    })
+})
+
+router.get('/get_read_rank', (req, res) => {
+  Article.get_article_by_visitor()
     .then(result => {
       res.json({
         code: 200,

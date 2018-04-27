@@ -1,14 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const ECS = require('../../model/admin/ecs');
+const moment = require('moment');
 
-router.get('/get_monitor_data', function(req, res) {
-
+router.get('/get_cpu_utilization', (req, res) => {
   const params = {
-    StartTime: req.query.StartTime,
-    EndTime: req.query.EndTime
+    startTime: req.query.startTime,
+    endTime: req.query.endTime,
+    metric: 'CPUUtilization'
   }
-  ECS.describeInstanceMonitorData(params)
+  ECS(params)
     .then(d => {
       res.json({
         success: true,
@@ -18,6 +19,31 @@ router.get('/get_monitor_data', function(req, res) {
     }, (err) => {
       res.json(err);
     });
+});
+
+router.get('/get_internet_rate', (req, res) => {
+  const params = {
+    startTime: req.query.startTime,
+    endTime: req.query.endTime
+  }
+
+  Promise.all([ECS(Object.assign({}, params, {
+      metric: 'InternetInRate'
+    })), ECS(Object.assign({}, params, {
+      metric: 'InternetOutRate'
+    }))])
+    .then(([InternetInRate, InternetOutRate]) => {
+      res.json({
+        success: true,
+        code: 200,
+        result: {
+          InternetInRate,
+          InternetOutRate
+        }
+      });
+    }, (err) => {
+      res.json(err);
+    })
 })
 
 module.exports = router;

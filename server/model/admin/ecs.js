@@ -1,40 +1,41 @@
 const query = require('../db');
-const ALY = require('aliyun-sdk');
+// const ALY = require('aliyun-sdk');
+var Metrics = require("aliyun-metrics");
 const moment = require('moment');
 const { ecs: ecsConf } = require('../../config');
 
-var ecs = new ALY.ECS({
-  accessKeyId: ecsConf.accessKeyId,
-  secretAccessKey: ecsConf.secretAccessKey,
-  endpoint: 'https://ecs.aliyuncs.com',
-  apiVersion: '2014-05-26'
-});
+// var ecs = new ALY.ECS({
+//   accessKeyId: ecsConf.accessKeyId,
+//   secretAccessKey: ecsConf.secretAccessKey,
+//   endpoint: 'https://ecs.aliyuncs.com',
+//   apiVersion: '2014-05-26'
+// });
+var client = new Metrics({
+  accesskeyId: ecsConf.accessKeyId,
+  accesskeySecret: ecsConf.secretAccessKey,
+})
 
-var ECS = _ => {}
-
-function down(x, y) {
-  return moment(x.TimeStamp)
-    .unix() > moment(y.TimeStamp)
-    .unix() ? 1 : -1
-}
-
-ECS.describeInstanceMonitorData = params => {
-  console.log(params);
+var ECS = params => {
   return new Promise((resolve, reject) => {
-    ecs.describeInstanceMonitorData({
-      InstanceId: ecsConf.InstanceId,
-      StartTime: params.StartTime || moment.utc()
+    client.queryData({
+      project: "acs_ecs_dashboard",
+      metric: params.metric,
+      period: 60,
+      startTime: params.startTime || moment.utc()
         .subtract(1, 'hour')
         .format(),
-      EndTime: params.EndTime || moment.utc()
-        .format()
-    }, function(err, res) {
-      if (err) return reject(err);
-      res.MonitorData.InstanceMonitorData.sort(down);
-      resolve(res);
+      endTime: params.endTime || moment.utc()
+        .format(),
+      dimensions: `{instanceId:'${ecsConf.InstanceId}'}`
+    }, function(error, data) {
+      if (error || !data)
+        reject(error || 'data is null');
+      else
+        resolve(data);
     });
   })
 }
+
 
 
 module.exports = ECS;

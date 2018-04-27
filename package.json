@@ -12,6 +12,7 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
   "dependencies": {
+    "aliyun-metrics": "^0.1.0",
     "aliyun-sdk": "^1.11.5",
     "axios": "^0.16.2",
     "cookie-parser": "^1.4.3",

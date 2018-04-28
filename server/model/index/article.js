@@ -1,7 +1,7 @@
-var query = require('../db');
-var util = require('util');
+const query = require('../db');
+const util = require('util');
 
-var Article = params => {
+const Article = params => {
   this.id = params.id;
 }
 
@@ -10,7 +10,7 @@ var Article = params => {
  * @return promise  返回需要的数据
  */
 Article.get_article_by_id = function(id) {
-  var sql = 'SELECT ta.id,title,reprint_url,is_html,content,tu.uname,visit_number,\
+  let sql = 'SELECT ta.id,title,reprint_url,is_html,content,tu.uname,visit_number,\
         FROM_UNIXTIME( create_time, \'%Y-%m-%d %H:%i:%s\' ) as create_time,\
         FROM_UNIXTIME( create_time, \'%m月%d,%Y\' ) as release_time,\
         FROM_UNIXTIME( modify_time, \'%Y-%m-%d %H:%i:%s\' ) as modify_time from tp_article as ta\
@@ -36,14 +36,14 @@ Article.get_article_by_id = function(id) {
  * @return array {article, adjoin}  获取到的Array数据
  */
 Article.get_article_adjoin_by_id = params => {
-  var sql = "SELECT * FROM ( SELECT `id`,`title` FROM `tp_article` WHERE `id` < ? AND `private` <> 1 ORDER BY id desc LIMIT 1   )\
+  const sql = "SELECT * FROM ( SELECT `id`,`title` FROM `tp_article` WHERE `id` < ? AND `private` <> 1 ORDER BY id desc LIMIT 1   )\
      t1 UNION ALL SELECT * FROM ( SELECT `id`,`title` FROM `tp_article` WHERE `id` > ? AND `private` <> 1 ORDER BY id LIMIT 1   ) t2";
   return new Promise((resolve, reject) => {
     query(sql, [params.id, params.id], function(err, result) {
       if (err) reject(err.message);
       //只有一条数据
       if (result.length == 1) {
-        var article_id = result[0]['id'];
+        const article_id = result[0]['id'];
         if (params.id > article_id) {
           //上条数据,在其末尾添加空数组
           result.push(null);
@@ -66,7 +66,7 @@ Article.get_article_adjoin_by_id = params => {
  */
 Article.get_article_lists = params => {
   params['start'] = (params.page - 1) * params.length;
-  var sql = "SELECT a.id,`title`,`reprint_url`,`content`,`is_html`,u.uname,visit_number,FROM_UNIXTIME( create_time,'%Y-%m-%d %H:%i:%s' )\
+  const sql = "SELECT a.id,`title`,`reprint_url`,`content`,`is_html`,u.uname,visit_number,FROM_UNIXTIME( create_time,'%Y-%m-%d %H:%i:%s' )\
       as create_time,FROM_UNIXTIME( create_time,'%m月%d,%Y' ) as release_time FROM `tp_article` as\
        a left join tp_user as u on create_user_id = u.id  WHERE `private` <> '1' ORDER BY create_time\
         desc LIMIT ?,?";
@@ -83,7 +83,7 @@ Article.get_article_lists = params => {
  * @return int    满足条件的文章总条数
  */
 Article.get_article_count = _ => {
-  var sql = 'SELECT count(*) as count from tp_article where private != 1';
+  const sql = 'SELECT count(*) as count from tp_article where private != 1';
   return new Promise((resolve, reject) => {
     query(sql, (err, result) => {
       if (err) reject(err.message);
@@ -98,7 +98,7 @@ Article.get_article_count = _ => {
  */
 Article.get_article_lists_by_tagsId = params => {
   params['start'] = (params.page - 1) * params.length;
-  var sql = "SELECT a.id,`title`,`reprint_url`,`content`,`is_html`,u.uname,visit_number,FROM_UNIXTIME( create_time,' %Y-%m-%d %H:%i:%s' ) \
+  const sql = "SELECT a.id,`title`,`reprint_url`,`content`,`is_html`,u.uname,visit_number,FROM_UNIXTIME( create_time,' %Y-%m-%d %H:%i:%s' ) \
      as create_time,FROM_UNIXTIME( create_time,' %m月%d,%Y' ) as release_time FROM `tp_article`  as a left join tp_user \
       as u on create_user_id = u.id inner join tp_article_tags as t on t.article_id = a.id  WHERE `tags_id` = ? AND \
        `private` <> '1' ORDER BY create_time desc LIMIT ?,?  ";
@@ -115,7 +115,7 @@ Article.get_article_lists_by_tagsId = params => {
  * @return int 统计文章总数
  */
 Article.get_article_count_by_tagsId = tags_id => {
-  var sql = "SELECT COUNT(*) AS count FROM `tp_article`  as a left join tp_user as u on create_user_id = u.id\
+  const sql = "SELECT COUNT(*) AS count FROM `tp_article`  as a left join tp_user as u on create_user_id = u.id\
      inner join tp_article_tags as t on t.article_id = a.id  WHERE `tags_id` = ? AND `private` <> '1' LIMIT 1 ";
   return new Promise((resolve, reject) => {
     query(sql, tags_id, function(err, result) {
@@ -129,7 +129,7 @@ Article.get_article_count_by_tagsId = tags_id => {
  * @return mixed
  */
 Article.get_article_by_archives = _ => {
-  var sql = 'SELECT FROM_UNIXTIME( create_time, "%Y年%m月" ) as create_time,COUNT( * ) as count\
+  const sql = 'SELECT FROM_UNIXTIME( create_time, "%Y年%m月" ) as create_time,COUNT( * ) as count\
         ,GROUP_CONCAT(id) as id FROM `tp_article` GROUP BY FROM_UNIXTIME( create_time, "%Y年%m月" )\
          ORDER BY create_time DESC';
   return new Promise((resolve, reject) => {
@@ -145,7 +145,7 @@ Article.get_article_by_archives = _ => {
  * @return mixed
  */
 Article.get_article_by_in = params => {
-  var sql = "select id,title,FROM_UNIXTIME( create_time,' %Y-%m-%d' ) as create_time from tp_article where " + params.key + " in (" + params.val + ")\
+  const sql = "select id,title,FROM_UNIXTIME( create_time,' %Y-%m-%d' ) as create_time from tp_article where " + params.key + " in (" + params.val + ")\
      and private <> 1 order by create_time desc";
   return new Promise((resolve, reject) => {
     query(sql, (err, result) => {
@@ -159,7 +159,7 @@ Article.get_article_by_in = params => {
  * @return object 文章id集合
  */
 Article.get_article_all_id = _ => {
-  var sql = 'SELECT id from tp_article where private != 1';
+  const sql = 'SELECT id from tp_article where private != 1';
   return new Promise((resolve, reject) => {
     query(sql, (err, result) => {
       if (err) reject(err.message);

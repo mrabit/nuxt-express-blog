@@ -11,7 +11,7 @@
   </section>
 </template>
 <script>
-var MarkdownIt = require("markdown-it");
+const MarkdownIt = require("markdown-it");
 export default {
   data() {
     return {

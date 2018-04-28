@@ -106,7 +106,7 @@ export default {
         )
         .then(d => {
           if (d.data.success) {
-            var result = d.data.result;
+            const result = d.data.result;
             this.tableData = result.aaData;
             this.pagination.total = result.count;
           }
@@ -116,7 +116,7 @@ export default {
     handleSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          var url = "/api/wx/addAuth";
+          let url = "/api/wx/addAuth";
           if (this.formData.id) {
             url = "/api/wx/updateAuth";
           }

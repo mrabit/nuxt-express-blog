@@ -1,21 +1,21 @@
-var express = require('express');
-var router = express.Router();
-var jwt = require('jsonwebtoken');
-var User = require('../../model/admin/user');
-var wx_auth = require('../../model/admin/wx_auth');
-var redis = require('../../model/redis_db');
-var exp = require('../../config')['redis']['exp'];
-var wx_conf = require('../../config')['wx'];
-var common = require('../../common');
-var location_key = require('../../config')['location'];
+const express = require('express');
+const router = express.Router();
+const jwt = require('jsonwebtoken');
+const User = require('../../model/admin/user');
+const wx_auth = require('../../model/admin/wx_auth');
+const redis = require('../../model/redis_db');
+const exp = require('../../config')['redis']['exp'];
+const wx_conf = require('../../config')['wx'];
+const common = require('../../common');
+const location_key = require('../../config')['location'];
 
 
 router.get('/jsoncode2session', (req, res) => {
-  var js_code = req.query.js_code;
-  var appid = wx_conf.appid;
-  var secret = wx_conf.secret;
-  var grant_type = wx_conf.grant_type;
-  var params = {
+  const js_code = req.query.js_code;
+  const appid = wx_conf.appid;
+  const secret = wx_conf.secret;
+  const grant_type = wx_conf.grant_type;
+  const params = {
     appid,
     secret,
     js_code,
@@ -30,7 +30,7 @@ router.get('/jsoncode2session', (req, res) => {
 })
 
 router.get('/checkAuth', (req, res) => {
-  var OPEN_ID = req.query.OPEN_ID;
+  const OPEN_ID = req.query.OPEN_ID;
   wx_auth.checkAuth(OPEN_ID)
     .then(result => {
       if (result.length > 0) {
@@ -52,9 +52,9 @@ router.get('/checkAuth', (req, res) => {
 })
 
 router.get('/getLocation', (req, res) => {
-  var latitude = req.query.latitude;
-  var longitude = req.query.longitude;
-  var params = {
+  const latitude = req.query.latitude;
+  const longitude = req.query.longitude;
+  const params = {
     location: longitude + ',' + latitude,
     key: location_key,
     radius: '1000',
@@ -69,7 +69,7 @@ router.get('/getLocation', (req, res) => {
 })
 
 router.get('/getAuthList/:page/:length', (req, res) => {
-  var params = {
+  const params = {
     page: parseInt(req.params.page) || 1,
     length: parseInt(req.params.length) || 10
   }
@@ -90,7 +90,7 @@ router.get('/getAuthList/:page/:length', (req, res) => {
 })
 
 router.post('/addAuth', (req, res) => {
-  var params = {
+  const params = {
     OPEN_ID: req.body.OPEN_ID,
     nick_name: req.body.nick_name,
     create_time: (Date.parse(new Date()) / 1000)
@@ -106,7 +106,7 @@ router.post('/addAuth', (req, res) => {
 })
 
 router.post('/deleteAuth', (req, res) => {
-  var id = req.body.id;
+  const id = req.body.id;
   wx_auth.deleteAuth(id)
     .then(result => {
       res.json({
@@ -118,7 +118,7 @@ router.post('/deleteAuth', (req, res) => {
 })
 
 router.get('/getAuthDetails/:id', (req, res) => {
-  var id = req.params.id;
+  const id = req.params.id;
   wx_auth.getAuthDetails(id)
     .then(result => {
       res.json({
@@ -130,7 +130,7 @@ router.get('/getAuthDetails/:id', (req, res) => {
 })
 
 router.post('/updateAuth', (req, res) => {
-  var params = {
+  const params = {
     OPEN_ID: req.body.OPEN_ID,
     nick_name: req.body.nick_name,
     id: req.body.id

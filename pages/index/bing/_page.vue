@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     open_url(url) {
-      var a = document.createElement("a");
+      const a = document.createElement("a");
       a.href = url;
       a.setAttribute("target", "_blank");
       a.click();

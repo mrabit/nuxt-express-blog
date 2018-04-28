@@ -233,12 +233,12 @@ export default {
   },
   methods: {
     initVisitor(val = 2) {
-      let myChart = echarts.init(document.getElementById('visitor'));
+      const myChart = echarts.init(document.getElementById('visitor'));
       myChart.showLoading();
       this.$http.get(`/api/visitor/get_visitor_today/${val}`).then(d => {
         if (d.data.success) {
-          let result = d.data.result;
-          let xData = [],
+          const result = d.data.result;
+          const xData = [],
             sData = [];
           this.visit_today = 0;
           for (let i in result) {
@@ -255,20 +255,20 @@ export default {
       })
     },
     initCpuUtilization() {
-      let myChart = echarts.init(document.getElementById('cpuUtilization'));
+      const myChart = echarts.init(document.getElementById('cpuUtilization'));
       myChart.showLoading();
       this.$http.get('/api/ecs/get_cpu_utilization').then(d => {
         if (d.data.success) {
-          let result = d.data.result;
-          var data = result.datapoints;
-          var seriesData = data.map(k => {
+          const result = d.data.result;
+          const data = result.datapoints;
+          const seriesData = data.map(k => {
             return k.Average
           })
-          var xAxisData = data.map(k => {
+          const xAxisData = data.map(k => {
             return moment(k.timestamp)
               .format('HH:mm:ss')
           });
-          let yAxisMax = Math.floor(seriesData.reduce((p, next) => p + next, 0) / seriesData.length * 2);
+          const yAxisMax = Math.floor(seriesData.reduce((p, next) => p + next, 0) / seriesData.length * 2);
           this.cpuUtilization.xAxis['data'] = xAxisData;
           this.cpuUtilization.yAxis['max'] = yAxisMax;
           this.cpuUtilization.series[0]['data'] = seriesData;
@@ -278,12 +278,12 @@ export default {
       })
     },
     initInternetRate() {
-      let myChart = echarts.init(document.getElementById('internetRate'));
+      const myChart = echarts.init(document.getElementById('internetRate'));
       myChart.showLoading();
       this.$http.get('/api/ecs/get_internet_rate').then(d => {
         if (d.data.success) {
-          let result = d.data.result;
-          let {
+          const result = d.data.result;
+          const {
             InternetInRate,
             InternetOutRate
           } = result;

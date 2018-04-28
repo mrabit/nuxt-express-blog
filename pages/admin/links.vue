@@ -24,7 +24,7 @@
             </el-table-column>
             <el-table-column label="操作" width="220">
               <template slot-scope="scope">
-                <button class="btn btn-default btn-sm w-xs" @click="handleEdit(scope.row.id)">编辑</button>
+                <button class="btn btn-default btn-sm w-xs m-r-xs" @click="handleEdit(scope.row.id)">编辑</button>
                 <el-popover placement="top" trigger="click" v-model="scope.row.visable">
                   <p>删除操作将无法撤回,是否继续？</p>
                   <div style="text-align: right; margin: 0">
@@ -72,8 +72,8 @@ import {
 } from "vuex";
 export default {
   data() {
-    var checkUrl = (rule, value, callback) => {
-      var reg = new RegExp("[a-zA-z]+://[^s]*", "ig");
+    const checkUrl = (rule, value, callback) => {
+      const reg = new RegExp("[a-zA-z]+://[^s]*", "ig");
       if (reg.test(value)) {
         callback();
       } else {
@@ -130,7 +130,7 @@ export default {
         )
         .then(d => {
           if (d.data.success) {
-            var result = d.data.result;
+            const result = d.data.result;
             this.tableData = result.aaData;
             this.pagination.total = result.count;
           }
@@ -140,7 +140,7 @@ export default {
     handleSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          var url = "/api/links/addLinks";
+          let url = "/api/links/addLinks";
           if (this.formData.id) {
             url = "/api/links/updateLinks";
           }

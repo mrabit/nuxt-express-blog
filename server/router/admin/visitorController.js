@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var Visitor = require('../../model/admin/visitor');
-var moment = require('moment');
+const express = require('express');
+const router = express.Router();
+const Visitor = require('../../model/admin/visitor');
+const moment = require('moment');
 
 router.get('/get_visitor_count', (req, res) => {
   const today = moment(moment()

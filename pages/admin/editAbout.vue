@@ -62,10 +62,10 @@ export default {
     },
     // 图片上传
     $imgAdd(pos, $file) {
-      var imageFormats = ["jpg", "jpeg", "gif", "png", "bmp", "webp"];
+      const imageFormats = ["jpg", "jpeg", "gif", "png", "bmp", "webp"];
       // 将图片上传到服务器.
-      var isImage = new RegExp("(\\.(" + imageFormats.join("|") + "))$", "ig"); // /(\.(webp|jpg|jpeg|gif|bmp|png))$/
-      var type = $file.name.match(isImage);
+      const isImage = new RegExp("(\\.(" + imageFormats.join("|") + "))$", "ig"); // /(\.(webp|jpg|jpeg|gif|bmp|png))$/
+      const type = $file.name.match(isImage);
       if ($file.name == "") {
         this.$notify({
           message: '请选择图片.',
@@ -82,7 +82,7 @@ export default {
         this.$refs.md.$refs.toolbar_left.$imgDelByFilename(pos);
         return false;
       }
-      var reader = new FileReader();
+      const reader = new FileReader();
       reader.onload = (e) => {
         this.uploadImage(e.target.result, type[0], pos);
       };

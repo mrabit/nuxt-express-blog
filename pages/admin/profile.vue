@@ -43,8 +43,8 @@ import {
 } from "vuex";
 export default {
   data() {
-    var checkUrl = (rule, value, callback) => {
-      var reg = new RegExp("[a-zA-z]+://[^s]*", "ig");
+    const checkUrl = (rule, value, callback) => {
+      const reg = new RegExp("[a-zA-z]+://[^s]*", "ig");
       if (reg.test(value)) {
         callback();
       } else {

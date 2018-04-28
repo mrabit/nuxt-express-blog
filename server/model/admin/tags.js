@@ -1,11 +1,11 @@
-var query = require('../db');
+const query = require('../db');
 
-var Tags = _ => {}
+const Tags = _ => {}
 
 module.exports = Tags;
 
 Tags.get_all_tags = function(params) {
-  var sql = "SELECT * FROM `tp_tags`";
+  let sql = "SELECT * FROM `tp_tags`";
   if (params) {
     sql += ("where `tags_name` in ('" + params.join("','") + "')");
   }
@@ -19,11 +19,11 @@ Tags.get_all_tags = function(params) {
 
 Tags.insert_into_all = function(tags_arr) {
   //id非0的数组
-  var $old_tags = [];
+  const $old_tags = [];
   //id为0,需要批量插入的数组
-  var $insert_tags = [];
+  const $insert_tags = [];
 
-  for (var i in tags_arr) {
+  for (let i in tags_arr) {
     if (tags_arr[i] == "0") {
       $insert_tags.push(i);
     } else {
@@ -32,7 +32,7 @@ Tags.insert_into_all = function(tags_arr) {
   }
   return new Promise((resolve, reject) => {
       if ($insert_tags.length > 0) {
-        var sql = "INSERT INTO `tp_tags` (`tags_name`) VALUES ";
+        let sql = "INSERT INTO `tp_tags` (`tags_name`) VALUES ";
         $insert_tags.forEach(v => {
           sql += "('" + v + "'),";
         })

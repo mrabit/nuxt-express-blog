@@ -1,6 +1,6 @@
-var query = require('../db');
+const query = require('../db');
 
-var Visitor = _ => {}
+const Visitor = _ => {}
 
 module.exports = Visitor;
 

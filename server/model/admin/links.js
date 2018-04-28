@@ -1,10 +1,10 @@
-var query = require('../db');
+const query = require('../db');
 
 module.exports = {
   getLinksList(params) {
-    var sql = 'select *,FROM_UNIXTIME( create_time,"%Y-%m-%d %H:%i:%S" ) as release_time from tp_links ORDER BY create_time desc LIMIT ?,?';
+    const sql = 'select *,FROM_UNIXTIME( create_time,"%Y-%m-%d %H:%i:%S" ) as release_time from tp_links ORDER BY create_time desc LIMIT ?,?';
     params['start'] = (params.page - 1) * params.length;
-    var map = [
+    const map = [
       params.start,
       params.length
     ]
@@ -16,7 +16,7 @@ module.exports = {
     })
   },
   getLinksCount() {
-    var sql = 'select count(*) as count from tp_links';
+    const sql = 'select count(*) as count from tp_links';
     return new Promise((resolve, reject) => {
       query(sql, (err, result) => {
         if (err) reject(err);
@@ -25,7 +25,7 @@ module.exports = {
     })
   },
   getLinksDetails(id) {
-    var sql = 'select id, site_name, site_url from tp_links where id=?';
+    const sql = 'select id, site_name, site_url from tp_links where id=?';
     return new Promise((resolve, reject) => {
       query(sql, id, (err, result) => {
         if (err) reject(err);
@@ -34,9 +34,9 @@ module.exports = {
     })
   },
   insert_links(params) {
-    var sql = 'INSERT INTO `tp_links` (`site_name`,`site_url`,`create_time`)\
+    const sql = 'INSERT INTO `tp_links` (`site_name`,`site_url`,`create_time`)\
         VALUES (?,?,?)';
-    var map = [
+    const map = [
       params.site_name,
       params.site_url,
       params.create_time
@@ -49,7 +49,7 @@ module.exports = {
     })
   },
   deleteLinks(id) {
-    var sql = "delete from tp_links where id = " + id;
+    const sql = "delete from tp_links where id = " + id;
     return new Promise((resolve, reject) => {
       query(sql, (err, result) => {
         if (err) reject(err);
@@ -58,8 +58,8 @@ module.exports = {
     })
   },
   updateLinks(params) {
-    var sql = 'update tp_links set site_name=?, site_url =? where id=?';
-    var map = [
+    const sql = 'update tp_links set site_name=?, site_url =? where id=?';
+    const map = [
       params.site_name,
       params.site_url,
       params.id

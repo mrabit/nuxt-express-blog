@@ -1,6 +1,6 @@
-var Tags = require('../../model/admin/tags');
-var express = require('express');
-var router = express.Router();
+const Tags = require('../../model/admin/tags');
+const express = require('express');
+const router = express.Router();
 
 router.get('/get_all_tags', function(req, res) {
   Tags.get_all_tags()

@@ -1,11 +1,11 @@
-var express = require('express');
-var router = express.Router();
-var article = require('../model/index/article');
-var articleTags = require('../model/index/articleTags');
-var bing = require('../model/index/bing');
-var moment = require('moment');
-var fs = require('fs');
-var path = require('path');
+const express = require('express');
+const router = express.Router();
+const article = require('../model/index/article');
+const articleTags = require('../model/index/articleTags');
+const bing = require('../model/index/bing');
+const moment = require('moment');
+const fs = require('fs');
+const path = require('path');
 
 // sitemap地址:
 // 首页: https://blog.mrabit.com

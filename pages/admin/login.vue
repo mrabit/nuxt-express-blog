@@ -66,24 +66,23 @@
   </section>
 </template>
 <script>
-var WebStorageCache = require("web-storage-cache");
-// var QRCode = require("qrcode");
-var config = require("../../server/config");
-var md5 = require("md5");
+const WebStorageCache = require("web-storage-cache");
+const config = require("../../server/config");
+const md5 = require("md5");
 import {
   mapGetters
 } from "vuex";
 
 export default {
   data() {
-    var validatePass = (rule, value, callback) => {
+    const validatePass = (rule, value, callback) => {
       if (value === "") {
         this.formData.error = "请输入密码";
         this.formData.visibility = true;
       }
       callback();
     };
-    var validateLength = (rule, value, callback) => {
+    const validateLength = (rule, value, callback) => {
       if (!this.formData.visibility) {
         this.formData.error = "长度在 5 到 10 个字符";
       }
@@ -91,7 +90,6 @@ export default {
       callback();
     };
     return {
-      activeName: "passwd",
       formData: {
         uname: "admin",
         upwd: "",
@@ -110,9 +108,6 @@ export default {
           }
         ]
       },
-      wss: null,
-      qrcode_url: "",
-      qrcode_message: "请扫码登录.",
       wsCache: null,
       tokenAuth: true
     };
@@ -168,6 +163,7 @@ export default {
       this.wsCache = new WebStorageCache();
       const token = this.wsCache.get("token");
       // 本地缓存存在token， 判断token是否失效
+      // 不存在 显示登录框
       if (token) {
         this.$http.post("/api/check_token").then(
           result => {
@@ -187,7 +183,7 @@ export default {
   },
   head() {
     return {
-      title: "登录 - " + this.$store.getters["admin/getUser"].blog_name
+      title: "登录 - " + this.user.blog_name
     };
   }
 };

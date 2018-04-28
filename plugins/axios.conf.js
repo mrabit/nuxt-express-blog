@@ -1,6 +1,6 @@
 import * as axios from 'axios'
 import Vue from 'vue';
-var WebStorageCache = require('web-storage-cache');
+const WebStorageCache = require('web-storage-cache');
 import {
   Message
 } from 'element-ui';
@@ -21,7 +21,7 @@ if (!process.server) {
   axios.interceptors.response.use(config => {
     return config
   }, err => {
-    var func = _ => {};
+    let func = _ => {};
     // 错误原因是登录过期,删除本地token,设置错误信息回调为跳转登录页
     if (err.response.data.status == "NOTLOGIN") {
       wsCache.delete('token');
@@ -32,7 +32,7 @@ if (!process.server) {
     // 当前不为登录页,提示错误信息
     if (window.location.pathname != "/admin/login") {
       Message({
-        message: err.response.data.message,
+        message: err.response.data.code + "：" + err.response.data.message,
         type: 'error',
         onClose: func
       });

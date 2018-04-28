@@ -6,12 +6,12 @@ const router = express.Router();
 const moment = require('moment');
 
 router.get('/get_details/:id', (req, res) => {
-  var id = req.params.id;
+  const id = req.params.id;
   Article.get_article_by_id(id)
     .then(article => {
       ArticleTags.get_tagsName_by_articleId(id)
         .then(tags_arr => {
-          var tags = {};
+          const tags = {};
           tags_arr.forEach(v => {
             tags[v.tags_name] = v.id;
           });
@@ -28,7 +28,7 @@ router.get('/get_details/:id', (req, res) => {
 })
 
 router.get('/get_lists/:page/:length', (req, res) => {
-  var params = {
+  const params = {
     startime: req.query.startime || null,
     endtime: req.query.endtime || null,
     title: req.query.title || null,
@@ -81,7 +81,7 @@ router.post('/insert_article', (req, res) => {
 })
 
 router.post('/delete_article', (req, res) => {
-  var id = req.body.id;
+  const id = req.body.id;
   Article.delete_article_by_id(id)
     .then(result => {
       return ArticleTags.delete_tags_by_articleId(id)

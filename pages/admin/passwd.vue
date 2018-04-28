@@ -34,13 +34,13 @@
 <script>
 export default {
   data() {
-    var validatePass = (rule, value, callback) => {
+    const validatePass = (rule, value, callback) => {
       if (this.profile.checkPass !== "") {
         this.$refs.passwd.validateField("checkPass");
       }
       callback();
     };
-    var validatePass2 = (rule, value, callback) => {
+    const validatePass2 = (rule, value, callback) => {
       if (value !== this.profile.newPasswd) {
         callback(new Error("两次输入密码不一致!"));
       } else {
@@ -146,7 +146,7 @@ export default {
     }
   },
   mounted() {
-    var webStorageCache = require("web-storage-cache");
+    const webStorageCache = require("web-storage-cache");
     this.wsCache = new webStorageCache();
     this.$http.post('/api/check_token').then(_ => {
       this.loading = false;

@@ -1,10 +1,10 @@
-var express = require('express');
-var router = express.Router();
-var Bing = require('../../model/index/bing');
-var moment = require('moment');
-var qiniu_model = require('../../model/qiniu');
-var qiniu_config = require('../../config')['qiniu'];
-var common = require('../../common');
+const express = require('express');
+const router = express.Router();
+const Bing = require('../../model/index/bing');
+const moment = require('moment');
+const qiniu_model = require('../../model/qiniu');
+const qiniu_config = require('../../config')['qiniu'];
+const common = require('../../common');
 
 router.get('/today', function(req, res) {
   Bing.get_image_by_time(moment()
@@ -29,8 +29,8 @@ router.get('/today', function(req, res) {
  * @return mixed
  */
 router.get('/add_info', (req, res) => {
-  var d = req.query.d || 0;
-  var time = moment()
+  const d = req.query.d || 0;
+  const time = moment()
     .subtract(d, 'days')
     .format('YYYY-MM-DD');
   Bing.get_image_by_time(time)
@@ -60,17 +60,17 @@ router.get('/add_info', (req, res) => {
     })
     .then(bing_data => {
       //url地址
-      var urlbase = 'http://cn.bing.com' + bing_data.images[0]['urlbase'];
+      const urlbase = 'http://cn.bing.com' + bing_data.images[0]['urlbase'];
       //简介
-      var copyright = bing_data.images[0]['copyright'];
+      const copyright = bing_data.images[0]['copyright'];
       //1920地址
-      var img_url = urlbase + '_1920x1080.jpg';
+      const img_url = urlbase + '_1920x1080.jpg';
       //480地址
-      var img_url_480 = urlbase + '_480x640.jpg';
+      const img_url_480 = urlbase + '_480x640.jpg';
 
-      var qiniu = new qiniu_model();
+      const qiniu = new qiniu_model();
       //需要存入七牛云的数据
-      var img_url_arr = [{
+      const img_url_arr = [{
           url: img_url,
           key: '1920.' + time + '.jpg'
         },
@@ -81,7 +81,7 @@ router.get('/add_info', (req, res) => {
       ]
 
       //需要存入数据库的数据
-      var params = {
+      const params = {
         img_real_url: img_url,
         img_time: time,
         img_title: copyright
@@ -145,7 +145,7 @@ router.get('/add_info', (req, res) => {
  * @return mixed
  */
 router.get('/get_img_lists/:page/:length', function(req, res) {
-  var params = {
+  const params = {
     page: parseInt(req.params.page) || 1,
     length: parseInt(req.params.length) || 5
   };
@@ -154,7 +154,7 @@ router.get('/get_img_lists/:page/:length', function(req, res) {
       return Bing.get_img_count()
         .then(count => {
           //取文章总页数
-          var totalPage = Math.ceil(count / params.length);
+          const totalPage = Math.ceil(count / params.length);
           return {
             count: count,
             totalPage: totalPage,

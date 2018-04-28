@@ -1,6 +1,6 @@
-var query = require('../db');
+const query = require('../db');
 
-var Visitor = _ => {};
+const Visitor = _ => {};
 
 module.exports = Visitor;
 
@@ -8,13 +8,13 @@ module.exports = Visitor;
  * @param {*} params 
  */
 Visitor.insert_visitor = (params) => {
-  var map = [
+  const map = [
     params.ip,
     params.referrer,
     params.visit_time,
     params.visit_url
   ];
-  var sql = "INSERT INTO `tp_visitor` (`ip`,`referrer`,`visit_time`,`visit_url`)\
+  const sql = "INSERT INTO `tp_visitor` (`ip`,`referrer`,`visit_time`,`visit_url`)\
               VALUES (?,?,?,?)";
   return new Promise((resolve, reject) => {
     query(sql, map, (err, result) => {

@@ -1,11 +1,11 @@
-var qiniu = require("qiniu");
-var request = require('request');
-var qiniu_config = require('../config')['qiniu'];
-var url = require('url');
+const qiniu = require("qiniu");
+const request = require('request');
+const qiniu_config = require('../config')['qiniu'];
+const url = require('url');
 
 
 
-var qiniu_model = function() {
+const qiniu_model = function() {
   //需要填写你的 Access Key 和 Secret Key
   this.mac = new qiniu.auth.digest.Mac(qiniu_config.accessKey, qiniu_config.secretKey);
   //要上传的空间
@@ -17,23 +17,23 @@ module.exports = qiniu_model;
 qiniu_model.prototype.fetch_file_by_url = function(filePath, fileName) {
   //上传到七牛后保存的文件名
   if (!fileName) {
-    var reg = /.*\/(.*)/;
+    const reg = /.*\/(.*)/;
     fileName = filePath.replace(reg, "$1");
     // fileName = (Date.parse(new Date()) / 1000) + '.jpg';
   }
 
-  var entry = this.bucket + ":" + fileName;
-  var encodedEntryURI = qiniu.util.urlsafeBase64Encode(entry);
+  const entry = this.bucket + ":" + fileName;
+  const encodedEntryURI = qiniu.util.urlsafeBase64Encode(entry);
 
-  var pic = new Buffer(filePath)
+  const pic = new Buffer(filePath)
     .toString('base64')
-  var basePic = qiniu.util.base64ToUrlSafe(pic)
+  const basePic = qiniu.util.base64ToUrlSafe(pic)
 
-  var url = 'http://iovip.qbox.me/fetch/' + basePic + '/to/' + encodedEntryURI;
+  const url = 'http://iovip.qbox.me/fetch/' + basePic + '/to/' + encodedEntryURI;
 
-  var token = qiniu.util.generateAccessToken(this.mac, url);
+  const token = qiniu.util.generateAccessToken(this.mac, url);
 
-  var options = {
+  const options = {
     method: 'POST',
     url: url,
     headers: {
@@ -59,20 +59,20 @@ qiniu_model.prototype.upload_img_by_base64 = function(base64_string, fileName) {
     fileName = (Date.parse(new Date()) / 1000) + '.jpg';
   }
 
-  var remote_server = "http://upload.qiniu.com/putb64/-1";
+  const remote_server = "http://upload.qiniu.com/putb64/-1";
 
-  var entry = fileName;
-  var encodedEntryURI = qiniu.util.urlsafeBase64Encode(entry);
+  const entry = fileName;
+  const encodedEntryURI = qiniu.util.urlsafeBase64Encode(entry);
 
   remote_server += ("/key/" + encodedEntryURI);
 
-  var putPolicy_options = {
+  const putPolicy_options = {
     scope: this.bucket,
   };
-  var putPolicy = new qiniu.rs.PutPolicy(putPolicy_options);
-  var uploadToken = putPolicy.uploadToken(this.mac);
+  const putPolicy = new qiniu.rs.PutPolicy(putPolicy_options);
+  const uploadToken = putPolicy.uploadToken(this.mac);
 
-  var options = {
+  const options = {
     method: 'POST',
     url: remote_server,
     headers: {

@@ -133,7 +133,7 @@ export default {
   },
   methods: {
     handleCurrentChange(currentPage = 1) {
-      var url = util.format(
+      let url = util.format(
         "/api/article/get_lists/%s/%s",
         currentPage,
         this.pageSize
@@ -142,10 +142,10 @@ export default {
         url += this.formInline.params;
       }
       this.$http.get(url).then(d => {
-        var data = d.data;
+        const data = d.data;
         if (data.success) {
-          var result = data.result;
-          for (var i in result.article_lists) {
+          const result = data.result;
+          for (let i in result.article_lists) {
             result.article_lists[i]["visable"] = false;
           }
           this.tableData = result.article_lists;
@@ -155,11 +155,11 @@ export default {
       });
     },
     onSubmit() {
-      var params = [];
+      const params = [];
       if (this.formInline.title) {
         params.push("title=" + this.formInline.title);
       }
-      var time = this.formInline.release_time;
+      const time = this.formInline.release_time;
       if (
         this.formInline.need_time &&
         typeof time === "object" &&
@@ -169,7 +169,7 @@ export default {
         params.push("startime=" + Date.parse(new Date(time[0])) / 1000);
         params.push("&endtime=" + Date.parse(new Date(time[1])) / 1000);
       }
-      var params_url = "";
+      let params_url = "";
       if (params.length) {
         params_url = "?" + params.join("&");
       }

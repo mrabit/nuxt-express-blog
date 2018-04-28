@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var links = require('../../model/index/links');
+const express = require('express');
+const router = express.Router();
+const links = require('../../model/index/links');
 
 router.get('/getLinksList', (req, res) => {
   links.getLinksList()

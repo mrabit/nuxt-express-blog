@@ -109,8 +109,8 @@
 <script>
 import axios from "~/plugins/axios";
 import moment from "moment";
-var QRCode = require("qrcode");
-var MarkdownIt = require("markdown-it");
+const QRCode = require("qrcode");
+const MarkdownIt = require("markdown-it");
 
 export default {
   asyncData({

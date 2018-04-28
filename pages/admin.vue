@@ -11,7 +11,6 @@ import axios from "~/plugins/axios";
 import side from "~/components/admin/side.vue";
 import headerComponent from "~/components/admin/header.vue";
 import footerComponent from "~/components/admin/footer.vue";
-import WebStorageCache from 'web-storage-cache';
 export default {
   middleware: "checkAuth",
   fetch({
@@ -30,13 +29,13 @@ export default {
   },
   computed: {
     login() {
-      var reg = /\/admin\/login*/;
+      const reg = /\/admin\/login*/;
       // 是否是后台登录页面
       return reg.test(this.$route.path);
     }
   },
   mounted() {
-    //进入页面不为登录页判断token权限
+    //第一次进入页面不为登录页时判断token权限
     if (this.$route.path != "/admin/login") {
       this.$http.post('/api/check_token').then(d => {
         this.$store.commit('admin/changeTokenAuth', true);

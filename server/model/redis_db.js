@@ -1,7 +1,7 @@
-var redis = require('redis');
-var db_config = require('../config')
+const redis = require('redis');
+const db_config = require('../config')
   .redis;
-var redisClient = redis.createClient(db_config.port, db_config.host, {
+const redisClient = redis.createClient(db_config.port, db_config.host, {
   auth_pass: db_config.auth_pass
 });
 

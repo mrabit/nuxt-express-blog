@@ -1,6 +1,6 @@
-var ArticleTags = require('../../model/index/articleTags');
-var express = require('express');
-var router = express.Router();
+const ArticleTags = require('../../model/index/articleTags');
+const express = require('express');
+const router = express.Router();
 
 router.get('/', function(req, res) {
   ArticleTags.get_tags()

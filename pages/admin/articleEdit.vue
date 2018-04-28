@@ -47,8 +47,8 @@ export default {
       })
       .then(tags_map => {
         this.$http.get("/api/article/get_details/" + this.$route.query.id).then(d => {
-          var data = d.data;
-          var result = data.result;
+          const data = d.data;
+          const result = data.result;
           result.private = "" + result.private;
           this.article = result;
           this.tags_map = tags_map;

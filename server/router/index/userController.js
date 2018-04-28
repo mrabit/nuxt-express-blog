@@ -1,7 +1,7 @@
-var query = require('../../model/db');
-var express = require('express');
-var router = express.Router();
-var User = require('../../model/index/user');
+const query = require('../../model/db');
+const express = require('express');
+const router = express.Router();
+const User = require('../../model/index/user');
 
 router.get('/profile', (req, res) => {
   User.get_profile('1')

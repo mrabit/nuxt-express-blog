@@ -1,11 +1,11 @@
-var express = require('express');
-var router = express.Router();
-var links = require('../../model/admin/links');
+const express = require('express');
+const router = express.Router();
+const links = require('../../model/admin/links');
 
 
 
 router.get('/getLinksList/:page/:length', (req, res) => {
-  var params = {
+  const params = {
     page: parseInt(req.params.page) || 1,
     length: parseInt(req.params.length) || 10
   }
@@ -26,7 +26,7 @@ router.get('/getLinksList/:page/:length', (req, res) => {
 })
 
 router.post('/addLinks', (req, res) => {
-  var params = {
+  const params = {
     site_name: req.body.site_name,
     site_url: req.body.site_url,
     create_time: (Date.parse(new Date()) / 1000)
@@ -42,7 +42,7 @@ router.post('/addLinks', (req, res) => {
 })
 
 router.post('/deleteLinks', (req, res) => {
-  var id = req.body.id;
+  const id = req.body.id;
   links.deleteLinks(id)
     .then(result => {
       res.json({
@@ -54,7 +54,7 @@ router.post('/deleteLinks', (req, res) => {
 })
 
 router.get('/getLinksDetails/:id', (req, res) => {
-  var id = req.params.id;
+  const id = req.params.id;
   links.getLinksDetails(id)
     .then(result => {
       res.json({
@@ -66,7 +66,7 @@ router.get('/getLinksDetails/:id', (req, res) => {
 })
 
 router.post('/updateLinks', (req, res) => {
-  var params = {
+  const params = {
     site_name: req.body.site_name,
     site_url: req.body.site_url,
     id: req.body.id

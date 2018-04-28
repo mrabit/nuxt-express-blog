@@ -1,11 +1,11 @@
-var Article = require('../../model/index/article');
-var express = require('express');
-var articleTags = require('../../model/index/articleTags');
-var router = express.Router();
+const Article = require('../../model/index/article');
+const express = require('express');
+const articleTags = require('../../model/index/articleTags');
+const router = express.Router();
 
 
 router.get('/get_details/:id', function(req, res) {
-  var id = req.params.id;
+  const id = req.params.id;
   Article.get_article_by_id(id)
     .then((result) => {
       Article.update_visit_number_by_id(id);
@@ -20,7 +20,7 @@ router.get('/get_details/:id', function(req, res) {
 })
 
 router.get('/get_lists/:page/:length', function(req, res) {
-  var params = {
+  const params = {
     tags_id: req.query.tags_id,
     page: parseInt(req.params.page) || 1,
     length: parseInt(req.params.length) || 5
@@ -30,8 +30,8 @@ router.get('/get_lists/:page/:length', function(req, res) {
       return (!params.tags_id ? Article.get_article_count() : Article.get_article_count_by_tagsId(params.tags_id || null))
         .then(count => {
           //取文章总页数
-          var totalPage = Math.ceil(count / params.length);
-          var data = {
+          const totalPage = Math.ceil(count / params.length);
+          const data = {
             count: count,
             totalPage: totalPage,
             article_lists: aaData
@@ -58,10 +58,10 @@ router.get('/get_lists/:page/:length', function(req, res) {
 router.get('/archives', function(req, res) {
   Article.get_article_by_archives()
     .then(result => {
-      var article_lists = [];
+      const article_lists = [];
       result.reduce((p, next) => {
           return p.then(() => {
-            var temp = {
+            const temp = {
               archives_time: next.create_time
             };
             return Article.get_article_by_in({

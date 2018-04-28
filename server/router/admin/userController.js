@@ -1,16 +1,16 @@
-var express = require('express');
-var router = express.Router();
-var md5 = require('md5');
-var jwt = require('jsonwebtoken');
-var User = require('../../model/admin/user');
-var redis = require('../../model/redis_db');
-var exp = require('../../config')['redis']['exp'];
-var common = require('../../common');
+const express = require('express');
+const router = express.Router();
+const md5 = require('md5');
+const jwt = require('jsonwebtoken');
+const User = require('../../model/admin/user');
+const redis = require('../../model/redis_db');
+const exp = require('../../config')['redis']['exp'];
+const common = require('../../common');
 // var websocket = require('../../websocket');
 
 router.post('/login', (req, res) => {
   // 密码用前台md5加密发送过来,因为可能会用二维码扫码登录
-  var user = {
+  const user = {
     uname: req.body.uname,
     upwd: req.body.upwd
   }
@@ -25,11 +25,12 @@ router.post('/login', (req, res) => {
         });
       } else {
         // 生成token
-        var token = jwt.sign({
+        const token = jwt.sign({
           uname: result.uname,
           upwd: result.upwd,
           id: result.id,
         }, 'mrabit', {
+          // 过期时间
           expiresIn: exp
         })
         // 设置token到redis
@@ -51,7 +52,7 @@ router.post('/login', (req, res) => {
     .then(data => {
       // 更新登录状态时间
       // websocket模拟请求可能会带上服务器的ip 用,分割
-      var ip = common.getClientIp(req)
+      const ip = common.getClientIp(req)
         .split(',')[0];
       return User.update_login_time_by_id(data.result.id, ip)
         .then(status => {
@@ -80,7 +81,7 @@ router.post('/login', (req, res) => {
 })
 
 router.post('/logout', (req, res) => {
-  var key = req.body.key;
+  const key = req.body.key;
   redis.del(key)
     .then(result => {
       res.json({
@@ -131,7 +132,7 @@ router.get('/user/about', (req, res) => {
 })
 
 router.post('/user/edit_about', (req, res) => {
-  var about = req.body.about;
+  const about = req.body.about;
   User.edit_about(about)
     .then(result => {
       res.json({
@@ -145,7 +146,7 @@ router.post('/user/edit_about', (req, res) => {
 })
 
 router.post('/user/changePasswd', (req, res) => {
-  var params = {
+  const params = {
     oldPasswd: md5(req.body.oldPasswd || ''),
     newPasswd: md5(req.body.newPasswd || '')
   }
@@ -164,7 +165,6 @@ router.post('/user/changePasswd', (req, res) => {
           message: '旧密码错误,请重新输入.'
         })
       }
-
     }, err => {
       res.end(err);
     })

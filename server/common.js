@@ -1,4 +1,4 @@
-var request = require('request');
+const request = require('request');
 
 module.exports = {
   getClientIp: (req) => {
@@ -8,7 +8,7 @@ module.exports = {
       req.connection.socket.remoteAddress;
   },
   get_request: (url, params) => {
-    var options = {
+    const options = {
       method: 'GET',
       url: url,
       headers: {
@@ -24,7 +24,7 @@ module.exports = {
     })
   },
   post_request: (url, params, ip) => {
-    var options = {
+    const options = {
       url: url,
       method: "POST",
       json: true,

@@ -1,6 +1,6 @@
 const query = require('../db');
 // const ALY = require('aliyun-sdk');
-var Metrics = require("aliyun-metrics");
+const Metrics = require("aliyun-metrics");
 const moment = require('moment');
 const { ecs: ecsConf } = require('../../config');
 
@@ -10,12 +10,12 @@ const { ecs: ecsConf } = require('../../config');
 //   endpoint: 'https://ecs.aliyuncs.com',
 //   apiVersion: '2014-05-26'
 // });
-var client = new Metrics({
+const client = new Metrics({
   accesskeyId: ecsConf.accessKeyId,
   accesskeySecret: ecsConf.secretAccessKey,
 })
 
-var ECS = params => {
+const ECS = params => {
   return new Promise((resolve, reject) => {
     client.queryData({
       project: "acs_ecs_dashboard",

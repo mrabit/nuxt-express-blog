@@ -43,7 +43,7 @@ module.exports = function(req, res, next) {
           })
       })
       .then(decoded => {
-        // 更新当前字段过期时间
+        // 更新redis值的过期时间
         return redis.expire(decoded.uname, require('../config')['redis']['exp'])
           .then(flag => {
             if (flag) {

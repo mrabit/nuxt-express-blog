@@ -3,7 +3,7 @@ const Connection = require('mysql/lib/Connection');
 const db_config = require('../config')
   .db;
 
-Connection.prototype.query = (sql, values, cb, isConsole) => {
+Connection.prototype.query = function(sql, values, cb, isConsole) {
   const query = Connection.createQuery(sql, values, cb);
   query._connection = this;
 

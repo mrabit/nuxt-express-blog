@@ -59,7 +59,7 @@ qiniu_model.prototype.upload_img_by_base64 = function(base64_string, fileName) {
     fileName = (Date.parse(new Date()) / 1000) + '.jpg';
   }
 
-  const remote_server = "http://upload.qiniu.com/putb64/-1";
+  let remote_server = "http://upload.qiniu.com/putb64/-1";
 
   const entry = fileName;
   const encodedEntryURI = qiniu.util.urlsafeBase64Encode(entry);

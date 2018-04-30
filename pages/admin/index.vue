@@ -52,6 +52,24 @@
               </div>
             </el-card>
           </div>
+          <div class="col-md-6 col-sm-12 m-b-md">
+            <el-card class="w-full">
+              <div slot="header" class="clearfix">
+                <span>磁盘使用量(GB)</span>
+              </div>
+              <div id="diskusageInfo" style="width: 100%; height: 250px">
+              </div>
+            </el-card>
+          </div>
+          <div class="col-md-6 col-sm-12 m-b-md">
+            <el-card class="w-full">
+              <div slot="header" class="clearfix">
+                <span>内存使用率(%)</span>
+              </div>
+              <div id="memoryUsedutilization" style="width: 100%; height: 250px">
+              </div>
+            </el-card>
+          </div>
         </div>
       </div>
     </div>
@@ -70,6 +88,7 @@ export default {
   },
   data() {
     return {
+      // 访客统计
       visitor: {
         tooltip: {
           show: true,
@@ -83,7 +102,8 @@ export default {
           data: []
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          minInterval: 1
         },
         grid: {
           left: '5%',
@@ -101,13 +121,14 @@ export default {
           }
         }]
       },
+      // cpu使用率
       cpuUtilization: {
         tooltip: {
           show: true,
           formatter: '{b}<br>CPU使用率(%)：{c}'
         },
         grid: {
-          left: '5%',
+          left: 40,
           right: '5%',
           top: 20,
           bottom: 20
@@ -127,7 +148,11 @@ export default {
         },
         yAxis: {
           type: 'value',
-          max: 10
+          axisLabel: {
+            formatter(value, index) {
+              return value + "%";
+            }
+          }
         },
         series: [{
           data: [],
@@ -139,15 +164,17 @@ export default {
           }
         }]
       },
+      // 公网带宽
       internetRate: {
         tooltip: {
           trigger: 'axis',
           axisPointer: {
             animation: false
-          }
+          },
+          formatter: '{b}<br>公网流出带宽：{c0} kb/s<br>公网流入带宽：{c1} kb/s'
         },
         legend: {
-          data: ['公网流入带宽', '公网流出带宽'],
+          data: ['公网流出带宽', '公网流入带宽'],
           x: 'right'
         },
         axisPointer: {
@@ -189,7 +216,7 @@ export default {
             type: 'value',
             axisLabel: {
               formatter(value, index) {
-                return value / 1000 + "k";
+                return value + "kb";
               }
             }
           },
@@ -200,13 +227,13 @@ export default {
             inverse: true,
             axisLabel: {
               formatter(value, index) {
-                return value / 1000 + "k";
+                return value + "kb";
               }
             }
           }
         ],
         series: [{
-            name: '公网流入带宽',
+            name: '公网流出带宽',
             type: 'line',
             symbolSize: 8,
             smooth: true,
@@ -214,7 +241,7 @@ export default {
             data: []
           },
           {
-            name: '公网流出带宽',
+            name: '公网流入带宽',
             type: 'line',
             smooth: true,
             xAxisIndex: 1,
@@ -225,6 +252,128 @@ export default {
           }
         ]
       },
+      // 磁盘使用量
+      diskusageInfo: {
+        tooltip: {
+          trigger: 'axis',
+          formatter: '{b}<br>磁盘的已用存储空间：{c0} GB<br>磁盘的剩余存储空间：{c1} GB',
+          axisPointer: {
+            type: 'cross',
+            label: {
+              backgroundColor: '#6a7985'
+            }
+          }
+        },
+        legend: {
+          data: ['磁盘的已用存储空间', '磁盘的剩余存储空间'],
+          x: 'right'
+        },
+        grid: {
+          left: 10,
+          right: '5%',
+          top: 50,
+          bottom: 5,
+          containLabel: true
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: []
+        },
+        yAxis: {
+          name: '磁盘总量(GB)',
+          type: 'value',
+          axisLabel: {
+            formatter(value, index) {
+              return value + "GB";
+            }
+          }
+        },
+        series: [{
+            name: '磁盘的已用存储空间',
+            type: 'line',
+            stack: '总量',
+            areaStyle: {
+              normal: {
+                color: '#F7887F',
+                opacity: 0.5
+              }
+            },
+            lineStyle: {
+              normal: {
+                color: 'transparent'
+              }
+            },
+            showSymbol: false,
+            smooth: true,
+            data: []
+          },
+          {
+            name: '磁盘的剩余存储空间',
+            type: 'line',
+            stack: '总量',
+            areaStyle: {
+              normal: {
+                color: '#70D6AE',
+                opacity: 0.5
+              }
+            },
+            lineStyle: {
+              normal: {
+                color: 'transparent'
+              }
+            },
+            showSymbol: false,
+            smooth: true,
+            data: []
+          }
+        ]
+      },
+      // 内存使用率
+      memoryUsedutilization: {
+        tooltip: {
+          show: true,
+          formatter: '{b}<br>内存使用率(%)：{c}'
+        },
+        grid: {
+          left: 40,
+          right: '5%',
+          top: 20,
+          bottom: 20
+        },
+        xAxis: {
+          axisLabel: {
+            interval: (index, value) => {
+              return parseInt((value || '')
+                .split(':')[1]) % 15 == 0
+            }
+          },
+          type: 'category',
+          data: [],
+          axisPointer: {
+            show: true
+          }
+        },
+        yAxis: {
+          type: 'value',
+          max: 100,
+          axisLabel: {
+            formatter(value, index) {
+              return value + "%";
+            }
+          }
+        },
+        series: [{
+          data: [],
+          type: 'line',
+          smooth: true,
+          showSymbol: false,
+          itemStyle: {
+            color: '#314058'
+          }
+        }]
+      },
+      // 阅读排行
       readRank: [],
       selection: [1, 2, 3, 4],
       value: 2,
@@ -232,6 +381,7 @@ export default {
     }
   },
   methods: {
+    // 获取访客统计
     initVisitor(val = 2) {
       const myChart = echarts.init(document.getElementById('visitor'));
       myChart.showLoading();
@@ -254,6 +404,7 @@ export default {
         }
       })
     },
+    // 获取cpu使用率
     initCpuUtilization() {
       const myChart = echarts.init(document.getElementById('cpuUtilization'));
       myChart.showLoading();
@@ -268,15 +419,14 @@ export default {
             return moment(k.timestamp)
               .format('HH:mm:ss')
           });
-          const yAxisMax = Math.floor(seriesData.reduce((p, next) => p + next, 0) / seriesData.length * 2);
           this.cpuUtilization.xAxis['data'] = xAxisData;
-          this.cpuUtilization.yAxis['max'] = yAxisMax;
           this.cpuUtilization.series[0]['data'] = seriesData;
           myChart.setOption(this.cpuUtilization);
           myChart.hideLoading();
         }
       })
     },
+    // 获取公网带宽
     initInternetRate() {
       const myChart = echarts.init(document.getElementById('internetRate'));
       myChart.showLoading();
@@ -289,13 +439,58 @@ export default {
           } = result;
           this.internetRate.xAxis[0]['data'] = InternetInRate.datapoints.map(k => moment(k.timestamp).format('HH:mm:ss'));
           this.internetRate.xAxis[1]['data'] = InternetOutRate.datapoints.map(k => moment(k.timestamp).format('HH:mm:ss'));
-          this.internetRate.series[0]['data'] = InternetInRate.datapoints.map(k => k.Average.toFixed(2));
-          this.internetRate.series[1]['data'] = InternetOutRate.datapoints.map(k => k.Average.toFixed(2));
+          this.internetRate.series[0]['data'] = InternetOutRate.datapoints.map(k => (k.Average / 8 / 1000).toFixed(2));
+          this.internetRate.series[1]['data'] = InternetInRate.datapoints.map(k => (k.Average / 8 / 1000).toFixed(2));
           myChart.setOption(this.internetRate);
           myChart.hideLoading();
         }
       })
     },
+    // 获取磁盘使用量
+    intiDiskusageInfo() {
+      const myChart = echarts.init(document.getElementById('diskusageInfo'));
+      myChart.showLoading();
+      this.$http.get('/api/ecs/get_diskusage_info').then(d => {
+        if (d.data.success) {
+          const result = d.data.result;
+          const {
+            diskusage_free,
+            diskusage_used,
+            diskusage_total
+          } = result;
+          this.diskusageInfo.yAxis.max = (diskusage_total.datapoints[0].Average / 1024 / 1024 / 1024).toFixed(2);
+          this.diskusageInfo.xAxis.data = diskusage_total.datapoints.map(k => moment(k.timestamp).format('HH:mm:ss'));
+          this.diskusageInfo.series[0]['data'] = diskusage_used.datapoints.map(k => (k.Average / 1024 / 1024 / 1024).toFixed(2));
+          this.diskusageInfo.series[1]['data'] = diskusage_free.datapoints.map(k => (k.Average / 1024 / 1024 / 1024).toFixed(2));
+          myChart.setOption(this.diskusageInfo);
+          myChart.hideLoading();
+        }
+      })
+
+    },
+    // 获取内存使用率
+    initMemoryUsedutilization() {
+      const myChart = echarts.init(document.getElementById('memoryUsedutilization'));
+      myChart.showLoading();
+      this.$http.get('/api/ecs/get_memory_usedutilization').then(d => {
+        if (d.data.success) {
+          const result = d.data.result;
+          const data = result.datapoints;
+          const seriesData = data.map(k => {
+            return k.Average
+          })
+          const xAxisData = data.map(k => {
+            return moment(k.timestamp)
+              .format('HH:mm:ss')
+          });
+          this.memoryUsedutilization.xAxis['data'] = xAxisData;
+          this.memoryUsedutilization.series[0]['data'] = seriesData;
+          myChart.setOption(this.memoryUsedutilization);
+          myChart.hideLoading();
+        }
+      })
+    },
+    // 获取阅读排行
     getReadRank() {
       this.$http.get('/api/article/get_read_rank').then(d => {
         if (d.data.success) {
@@ -309,6 +504,8 @@ export default {
     this.initCpuUtilization();
     this.initInternetRate();
     this.getReadRank();
+    this.intiDiskusageInfo();
+    this.initMemoryUsedutilization();
   },
   head() {
     return {

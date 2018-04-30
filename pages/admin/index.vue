@@ -31,7 +31,7 @@
           <div class="col-md-8 col-sm-12 m-b-md">
             <el-card class="w-full">
               <div slot="header" class="clearfix">
-                <span>公网带宽(bit/s)</span>
+                <span>公网带宽(kb/s)</span>
               </div>
               <div id="internetRate" style="width: 100%; height: 500px">
               </div>
@@ -212,7 +212,7 @@ export default {
           }
         ],
         yAxis: [{
-            name: '公网流入带宽(bits/s)',
+            name: '公网流出带宽(kb/s)',
             type: 'value',
             axisLabel: {
               formatter(value, index) {
@@ -222,7 +222,7 @@ export default {
           },
           {
             gridIndex: 1,
-            name: '公网流出带宽(bits/s)',
+            name: '公网流入带宽(kb/s)',
             type: 'value',
             inverse: true,
             axisLabel: {
@@ -437,8 +437,8 @@ export default {
             InternetInRate,
             InternetOutRate
           } = result;
-          this.internetRate.xAxis[0]['data'] = InternetInRate.datapoints.map(k => moment(k.timestamp).format('HH:mm:ss'));
-          this.internetRate.xAxis[1]['data'] = InternetOutRate.datapoints.map(k => moment(k.timestamp).format('HH:mm:ss'));
+          this.internetRate.xAxis[0]['data'] = InternetOutRate.datapoints.map(k => moment(k.timestamp).format('HH:mm:ss'));
+          this.internetRate.xAxis[1]['data'] = InternetInRate.datapoints.map(k => moment(k.timestamp).format('HH:mm:ss'));
           this.internetRate.series[0]['data'] = InternetOutRate.datapoints.map(k => (k.Average / 8 / 1000).toFixed(2));
           this.internetRate.series[1]['data'] = InternetInRate.datapoints.map(k => (k.Average / 8 / 1000).toFixed(2));
           myChart.setOption(this.internetRate);

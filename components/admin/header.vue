@@ -40,6 +40,7 @@
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="/admin/articleAdd">新文章</el-dropdown-item>
+          <el-dropdown-item command="/admin/moviesAdd">新观影</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <!-- / link and dropdown -->
@@ -71,7 +72,9 @@
           </span>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>退出登录</el-dropdown-item>
+          <el-dropdown-item command="/admin/profile">修改资料</el-dropdown-item>
+          <el-dropdown-item command="/admin/passwd">修改密码</el-dropdown-item>
+          <el-dropdown-item command="logout" divided>退出登录</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <!-- / navbar right -->
@@ -100,7 +103,11 @@ export default {
     changeIsCollapse() {
       this.$store.commit("admin/changeIsCollapse");
     },
-    logout() {
+    logout(command) {
+      if (command != "logout") {
+        this.$router.push(command);
+        return false;
+      }
       this.$http
         .post("/api/logout", {
           key: this.user.uname

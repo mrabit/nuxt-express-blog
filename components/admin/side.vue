@@ -53,7 +53,7 @@
       </div>
       <div class="line dk hidden-folded"></div>
     </div>
-    <el-menu :default-active="$route.path" class="el-menu-vertical-demo" @select="select_menu" :collapse="isCollapse" :unique-opened="true" :router="true" background-color="#324157" text-color="#a6a8b1" active-text-color="#20a0ff">
+    <el-menu :default-active="$route.path" class="el-menu-vertical-demo" @select="select_menu" :collapse-transition="false" :collapse="isCollapse" :unique-opened="true" :router="true" background-color="#324157" text-color="#a6a8b1" active-text-color="#20a0ff">
       <el-menu-item index="/admin">
         <i class="el-icon-menu"></i>
         <span slot="title">首页</span>
@@ -81,13 +81,24 @@
       <el-submenu index="4" class="bg-dark">
         <template slot="title">
           <i class="el-icon-message"></i>
+          <span slot="title">电影管理</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="/admin/moviesList">电影列表</el-menu-item>
+          <el-menu-item index="/admin/moviesAdd">新增电影</el-menu-item>
+          <el-menu-item index="/admin/moviesEdit">修改电影</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+      <el-submenu index="5" class="bg-dark">
+        <template slot="title">
+          <i class="el-icon-message"></i>
           <span slot="title">友链管理</span>
         </template>
         <el-menu-item-group>
           <el-menu-item index="/admin/links">友链配置</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="5" class="bg-dark">
+      <el-submenu index="6" class="bg-dark">
         <template slot="title">
           <i class="el-icon-message"></i>
           <span slot="title">用户管理</span>
@@ -151,7 +162,7 @@ export default {
       var isOpened = document.getElementsByClassName("is-opened")[0];
       if (index.indexOf("-") < 0 && isOpened) {
         var elMenu = isOpened.getElementsByClassName("el-submenu__title")[0];
-        elMenu.click();
+        // elMenu.click();
       }
     }
   },

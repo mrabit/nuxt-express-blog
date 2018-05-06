@@ -10,16 +10,16 @@
       <loading :show="loading"></loading>
       <div v-show="!loading">
         <div class="bg-light lter b-b wrapper-md">
-          <h1 class="m-n font-thin h3">文章列表</h1>
+          <h1 class="m-n font-thin h3">观影列表</h1>
         </div>
         <div class="wrapper clearfix m-b-md">
           <el-form :inline="true" ref="formInline" :model="formInline" class="demo-form-inline">
-            <el-form-item label="文章标题：">
-              <el-input v-model="formInline.title" placeholder="文章标题,支持模糊搜索"></el-input>
+            <el-form-item label="电影名称：">
+              <el-input v-model="formInline.movie_name" placeholder="电影名称,支持模糊搜索"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-checkbox label=" 发布时间：" name="type" v-model="formInline.need_time"></el-checkbox>
-              <el-date-picker format="yyyy-MM-dd hh:mm:ss" v-model="formInline.release_time" :disabled="!formInline.need_time" type="daterange" align="right" placeholder="选择日期范围" :picker-options="pickerOptions">
+              <el-checkbox label=" 观看时间：" name="type" v-model="formInline.need_time"></el-checkbox>
+              <el-date-picker format="yyyy-MM-dd hh:mm:ss" v-model="formInline.watch_time" :disabled="!formInline.need_time" type="daterange" align="right" placeholder="选择日期范围" :picker-options="pickerOptions">
               </el-date-picker>
             </el-form-item>
             <el-form-item>
@@ -30,28 +30,18 @@
           <el-table :data="tableData" stripe class="w-full">
             <el-table-column prop="id" label="ID" width="80">
             </el-table-column>
-            <el-table-column prop="title" label="标题">
+            <el-table-column prop="movie_name" label="电影名称">
+            </el-table-column>
+            <el-table-column label="豆瓣URL" width="400">
               <template slot-scope="scope">
-                <a :href="'/details/' + scope.row.id" target="_blank">{{ scope.row.title }}</a>
+                <a :href="scope.row.movie_url" target="_blank" class="text-ellipsis-1">{{ scope.row.movie_url }}</a>
               </template>
             </el-table-column>
-            <el-table-column prop="private" label="公开度" width="100">
-              <template slot-scope="scope">
-                <span>{{ scope.row.private | isPrivate }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="reprint_url" label="是否转载" width="100">
-              <template slot-scope="scope">
-                <span>{{ scope.row.reprint_url | isReprint }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="uname" label="发布者" width="100">
-            </el-table-column>
-            <el-table-column prop="release_time" label="发布时间" width="180">
+            <el-table-column prop="watch_time" label="观影时间" width="180">
             </el-table-column>
             <el-table-column label="操作" width="220">
               <template slot-scope="scope">
-                <router-link class="btn btn-default btn-sm w-xs m-r-xs" :disabled="!!parseInt(scope.row.is_html)" :to="'/admin/articleEdit?id=' + scope.row.id">编辑</router-link>
+                <router-link class="btn btn-default btn-sm w-xs m-r-xs" :disabled="!!parseInt(scope.row.is_html)" :to="'/admin/moviesEdit?id=' + scope.row.id">编辑</router-link>
                 <el-popover placement="top" trigger="click" v-model="scope.row.visable">
                   <p>删除操作将无法撤回,是否继续？</p>
                   <div style="text-align: right; margin: 0">
@@ -79,9 +69,9 @@ export default {
   data() {
     return {
       formInline: {
-        title: "",
+        movie_name: "",
         need_time: false,
-        release_time: "",
+        watch_time: "",
         params: ""
       },
       pickerOptions: {
@@ -123,18 +113,10 @@ export default {
       loading: true
     };
   },
-  filters: {
-    isReprint(val) {
-      return !!val ? "转载" : "原创";
-    },
-    isPrivate(val) {
-      return !!parseInt(val) ? "不公开" : "公开";
-    }
-  },
   methods: {
     handleCurrentChange(currentPage = 1) {
       let url = util.format(
-        "/api/article/get_lists/%s/%s",
+        "/api/movies/get_lists/%s/%s",
         currentPage,
         this.pageSize
       );
@@ -145,10 +127,7 @@ export default {
         const data = d.data;
         if (data.success) {
           const result = data.result;
-          for (let i in result.article_lists) {
-            result.article_lists[i]["visable"] = false;
-          }
-          this.tableData = result.article_lists;
+          this.tableData = result.movies_lists;
           this.total = result.count;
           this.loading = false;
         }
@@ -156,10 +135,10 @@ export default {
     },
     onSubmit() {
       const params = [];
-      if (this.formInline.title) {
-        params.push("title=" + this.formInline.title);
+      if (this.formInline.movie_name) {
+        params.push("movie_name=" + this.formInline.movie_name);
       }
-      const time = this.formInline.release_time;
+      const time = this.formInline.watch_time;
       if (
         this.formInline.need_time &&
         !!time &&
@@ -180,23 +159,23 @@ export default {
     },
     handleDelete(row) {
       row.visable = false;
-      this.$http.post("/api/article/delete_article", {
+      this.$http.post("/api/movies/delete_movie", {
         id: row.id
       }).then(d => {
         if (d.data.success) {
           this.handleCurrentChange();
           this.$notify({
             title: "成功",
-            message: "文章删除成功!",
+            message: "观影记录删除成功!",
             type: "success"
           });
         }
       });
     },
     resetForm(formName) {
-      this.formInline.title = "";
+      this.formInline.movie_name = "";
       this.formInline.need_time = false;
-      this.formInline.release_time = "";
+      this.formInline.watch_time = "";
       this.onSubmit();
     }
   },
@@ -205,7 +184,7 @@ export default {
   },
   head() {
     let config = {
-      title: "文章列表 - " + this.$store.getters['admin/getUser'].blog_name
+      title: "电影列表 - " + this.$store.getters['admin/getUser'].blog_name
     };
     return config;
   }

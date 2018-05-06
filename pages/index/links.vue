@@ -9,7 +9,7 @@
             <a target="_blank" :href="item.site_url" :title="item.site_name">{{item.site_name}}</a>
           </li>
         </ul>
-        <div class="text-left padder" v-if="!links_list.length" style="min-height: 20vh">
+        <div class="text-left padder text-md" v-if="!links_list.length" style="min-height: 20vh">
           暂无数据
         </div>
       </div>

@@ -33,7 +33,7 @@
             {{ vo.tags_name }}（{{ vo.counts }}）
           </nuxt-link>
         </div>
-        <div class="text-left padder" v-if="!tags_arr.length" style="min-height: 20vh">
+        <div class="text-left padder text-md" v-if="!tags_arr.length" style="min-height: 20vh">
           暂无数据
         </div>
       </div>

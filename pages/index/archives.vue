@@ -15,7 +15,7 @@
             </li>
           </ul>
         </article>
-        <div class="text-left padder" v-if="!article_list.length" style="min-height: 20vh">
+        <div class="text-left padder text-md" v-if="!article_list.length" style="min-height: 20vh">
           暂无数据
         </div>
       </div>

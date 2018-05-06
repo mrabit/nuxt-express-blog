@@ -55,7 +55,7 @@
         </div>
         <div class="line line-dashed article-b-b line-lg "></div>
       </article>
-      <div class="text-left padder" v-if="!article_lists.length" style="min-height: 15vh">
+      <div class="text-left padder text-md" v-if="!article_lists.length" style="min-height: 15vh">
         暂无数据
       </div>
     </div>

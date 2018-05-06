@@ -30,6 +30,7 @@ app.use('/article', require('./router/index/articleController'));
 app.use('/article_tags', require('./router/index/articleTagsController'));
 app.use('/bing', require('./router/index/bingController'));
 app.use('/links', require('./router/index/linksController'));
+app.use('/movies', require('./router/index/moviesController'));
 
 // sitemap地图
 app.use('/sitemap', require('./router/sitemap'));
@@ -44,6 +45,8 @@ app.use('/api/tags', require('./router/admin/tagsController'));
 app.use('/api/links', require('./router/admin/linksController'));
 app.use('/api/visitor', require('./router/admin/visitorController'));
 app.use('/api/ecs', require('./router/admin/ecsController'));
+app.use('/api/movies', require('./router/admin/moviesController'));
+
 
 // 上传
 app.use('/upload', require('./router/uploadController'));

@@ -1,5 +1,4 @@
 const query = require('../db');
-const util = require('util');
 
 const Article = params => {
   this.id = params.id;

@@ -20,3 +20,4 @@ config.js
 sitemap.xml
 silian.txt
 .history
+package-lock.json

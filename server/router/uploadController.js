@@ -52,7 +52,8 @@ router.post('/local_base64', function(req, res) {
     if (!err) {
       res.json({
         status: 0,
-        path: resource_path + fileName
+        path: resource_path + fileName,
+        fileName
       })
     } else {
       res.json(err)

@@ -15,7 +15,6 @@
 </template>
 <script>
 import axios from "~/plugins/axios";
-import util from "util";
 import articleEdit from "~/components/admin/article_edit.vue";
 export default {
   components: {

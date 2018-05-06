@@ -22,6 +22,9 @@
               <nuxt-link to="/bing/today" target="_blank">今日美图</nuxt-link>
           </span>
         </nav>
+        <div class="text-left padder text-md" v-if="!img_lists.length" style="min-height: 15vh">
+          暂无数据
+        </div>
       </div>
     </article>
   </section>

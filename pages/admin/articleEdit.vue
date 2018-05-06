@@ -14,7 +14,6 @@
   </section>
 </template>
 <script>
-import util from "util";
 import articleEdit from "~/components/admin/article_edit.vue";
 export default {
   middleware: "article_edit",

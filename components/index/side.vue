@@ -66,8 +66,14 @@ export default {
         {
           title: "bing每日图片",
           span: "图片",
-          icons: "iconfont fa fa-file-image-o",
+          icons: "iconfont fa fa-picture-o",
           href: "/bing"
+        },
+        {
+          title: "观影记录",
+          span: "电影",
+          icons: "iconfont fa fa-youtube-play",
+          href: '/movies'
         },
         {
           title: "友链",

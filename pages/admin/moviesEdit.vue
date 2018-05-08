@@ -4,7 +4,7 @@
       <loading :show="loading"></loading>
       <div v-show="!loading">
         <div class="bg-light lter b-b wrapper-md">
-          <h1 class="m-n font-thin h3">添加观影记录</h1>
+          <h1 class="m-n font-thin h3">修改观影记录</h1>
         </div>
         <div class="wrapper clearfix m-b-md">
           <movie-edit :loading="loading" :movie="movie" :id="id"></movie-edit>
@@ -50,7 +50,7 @@ export default {
       this.movie = {
         movie_name,
         movie_url,
-        watch_time: watch_time * 1000,
+        watch_time: watch_time,
         movie_img: !!movie_img ? [{
           name: movie_img.split('/').pop(),
           url: movie_img

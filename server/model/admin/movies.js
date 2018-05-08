@@ -4,8 +4,7 @@ const Movies = params => {}
 
 Movies.get_movies_lists = params => {
   params['start'] = (params.page - 1) * params.length;
-  let sql = "select id,movie_name,movie_img,movie_url,FROM_UNIXTIME( watch_time,'%Y-%m-%d %H:%i:%S' ) as watch_time from \
-  tp_movies";
+  let sql = "select id,movie_name,movie_img,movie_url,watch_time from tp_movies";
   let map = [];
   if (params.movie_name) {
     map.push("`movie_name` LIKE '%" + params.movie_name + "%'");

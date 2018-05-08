@@ -8,7 +8,7 @@ const Movies = params => {}
  */
 Movies.get_movies_lists = params => {
   params['start'] = (params.page - 1) * params.length;
-  const sql = "SELECT id,movie_name,movie_img,FROM_UNIXTIME( watch_time,' %Y-%m-%d' ) as watch_time,movie_url from tp_movies ORDER BY watch_time desc limit ?,?";
+  const sql = "SELECT id,movie_name,movie_img,watch_time,movie_url from tp_movies ORDER BY watch_time desc limit ?,?";
   return new Promise((resolve, reject) => {
     query(sql, [params.start, params.length], function(err, result) {
       if (err) reject(err.message)

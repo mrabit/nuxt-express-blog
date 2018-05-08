@@ -9,7 +9,9 @@
           <el-input v-model="movie.movie_url"></el-input>
         </el-form-item>
         <el-form-item label="观影时间：" prop="watch_time">
-          <el-date-picker v-model="movie.watch_time" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="timestamp">
+          <!-- <el-date-picker v-model="movie.watch_time" type="date" placeholder="选择日期" format="yyyy 年 MM 月 dd 日" value-format="timestamp">
+          </el-date-picker> -->
+          <el-date-picker v-model="movie.watch_time" type="datetime" placeholder="选择日期时间" value-format="timestamp">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="上传电影封面：">
@@ -119,7 +121,7 @@ export default {
             movie_name: this.movie.movie_name,
             movie_url: this.movie.movie_url,
             movie_img: this.movie.movie_img || [],
-            watch_time: Math.ceil(this.movie.watch_time / 1000),
+            watch_time: Math.ceil(this.movie.watch_time),
           };
           let url = "/api/movies/insert_movie";
           if (this.id != "0") {

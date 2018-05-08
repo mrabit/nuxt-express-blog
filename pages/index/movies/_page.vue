@@ -12,7 +12,7 @@
               </a>
               <div class="hbox text-center b-t b-light movie_details">
                 <span class="col padder-v text-muted b-r b-light">
-                  {{item.watch_time}}
+                  {{item.watch_time | formatDatetime}}
                 </span>
                 <a :title="item.movie_name" target="_blank" :href="item.movie_url" class="col padder-v text-muted">
                   查看详情
@@ -34,6 +34,7 @@
 </template>
 <script>
 import axios from "~/plugins/axios";
+import moment from 'moment';
 export default {
   asyncData({
     params,
@@ -91,8 +92,10 @@ export default {
       );
     }
   },
-  methods: {
-
+  filters: {
+    formatDatetime(watch_time) {
+      return moment(parseInt(watch_time)).format('YYYY-MM-DD');
+    }
   },
   head() {
     const title = "观影记录 - " + this.user.blog_name;

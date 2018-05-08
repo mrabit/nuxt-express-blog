@@ -19,7 +19,7 @@
             </el-form-item>
             <el-form-item>
               <el-checkbox label=" 观看时间：" name="type" v-model="formInline.need_time"></el-checkbox>
-              <el-date-picker format="yyyy-MM-dd hh:mm:ss" v-model="formInline.watch_time" :disabled="!formInline.need_time" type="daterange" align="right" placeholder="选择日期范围" :picker-options="pickerOptions">
+              <el-date-picker format="yyyy-MM-dd HH:mm:ss" v-model="formInline.watch_time" :disabled="!formInline.need_time" type="daterange" align="right" placeholder="选择日期范围" :picker-options="pickerOptions">
               </el-date-picker>
             </el-form-item>
             <el-form-item>
@@ -37,7 +37,10 @@
                 <a :href="scope.row.movie_url" target="_blank" class="text-ellipsis-1">{{ scope.row.movie_url }}</a>
               </template>
             </el-table-column>
-            <el-table-column prop="watch_time" label="观影时间" width="180">
+            <el-table-column label="观影时间" width="180">
+              <template slot-scope="scope">
+                {{ scope.row.watch_time | formatDatetime }}
+              </template>
             </el-table-column>
             <el-table-column label="操作" width="220">
               <template slot-scope="scope">
@@ -65,6 +68,7 @@
 <script>
 import util from "util";
 import axios from "~/plugins/axios";
+import moment from 'moment';
 export default {
   data() {
     return {
@@ -112,6 +116,12 @@ export default {
       pageSize: 10,
       loading: true
     };
+  },
+
+  filters: {
+    formatDatetime(watch_time) {
+      return moment(parseInt(watch_time)).format('YYYY-MM-DD HH:mm:ss');
+    }
   },
   methods: {
     handleCurrentChange(currentPage = 1) {

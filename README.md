@@ -59,8 +59,19 @@ Nuxt.js 构建项目
 │   └── favicon.ico
 ```
 
+### gogs git钩子设置
+
+钩子名称：`post-receive`
+
+钩子文本： 
+```shell
+#!/bin/bash
+unset $(git rev-parse --local-env-vars);
+cd /usr/share/nginx/vue-blog
+git pull origin master &&  npm i && npm run build && pm2 restart blog
+```
+
+
 ### 参考地址
 
 - [Nuxt.js 中文文档](https://zh.nuxtjs.org/guide)
-
-测试git钩子

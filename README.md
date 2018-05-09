@@ -62,3 +62,5 @@ Nuxt.js 构建项目
 ### 参考地址
 
 - [Nuxt.js 中文文档](https://zh.nuxtjs.org/guide)
+
+测试git钩子

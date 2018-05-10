@@ -117,7 +117,6 @@ export default {
       loading: true
     };
   },
-
   filters: {
     formatDatetime(watch_time) {
       return moment(parseInt(watch_time)).format('YYYY-MM-DD HH:mm:ss');

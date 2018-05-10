@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Movies = require('../../model/admin/movies');
 
+/*** 获取观影列表 */
 router.get('/get_lists/:page/:length', function(req, res) {
   const params = {
     startime: req.query.startime || null,
@@ -34,6 +35,7 @@ router.get('/get_lists/:page/:length', function(req, res) {
 });
 
 
+/*** 新增观影记录 */
 router.post('/insert_movie', (req, res) => {
   const params = {
     movie_name: req.body.movie_name,
@@ -55,7 +57,7 @@ router.post('/insert_movie', (req, res) => {
     })
 })
 
-
+/*** 删除观影记录 */
 router.post('/delete_movie', (req, res) => {
   const id = req.body.id;
   Movies.delete_movie_by_id(id)
@@ -68,6 +70,8 @@ router.post('/delete_movie', (req, res) => {
     })
 })
 
+
+/*** 获取观影详情 */
 router.get('/get_details/:id', (req, res) => {
   const id = req.params.id;
   Movies.get_movie_by_id(id)
@@ -82,6 +86,7 @@ router.get('/get_details/:id', (req, res) => {
     });
 })
 
+/*** 修改观影记录 */
 router.post('/update_movie', (req, res) => {
   const params = {
     movie_name: req.body.movie_name,

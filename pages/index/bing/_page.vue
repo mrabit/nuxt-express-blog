@@ -82,11 +82,6 @@ export default {
       return url.replace("http:", "");
     }
   },
-  mounted() {
-    // setTimeout(_ => {
-    //   this.loading = false;
-    // }, 500);
-  },
   head() {
     return {
       title: "bing每日一图 - " + this.user.blog_name,

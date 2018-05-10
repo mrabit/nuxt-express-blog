@@ -6,6 +6,7 @@ const qiniu_model = require('../../model/qiniu');
 const qiniu_config = require('../../config')['qiniu'];
 const common = require('../../common');
 
+/*** 获取今日美图 */
 router.get('/today', function(req, res) {
   Bing.get_image_by_time(moment()
       .format('YYYY-MM-DD'))

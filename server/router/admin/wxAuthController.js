@@ -10,6 +10,7 @@ const common = require('../../common');
 const location_key = require('../../config')['location'];
 
 
+/*** 微信获取accessToken */
 router.get('/jsoncode2session', (req, res) => {
   const js_code = req.query.js_code;
   const appid = wx_conf.appid;
@@ -29,6 +30,7 @@ router.get('/jsoncode2session', (req, res) => {
     });
 })
 
+/*** 检测是否有微信权限 */
 router.get('/checkAuth', (req, res) => {
   const OPEN_ID = req.query.OPEN_ID;
   wx_auth.checkAuth(OPEN_ID)
@@ -51,6 +53,7 @@ router.get('/checkAuth', (req, res) => {
     })
 })
 
+/*** 获取地址 */
 router.get('/getLocation', (req, res) => {
   const latitude = req.query.latitude;
   const longitude = req.query.longitude;
@@ -68,6 +71,7 @@ router.get('/getLocation', (req, res) => {
     });
 })
 
+/*** 获取权限列表 */
 router.get('/getAuthList/:page/:length', (req, res) => {
   const params = {
     page: parseInt(req.params.page) || 1,
@@ -89,6 +93,7 @@ router.get('/getAuthList/:page/:length', (req, res) => {
     }, err => res.end(err));
 })
 
+/*** 添加权限 */
 router.post('/addAuth', (req, res) => {
   const params = {
     OPEN_ID: req.body.OPEN_ID,
@@ -105,6 +110,7 @@ router.post('/addAuth', (req, res) => {
     }, err => res.end(err));
 })
 
+/*** 删除权限 */
 router.post('/deleteAuth', (req, res) => {
   const id = req.body.id;
   wx_auth.deleteAuth(id)
@@ -117,6 +123,7 @@ router.post('/deleteAuth', (req, res) => {
     }, err => res.end(err));
 })
 
+/*** 获取权限详情 */
 router.get('/getAuthDetails/:id', (req, res) => {
   const id = req.params.id;
   wx_auth.getAuthDetails(id)
@@ -129,6 +136,7 @@ router.get('/getAuthDetails/:id', (req, res) => {
     }, err => res.end(err));
 })
 
+/*** 修改权限详情 */
 router.post('/updateAuth', (req, res) => {
   const params = {
     OPEN_ID: req.body.OPEN_ID,

@@ -135,19 +135,19 @@ export default {
 
 </script>
 <style>
-.movie_content {
-  /* display: -webkit-box; */
-  /* display: -webkit-flex; */
-  /* display: -ms-flexbox; */
-  /* display: flex; */
-  /* flex-wrap: wrap; */
+/* .movie_content {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .movie_content>[class*='col-'] {
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* height: 250px; */
-}
+  display: flex;
+  flex-direction: column;
+  height: 250px;
+} */
 
 .movie_img {
   min-height: 360px;
@@ -156,11 +156,11 @@ export default {
   object-fit: cover;
 }
 
-.movie_details {
-  /* position: absolute;
+/* .movie_details {
+  position: absolute;
   bottom: -59px;
   height: auto;
-  background: #fff; */
-}
+  background: #fff;
+} */
 
 </style>

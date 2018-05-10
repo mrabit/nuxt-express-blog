@@ -4,7 +4,10 @@ const Visitor = _ => {}
 
 module.exports = Visitor;
 
-
+/*** 统计今日访客,访客总人数
+ * @param string $visit_time 今日时间
+ * @return array 今日访客,总访客
+ */
 Visitor.get_visitor_count = visit_time => {
   const sql = "select * from (SELECT count(*) as visit_today from tp_visitor where visit_time > ?) t1,\
     (SELECT count(*) as visit_all from tp_visitor where visit_time > 0) t2";
@@ -16,6 +19,10 @@ Visitor.get_visitor_count = visit_time => {
   })
 }
 
+/*** 分时段统计今日访客人数
+ * @param int $number 时间间隔
+ * @return array 今日访客人数统计
+ */
 Visitor.get_visitor_today = (number = 2) => {
   let params = [];
   for (let i = 0; i < 24; i += number) {

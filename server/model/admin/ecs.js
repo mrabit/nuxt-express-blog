@@ -15,6 +15,10 @@ const client = new Metrics({
   accesskeySecret: ecsConf.secretAccessKey,
 })
 
+/*** 获取ECS指定数据
+ * @param array $params 参数:metric 指定数据名  startTime 开始时间 endTime 结束时间
+ * @return array ecs接口返回数据
+ */
 const ECS = params => {
   return new Promise((resolve, reject) => {
     client.queryData({

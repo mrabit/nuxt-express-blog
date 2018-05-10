@@ -2,6 +2,10 @@ let query = require('../db');
 
 let Article = _ => {}
 
+/*** 通过id查找指定文章
+ * @param int   id  指定文章id
+ * @return promise  返回需要的数据
+ */
 Article.get_article_by_id = id => {
   let sql = 'SELECT id,title,reprint_url,private,content from tp_article';
   if (id) {
@@ -15,6 +19,10 @@ Article.get_article_by_id = id => {
   });
 }
 
+/*** 获取文章列表
+ * @param array $params   参数:page 当前页  length 长度
+ * @return mixed    获取到的Array数据
+ */
 Article.get_article_lists = params => {
   params['start'] = (params.page - 1) * params.length;
   let sql = "SELECT a.id,`title`,`is_html`,`reprint_url`,`private`,u.uname,\
@@ -46,6 +54,10 @@ Article.get_article_lists = params => {
   })
 }
 
+/*** 获取文章总条数
+ * @param array $params  
+ * @return int    满足条件的文章总条数
+ */
 Article.get_article_count = params => {
   let sql = 'SELECT count(*) as count from tp_article';
   let map = [];
@@ -75,6 +87,10 @@ Article.get_article_count = params => {
   })
 }
 
+/*** 新增文章
+ * @param array $article 
+ * @return int 新增文章id
+ */
 Article.insert_article = article => {
   let sql = "INSERT INTO `tp_article` (`title`,`content`,`reprint_url`,`private`,`create_user_id`,`create_time`)\
      VALUES (?,?,?,?,?,?)";
@@ -94,6 +110,10 @@ Article.insert_article = article => {
   })
 }
 
+/*** 通过文章id删除文章
+ * @param int $id 文章id 
+ * @return 删除状态
+ */
 Article.delete_article_by_id = id => {
   let sql = "delete from tp_article where id = " + id;
   return new Promise((resolve, reject) => {
@@ -104,6 +124,10 @@ Article.delete_article_by_id = id => {
   })
 }
 
+/*** 通过文章id更新文章
+ * @param int $id 文章id 
+ * @return 更新状态
+ */
 Article.update_article_by_id = params => {
   let sql = "update tp_article set title=?,content=?,private=?,reprint_url=?,modify_time=? where id=?";
   let map = [
@@ -122,7 +146,11 @@ Article.update_article_by_id = params => {
   })
 }
 
-Article.get_article_by_visitor = params => {
+/*** 获取文章阅读排行
+ * @param null
+ * @return 文章阅读排行数组
+ */
+Article.get_article_by_visitor = _ => {
   let sql = 'select id,title,visit_number from tp_article order by visit_number desc limit 0,15';
   return new Promise((resolve, reject) => {
     query(sql, (err, result) => {

@@ -2,6 +2,10 @@ const query = require('../db');
 
 const Movies = params => {}
 
+/*** 获取观影列表
+ * @param $params 友链字段: page 页数 length 每页条数
+ * @return 
+ */
 Movies.get_movies_lists = params => {
   params['start'] = (params.page - 1) * params.length;
   let sql = "select id,movie_name,movie_img,movie_url,watch_time from tp_movies";
@@ -31,6 +35,10 @@ Movies.get_movies_lists = params => {
   })
 }
 
+/*** 获取观影总数
+ * @param array $params  
+ * @return int    满足条件的观影总条数
+ */
 Movies.get_movies_count = params => {
   let sql = 'SELECT count(*) as count from tp_movies';
   let map = [];
@@ -60,6 +68,10 @@ Movies.get_movies_count = params => {
   })
 }
 
+/*** 新增观影数据
+ * @param array $movies  
+ * @return 
+ */
 Movies.insert_movie = movies => {
   let sql = "INSERT INTO `tp_movies` (`movie_name`, `movie_img`, `watch_time`, `movie_url`) VALUES (?,?,?,?);";
   return new Promise((resolve, reject) => {
@@ -76,6 +88,10 @@ Movies.insert_movie = movies => {
   })
 }
 
+/*** 删除观影数据
+ * @param int $id 观影数据id  
+ * @return
+ */
 Movies.delete_movie_by_id = id => {
   let sql = "delete from tp_movies where id = " + id;
   return new Promise((resolve, reject) => {
@@ -86,6 +102,10 @@ Movies.delete_movie_by_id = id => {
   })
 }
 
+/*** 获取观影详情
+ * @param int $id 观影数据id  
+ * @return array 观影数据
+ */
 Movies.get_movie_by_id = id => {
   let sql = 'SELECT * from tp_movies where id = ?';
   return new Promise((resolve, reject) => {
@@ -96,6 +116,10 @@ Movies.get_movie_by_id = id => {
   });
 }
 
+/*** 更新观影数据
+ * @param array $params  
+ * @return
+ */
 Movies.update_movie_by_id = params => {
   let sql = "update tp_movies set movie_name=?,movie_img=?,watch_time=?,movie_url=? where id=?";
   let map = [

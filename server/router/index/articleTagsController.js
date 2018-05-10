@@ -2,6 +2,7 @@ const ArticleTags = require('../../model/index/articleTags');
 const express = require('express');
 const router = express.Router();
 
+/*** 获取标签列表 */
 router.get('/', function(req, res) {
   ArticleTags.get_tags()
     .then(result => {

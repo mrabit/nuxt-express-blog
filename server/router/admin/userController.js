@@ -8,6 +8,7 @@ const exp = require('../../config')['redis']['exp'];
 const common = require('../../common');
 // var websocket = require('../../websocket');
 
+/*** 登录 */
 router.post('/login', (req, res) => {
   // 密码用前台md5加密发送过来,因为可能会用二维码扫码登录
   const user = {
@@ -80,6 +81,7 @@ router.post('/login', (req, res) => {
     })
 })
 
+/*** 退出登录 */
 router.post('/logout', (req, res) => {
   const key = req.body.key;
   redis.del(key)
@@ -94,6 +96,7 @@ router.post('/logout', (req, res) => {
     })
 })
 
+/*** 用户信息 */
 router.get('/user/profile', (req, res) => {
   User.get_profile_by_id(req.query.id)
     .then(result => {
@@ -107,6 +110,7 @@ router.get('/user/profile', (req, res) => {
     })
 })
 
+/*** 修改用户信息 */
 router.post('/user/edit_profile', (req, res) => {
   User.edit_profile(req.body)
     .then(result => {
@@ -120,6 +124,7 @@ router.post('/user/edit_profile', (req, res) => {
     })
 })
 
+/*** 用户描述 */
 router.get('/user/about', (req, res) => {
   User.get_about_by_id()
     .then(result => {
@@ -131,6 +136,7 @@ router.get('/user/about', (req, res) => {
     }, err => res.end(err));
 })
 
+/*** 修改用户描述 */
 router.post('/user/edit_about', (req, res) => {
   const about = req.body.about;
   User.edit_about(about)
@@ -145,6 +151,7 @@ router.post('/user/edit_about', (req, res) => {
     })
 })
 
+/*** 更改密码 */
 router.post('/user/changePasswd', (req, res) => {
   const params = {
     oldPasswd: md5(req.body.oldPasswd || ''),
@@ -170,6 +177,7 @@ router.post('/user/changePasswd', (req, res) => {
     })
 })
 
+/*** 检测权限 */
 router.post('/check_token', (req, res) => {
   res.json({
     success: true,

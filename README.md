@@ -24,10 +24,12 @@ Nuxt.js 构建项目
 ├── README.md
 ├── .eslintrc.js
 ├── .gitignore
+├── app.html
 ├── backpack.config.js
-├── config.js
+├── favicon.ico
 ├── nuxt.config.js
 ├── package.json
+├── script.json
 ├── yarn.lock
 ├── assets
 │   └── *
@@ -39,24 +41,20 @@ Nuxt.js 构建项目
 ├── middleware
 ├── pages
 │   ├── admin
-│   │    └── *.vue
+│   │   └── *.vue
+│   ├── admin.vue
 │   ├── index
-│   │    └── *.vue
+│   │   └── *.vue
 │   └── index.vue
 ├── plugins
-│   └── axios.js
+│   └── *.js
 ├── server
+│   ├── router
+│   ├── model
 │   ├── public
-│   │    └── *
-│   └── index.js
+│   └── *.js
 ├── static
-│   ├── css
-│   │    └── *
-│   ├── fonts
-│   │    └── *
-│   ├── js
-│   │    └── *
-│   └── favicon.ico
+└── store
 ```
 
 ### gogs git钩子设置
@@ -64,11 +62,12 @@ Nuxt.js 构建项目
 钩子名称：`post-receive`
 
 钩子文本： 
+
 ```shell
 #!/bin/bash
 unset $(git rev-parse --local-env-vars);
 cd /usr/share/nginx/vue-blog
-git pull origin master &&  npm i && npm run build && pm2 restart blog
+git pull origin master &&  npm i && npm run build
 ```
 
 

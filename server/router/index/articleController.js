@@ -4,6 +4,7 @@ const articleTags = require('../../model/index/articleTags');
 const router = express.Router();
 
 
+/*** 获取文章详情 */
 router.get('/get_details/:id', function(req, res) {
   const id = req.params.id;
   Article.get_article_by_id(id)
@@ -19,6 +20,7 @@ router.get('/get_details/:id', function(req, res) {
     });
 })
 
+/*** 获取文章列表 */
 router.get('/get_lists/:page/:length', function(req, res) {
   const params = {
     tags_id: req.query.tags_id,
@@ -55,6 +57,7 @@ router.get('/get_lists/:page/:length', function(req, res) {
     }));
 });
 
+/*** 归档 */
 router.get('/archives', function(req, res) {
   Article.get_article_by_archives()
     .then(result => {

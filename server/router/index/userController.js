@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../../model/index/user');
 
+/*** 获取用户详情 */
 router.get('/profile', (req, res) => {
   User.get_profile('1')
     .then(result => {

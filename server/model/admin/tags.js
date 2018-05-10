@@ -4,6 +4,10 @@ const Tags = _ => {}
 
 module.exports = Tags;
 
+/*** 获取全部标签
+ * @param array $params  标签id数组
+ * @return int    满足条件的标签
+ */
 Tags.get_all_tags = function(params) {
   let sql = "SELECT * FROM `tp_tags`";
   if (params) {
@@ -17,6 +21,10 @@ Tags.get_all_tags = function(params) {
   });
 }
 
+/*** 添加标签
+ * @param array $params  标签数组
+ * @return
+ */
 Tags.insert_into_all = function(tags_arr) {
   //id非0的数组
   const $old_tags = [];

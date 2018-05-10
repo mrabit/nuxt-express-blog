@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Movies = require('../../model/index/movies');
 
+/*** 获取观影列表 */
 router.get('/get_lists/:page/:length', function(req, res) {
   const params = {
     page: parseInt(req.params.page) || 1,

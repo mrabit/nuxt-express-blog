@@ -30,9 +30,9 @@ router.get('/get_internet_rate', (req, res) => {
   }
 
   Promise.all([ECS(Object.assign({}, params, {
-      metric: 'InternetInRate'
+      metric: 'VPC_PublicIP_InternetInRate'
     })), ECS(Object.assign({}, params, {
-      metric: 'InternetOutRate'
+      metric: 'VPC_PublicIP_InternetOutRate'
     }))])
     .then(([InternetInRate, InternetOutRate]) => {
       res.json({

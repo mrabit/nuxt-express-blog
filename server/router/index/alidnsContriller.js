@@ -17,7 +17,7 @@ router.get('/UpdateDomainRecord', function(req, res) {
     Type: "A",
     Value: common.getClientIp(req)
   }, function(err, result) {
-    if (err) res.end(err);
+    if (err) return res.end(err.message);
     res.json(result);
   })
 })

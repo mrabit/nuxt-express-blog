@@ -31,6 +31,7 @@ app.use('/article_tags', require('./router/index/articleTagsController'));
 app.use('/bing', require('./router/index/bingController'));
 app.use('/links', require('./router/index/linksController'));
 app.use('/movies', require('./router/index/moviesController'));
+app.use('/alidns', require('./router/index/alidnsContriller'));
 
 // sitemap地图
 app.use('/sitemap', require('./router/sitemap'));

@@ -155,7 +155,7 @@ export default {
       user.blog_name += "的博客";
       this.$store.commit("admin/changeUser", user);
       this.$store.commit("admin/changeTokenAuth", true);
-      this.$router.push("/admin");
+      this.$router.push(this.$route.query.redirect || "/admin");
     }
   },
   created() {

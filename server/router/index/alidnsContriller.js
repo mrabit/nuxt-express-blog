@@ -9,7 +9,7 @@ const client = ALIDNS({
   accesskeySecret: config.ecs.secretAccessKey,
 })
 
-router.get('/UpdateDomainRecord', function(req, res) {
+router.get('/UpdateDomainRecord', (req, res) => {
   client.queryData({
     Action: 'UpdateDomainRecord',
     RecordId: '3896345047864320',

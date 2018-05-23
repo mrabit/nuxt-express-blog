@@ -47,6 +47,7 @@ app.use('/api/links', require('./router/admin/linksController'));
 app.use('/api/visitor', require('./router/admin/visitorController'));
 app.use('/api/ecs', require('./router/admin/ecsController'));
 app.use('/api/movies', require('./router/admin/moviesController'));
+app.use('/api/alidns', require('./router/admin/alidnsController'));
 
 
 // 上传

@@ -101,6 +101,15 @@
       <el-submenu index="6" class="bg-dark">
         <template slot="title">
           <i class="el-icon-message"></i>
+          <span slot="title">阿里云解析</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="/admin/dnsList">云解析列表</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+      <el-submenu index="7" class="bg-dark">
+        <template slot="title">
+          <i class="el-icon-message"></i>
           <span slot="title">用户管理</span>
         </template>
         <el-menu-item-group>

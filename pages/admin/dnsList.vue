@@ -90,7 +90,7 @@
                   </el-form-item>
                   <el-form-item label="主机记录：" prop="RR">
                     <el-input v-model="formData.RR">
-                      <template slot="append">{{formInline.domainame}}</template>
+                      <template slot="append">.{{formInline.domainame}}</template>
                     </el-input>
                   </el-form-item>
                   <el-form-item label="解析线路：" prop="Line">
@@ -415,5 +415,4 @@ export default {
     this.getDomainList().then(this.handleCurrentChange);
   }
 }
-
 </script>

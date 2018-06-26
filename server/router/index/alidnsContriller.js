@@ -13,7 +13,7 @@ router.get('/UpdateDomainRecord', (req, res) => {
   client.queryData({
     Action: 'UpdateDomainRecord',
     RecordId: '3896345047864320',
-    RR: "router",
+    RR: req.query.RR || "ddns",
     Type: "A",
     Value: common.getClientIp(req)
   }, function(err, result) {
